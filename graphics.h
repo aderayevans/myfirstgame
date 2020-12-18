@@ -5,7 +5,6 @@
 #include "sprite.h"
 #include "toshizo.h"
 #include "ground.h"
-#include "twowaysobject.h"
 #include "wall.h"
 #include "map.h"
 #include <vector>

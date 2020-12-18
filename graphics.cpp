@@ -90,6 +90,11 @@ void graphics::keyPressEvent(QKeyEvent *event)
                     cIsPressed = true;
                 }
             }
+            else if (player.getState() == Jump || player.getState() == Fall)
+            {
+                player.setState(JumpAttack);
+                cIsPressed = true;
+            }
             break;
         case (Qt::Key_Z):
             if (player.getState() != Jump && player.getState() != Fall)
@@ -184,7 +189,7 @@ void graphics::paintEvent(QPaintEvent *)
     {
         player.setClock();
 
-        if (player.getState() != Jump)
+        if (player.getState() != Jump && player.getState() != JumpAttack)
         {
             if (!isGround(player.getLowestPoint()))
             {
@@ -197,14 +202,16 @@ void graphics::paintEvent(QPaintEvent *)
 
         if (player.getPosition().x() > width()/2 && map.getMapLimit(2).x() != width())
         {
-            map.move(-player.getSpeed());
+            //map.move(-player.getSpeed());
+            map.move(width()/2 - player.getPosition().x());
             groundArray = map.getGrounds();
             wallArray = map.getWalls();
             player.setPosition(width()/2, player.getPosition().y());
         }
-        else if (player.getPosition().x() < width()/2 && map.getMapLimit(1).x() != 0)
+        else if (player.getPosition().x() < width()/2 && map.getMapLimit(1).x() < 0)
         {
-            map.move(player.getSpeed());
+            //map.move(player.getSpeed());
+            map.move(width()/2 - player.getPosition().x());
             groundArray = map.getGrounds();
             wallArray = map.getWalls();
             player.setPosition(width()/2, player.getPosition().y());
@@ -213,7 +220,9 @@ void graphics::paintEvent(QPaintEvent *)
         {
             goto hell;
         }
-        painter.drawRect(player.getPointHitBox(1).x(), player.getPointHitBox(1).y(), player.getWidth(), player.getHeight());//delete this
+//        painter.drawRect(player.getPointHitBox(1).x(), player.getPointHitBox(1).y(),
+//                         player.getPointHitBox(3).x() - player.getPointHitBox(1).x(),
+//                         player.getPointHitBox(4).y() - player.getPointHitBox(3).y());//delete this
         painter.drawPixmap(player.getTarget(), player.getTexture(), player.getSource());
         drawHealthbar(painter);
 

@@ -4,7 +4,7 @@
 #include "wall.h"
 #include "ground.h"
 #include "sprite.h"
-#include "twowaysobject.h"
+#include "npc.h"
 
 
 class Map
@@ -24,12 +24,12 @@ public:
     double xwMax = 1366, ywMax = 768, xwMin = 0, ywMin = 0, xvMax, xvMin, yvMax, yvMin;
     double width, height;
     int clock = 0;
-    TwoWaysObject bee;
     Sprite backgrounds[9];
     int bgLayers = 8;
     int cloud = 1;
     std::vector<Ground> grounds, currentGrounds;
     std::vector<Wall> walls, currentWalls;
+    std::vector<NPC> wraiths;
     QPoint mapLimitPoint1, mapLimitPoint2;
 };
 

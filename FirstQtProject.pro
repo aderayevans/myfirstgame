@@ -14,9 +14,9 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     map.cpp \
+    npc.cpp \
     sprite.cpp \
     toshizo.cpp \
-    twowaysobject.cpp \
     wall.cpp
 
 HEADERS += \
@@ -24,9 +24,9 @@ HEADERS += \
     ground.h \
     mainwindow.h \
     map.h \
+    npc.h \
     sprite.h \
     toshizo.h \
-    twowaysobject.h \
     wall.h
 
 FORMS += \

@@ -2,7 +2,7 @@
 
 Wall::Wall()
 {
-    setTexture("D://Users//Downloads//ToshizoGameAsset//stoneWall.png", 1, 2);
+    setTexture("D://Games//Toshizo//stoneWall.png", 1, 2);
 }
 
 void Wall::setOrigin(double x, double y)
