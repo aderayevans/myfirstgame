@@ -21,9 +21,11 @@ public:
     void setClock(int);
     void setSource(QRectF source);
     void setTarget(QRectF target);
-    void setLimitArea(double, double, double, double);
-    void setHitBox(double, double, double, double);
+    void setLimitArea(double x1, double y1, double x2, double y2);
+    void setVisionArea(double x1, double y1, double x2, double y2);
+    void setHitBox(double x1, double y1, double x2, double y2);
     QPointF getLimitArea(int);
+    QPointF getVisionArea(int);
     QPointF getPointHitBox(int);
     int getTotalPicture();
     double getSpeed();
@@ -41,11 +43,10 @@ private:
     QPointF position;
     QRectF target, source;
     double speed;
-    int tiktok;
-    int delayTime;
     int clock;
     QPointF pointLeftBelow, pointLeftAbove, pointRightBelow, pointRightAbove;
     QPointF limitLeftBelow, limitLeftAbove, limitRightBelow, limitRightAbove;
+    QPointF visionLeftBelow, visionLeftAbove, visionRightBelow, visionRightAbove;
 };
 
 #endif // SPRITE_H

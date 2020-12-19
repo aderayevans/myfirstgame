@@ -48,6 +48,7 @@ public:
     std::vector<Ground> groundArray;
     std::vector<Wall> wallArray;
     Map map;
+    Sprite timeCircle;
     int point;
 signals:
 };

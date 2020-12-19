@@ -43,6 +43,7 @@ void graphics::keyPressEvent(QKeyEvent *event)
             dying = false;
         }
     }
+    else if (player.getState() == JumpAttack && player.isBuffed());
     else
     {
         switch (event->key())
@@ -109,48 +110,52 @@ void graphics::keyPressEvent(QKeyEvent *event)
 
 void graphics::keyReleaseEvent(QKeyEvent *event)
 {
-    switch (event->key())
+    if (player.getState() == JumpAttack && player.isBuffed());
+    else
     {
-    case (Qt::Key_Right):
-        if (player.getState() != Jump && player.getState() != Fall)
+        switch (event->key())
         {
-            player.setState(Stand);
+        case (Qt::Key_Right):
+            if (player.getState() != Jump && player.getState() != Fall)
+            {
+                player.setState(Stand);
+            }
+            rightIsPressed = false;
+            break;
+        case (Qt::Key_Left):
+            if (player.getState() != Jump && player.getState() != Fall)
+            {
+                player.setState(Stand);
+            }
+            leftIsPressed = false;
+            break;
+        case (Qt::Key_Down):
+            if (player.getState() != Jump && player.getState())
+            {
+                player.setState(Stand);
+            }
+            break;
+        case (Qt::Key_Space):
+            spaceIsPressed = false;
+            break;
+        case (Qt::Key_Return):
+            enterIsPressed = false;
+            break;
+        case (Qt::Key_C):
+            cIsPressed = false;
+            break;
+        case (Qt::Key_Z):
+            if (player.getState() != Jump && player.getState() != Fall)
+            {
+                player.setState(Stand);
+            }
+            zIsPressed = false;
+            break;
         }
-        rightIsPressed = false;
-        break;
-    case (Qt::Key_Left):
-        if (player.getState() != Jump && player.getState() != Fall)
+        if (!spaceIsPressed && !rightIsPressed && !leftIsPressed && !enterIsPressed && !cIsPressed && !zIsPressed)
         {
-            player.setState(Stand);
+            allKeysReleased = true;
         }
-        leftIsPressed = false;
-        break;
-    case (Qt::Key_Down):
-        if (player.getState() != Jump && player.getState() != Fall)
-        {
-            player.setState(Stand);
-        }
-        break;
-    case (Qt::Key_Space):
-        spaceIsPressed = false;
-        break;
-    case (Qt::Key_Return):
-        enterIsPressed = false;
-        break;
-    case (Qt::Key_C):
-        cIsPressed = false;
-        break;
-    case (Qt::Key_Z):
-        if (player.getState() != Jump && player.getState() != Fall)
-        {
-            player.setState(Stand);
-        }
-        zIsPressed = false;
-        break;
-    }
-    if (!spaceIsPressed && !rightIsPressed && !leftIsPressed && !enterIsPressed && !cIsPressed && !zIsPressed)
-    {
-        allKeysReleased = true;
     }
 }
 
@@ -200,7 +205,7 @@ void graphics::paintEvent(QPaintEvent *)
 
         checkWall();
 
-        if (player.getPosition().x() > width()/2 && map.getMapLimit(2).x() != width())
+        if (player.getPosition().x() > width()/2 && map.getCurrentMapPoint(2).x() < map.getMapLimit(2).x())
         {
             //map.move(-player.getSpeed());
             map.move(width()/2 - player.getPosition().x());
@@ -208,7 +213,7 @@ void graphics::paintEvent(QPaintEvent *)
             wallArray = map.getWalls();
             player.setPosition(width()/2, player.getPosition().y());
         }
-        else if (player.getPosition().x() < width()/2 && map.getMapLimit(1).x() < 0)
+        else if (player.getPosition().x() < width()/2 && map.getCurrentMapPoint(1).x() > map.getMapLimit(1).x())
         {
             //map.move(player.getSpeed());
             map.move(width()/2 - player.getPosition().x());
@@ -245,6 +250,9 @@ void graphics::initial()
 
     player.setOrigin(200, height() - 400 - player.getHeight());
     player.setLimitArea(100, 0, width() - 100, height());
+
+    timeCircle.setTexture("D://Games//Toshizo//timeCircle.png", 17, 1);
+    timeCircle.setOrigin(width()/2, 20);
 }
 
 void graphics::youDie()
@@ -364,4 +372,10 @@ void graphics::drawHUD(QPainter &painter)
     painter.setPen(Qt::black);
     painter.drawRect(5, 5, 300, 20);
     painter.drawRect(5, 30, 300, 20);
+
+    if (player.isBuffed())
+    {
+        timeCircle.setClock(clock);
+        painter.drawPixmap(timeCircle.getTarget(), timeCircle.getTexture(), timeCircle.getSource());
+    }
 }

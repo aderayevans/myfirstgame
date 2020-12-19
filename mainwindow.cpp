@@ -19,7 +19,13 @@ bool MainWindow::eventFilter( QObject * object, QEvent * eve ){
     if (eve->type() == QEvent::KeyPress)
     {
         QKeyEvent* keyEvent = static_cast<QKeyEvent*>(eve);
-        if (keyEvent->key() == Qt::Key_Space    || keyEvent->key() == Qt::Key_Down  ||
+        if (keyEvent->key() == Qt::Key_Left || keyEvent->key() == Qt::Key_Right)
+        {
+            ui->GraphicsPresenter->keyPressEvent(keyEvent);
+            return true;
+        }
+        else if (keyEvent->isAutoRepeat()) return false;
+        else if (keyEvent->key() == Qt::Key_Space    || keyEvent->key() == Qt::Key_Down  ||
             keyEvent->key() == Qt::Key_Left     || keyEvent->key() == Qt::Key_Right ||
             keyEvent->key() == Qt::Key_C        || keyEvent->key() == Qt::Key_Z     ||
             keyEvent->key() == Qt::Key_Return)
@@ -33,7 +39,8 @@ bool MainWindow::eventFilter( QObject * object, QEvent * eve ){
     if (eve->type() == QEvent::KeyRelease)
     {
         QKeyEvent* keyEvent = static_cast<QKeyEvent*>(eve);
-        if (keyEvent->key() == Qt::Key_Space    || keyEvent->key() == Qt::Key_Down  ||
+        if (keyEvent->isAutoRepeat()) return false;
+        else if (keyEvent->key() == Qt::Key_Space    || keyEvent->key() == Qt::Key_Down  ||
             keyEvent->key() == Qt::Key_Left     || keyEvent->key() == Qt::Key_Right ||
             keyEvent->key() == Qt::Key_C        || keyEvent->key() == Qt::Key_Z     ||
             keyEvent->key() == Qt::Key_Return)

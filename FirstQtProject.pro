@@ -11,23 +11,27 @@ CONFIG += c++11
 SOURCES += \
     graphics.cpp \
     ground.cpp \
+    kong.cpp \
     main.cpp \
     mainwindow.cpp \
     map.cpp \
     npc.cpp \
     sprite.cpp \
     toshizo.cpp \
-    wall.cpp
+    wall.cpp \
+    wraith.cpp
 
 HEADERS += \
     graphics.h \
     ground.h \
+    kong.h \
     mainwindow.h \
     map.h \
     npc.h \
     sprite.h \
     toshizo.h \
-    wall.h
+    wall.h \
+    wraith.h
 
 FORMS += \
     mainwindow.ui

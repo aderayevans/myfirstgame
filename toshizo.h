@@ -12,10 +12,11 @@ public:
     void setDirection(Direction);
     void setPosition(double, double);
     void setOrigin(double, double);
-    void setLimitArea(double, double, double, double);
-    void setHitBox(double, double, double, double);
+    void setLimitArea(double x1, double y1, double x2, double y2);
+    void setHitBox(double x1, double y1, double x2, double y2);
     void setDoubleJump();
     bool doubleJumped();
+    bool isBuffed();
     void setClock();
     double getSpeed();
     QPointF getLimitArea(int);
@@ -32,7 +33,7 @@ public:
     int getLeftHealth();
     int getFullEnergy();
     int getLeftEnergy();
-
+private:
     Sprite standSprite, buffedStandSprite;
     Sprite standSprite2, buffedStandSprite2;
     Sprite runSprite;
@@ -66,7 +67,7 @@ public:
     int runTime = 0;
     int buffTime = 100000000; //0
     int maxBuffTime = 100000000;//30*5; //30s
-    int jumpLimitTime = 7;
+    int jumpLimitTime = 6;
     int goCrazyTime = 15;
     bool doubleJump = false;
     bool buffed = true; //false

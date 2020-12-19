@@ -96,6 +96,11 @@ void Toshizo::setDoubleJump()
     jumpClock = 0;
 }
 
+bool Toshizo::isBuffed()
+{
+    return buffed;
+}
+
 QPointF Toshizo::getLimitArea(int number)
 {
     return standSprite.getLimitArea(number);

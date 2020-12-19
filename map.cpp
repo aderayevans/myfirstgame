@@ -4,10 +4,12 @@
 
 Map::Map()
 {
-    mapLimitPoint1.setX(0);
-    mapLimitPoint1.setY(0);
-    mapLimitPoint2.setX(8000);
-    mapLimitPoint2.setY(0);
+    mapLimitPointLeft.setX(0);
+    mapLimitPointLeft.setY(0);
+    mapLimitPointRight.setX(8000);
+    mapLimitPointRight.setY(0);
+    pseudoLimitPointLeft = mapLimitPointLeft;
+    pseudoLimitPointRight = mapLimitPointRight;
 
     backgrounds[0].setTexture("D://Games//Toshizo//bgLayer0.png", 1, 1);
     backgrounds[1].setTexture("D://Games//Toshizo//bgLayer1.png", 1, 1);
@@ -38,7 +40,7 @@ Map::Map()
     grounds.push_back(ground03);
     grounds.push_back(ground04);
     grounds.push_back(ground05);
-    for (int i = 0; i < 50; i++)
+    for (int i = 0; i < 100; i++)
     {
         g[i] = Ground(1);
         g[i].setOrigin((g[i].getWidth() - 2)*i, 710);
@@ -53,9 +55,57 @@ Map::Map()
     walls.push_back(wall02);
 
     //NPC
-    NPC wraith01;
-    wraith01.setOrigin(2000, 300);
-    wraiths.push_back(wraith01);
+    Wraith *wraith01 = new Wraith();
+    wraith01->setOrigin(2000, 300);
+    NPCs.push_back(wraith01);
+
+    Wraith *wraith02 = new Wraith();
+    wraith02->setOrigin(2500, 300);
+    NPCs.push_back(wraith02);
+
+    Kong *kong01 = new Kong();
+    kong01->setOrigin(1000, 610);
+    kong01->setLimitArea(200, kong01->getPosition().y(), 1200, kong01->getPosition().y() + kong01->getHeight());
+    NPCs.push_back(kong01);
+
+
+    //...
+    for (int i = 0; i < energyPotionNum; i++)
+    {
+        Sprite temp;
+        temp.setTexture("D://Games//Toshizo//energyPotion.png", 1, 10);
+        temp.setOrigin(1000 + (100 * i), 600);
+        energyPotions.push_back(temp);
+    }
+    for (int i = 0; i < healthPotionNum; i++)
+    {
+        Sprite temp;
+        temp.setTexture("D://Games//Toshizo//healthPotion.png", 1, 9);
+        temp.setOrigin(1250 + (100 * i), 600);
+        healthPotions.push_back(temp);
+    }
+
+    magicGateY1.setTexture("D://Games//Toshizo//magicGateY.png", 12, 1);
+    magicGateY1.setOrigin(1800, 400);
+    magicGateY2.setTexture("D://Games//Toshizo//flippedMagicGateY.png", 12, 1);
+    magicGateY2.setOrigin(1700, 200);
+
+    magicGateX.setTexture("D://Games//Toshizo//magicGate2.png", 12, 1);
+    magicGateX.setOrigin(1800, 100);
+
+    magicGate.setTexture("D://Games//Toshizo//magicGate1.png", 20, 1);
+    magicGate.setOrigin(2300, 200);
+
+    fireBall.setTexture("D://Games//Toshizo//fireBall.png", 25, 1);
+    fireBall.setOrigin(1750, 450);
+    darkBall.setTexture("D://Games//Toshizo//darkBall.png", 8, 5);
+    darkBall.setOrigin(1200, 450);
+    tornado.setTexture("D://Games//Toshizo//water-tornado.png", 4, 1);
+    tornado.setOrigin(1500, 450);
+
+    explosion2.setTexture("D://Games//Toshizo//explosion.png", 4, 1);
+    explosion2.setOrigin(2400, 450);
+    //Sprite magicGate, magicGateX1, magicGateX2, magicGateY, fireBall, darkBall, posion, bum, tornado, aura, explosion2;
 }
 
 void Map::setClock()
@@ -67,10 +117,20 @@ void Map::setClock()
     clock++;
     if (clock % 6 == 0) cloud = -cloud;
 
-    for (unsigned int i = 0; i < wraiths.size(); i++)
+    for (unsigned int i = 0; i < NPCs.size(); i++)
     {
-        wraiths[i].setClock();
+        NPCs[i]->setClock();
     }
+
+    //...
+    magicGateY1.setClock(clock);
+    magicGateY2.setClock(clock);
+    magicGateX.setClock(clock);
+    magicGate.setClock(clock);
+    fireBall.setClock(clock);
+    darkBall.setClock(clock);
+    tornado.setClock(clock);
+    explosion2.setClock(clock);
 }
 
 void Map::draw(QPainter &painter)
@@ -132,19 +192,56 @@ void Map::draw(QPainter &painter)
 //                         currentWalls[i].getPointHitBox(4).y() - currentWalls[i].getPointHitBox(3).y());//delete this
         painter.drawPixmap(currentWalls[i].getTarget(), currentWalls[i].getTexture(), currentWalls[i].getSource());
     }
-    for (unsigned int i = 0; i < wraiths.size(); i++)
+    for (unsigned int i = 0; i < NPCs.size(); i++)
     {
-        painter.drawPixmap(wraiths[i].getTarget(), wraiths[i].getTexture(), wraiths[i].getSource());
-//        painter.drawRect(wraiths[i].getPointHitBox(1).x(), wraiths[i].getPointHitBox(1).y(),
-//                         wraiths[i].getPointHitBox(3).x() - wraiths[i].getPointHitBox(1).x(),
-//                         wraiths[i].getPointHitBox(4).y() - wraiths[i].getPointHitBox(3).y());//delete this
+        painter.drawPixmap(NPCs[i]->getTarget(), NPCs[i]->getTexture(), NPCs[i]->getSource());
+        painter.drawRect(NPCs[i]->getPointHitBox(1).x(), NPCs[i]->getPointHitBox(1).y(),
+                         NPCs[i]->getPointHitBox(4).x() - NPCs[i]->getPointHitBox(2).x(),
+                         NPCs[i]->getPointHitBox(4).y() - NPCs[i]->getPointHitBox(3).y());//delete this
+
+        painter.drawRect(NPCs[i]->getVisionArea(1).x(), NPCs[i]->getVisionArea(1).y(),
+                         NPCs[i]->getVisionArea(4).x() - NPCs[i]->getVisionArea(2).x(),
+                         NPCs[i]->getVisionArea(4).y() - NPCs[i]->getVisionArea(3).y());//delete this
+
+        painter.drawRect(NPCs[i]->getLimitArea(1).x(), NPCs[i]->getLimitArea(1).y(),
+                         NPCs[i]->getLimitArea(4).x() - NPCs[i]->getLimitArea(2).x(),
+                         NPCs[i]->getLimitArea(4).y() - NPCs[i]->getLimitArea(3).y());//delete this
     }
+
+    //...
+    for (int i = 0; i < energyPotionNum; i++)
+    {
+        painter.drawPixmap(energyPotions[i].getTarget(), energyPotions[i].getTexture(), energyPotions[i].getSource());
+    }
+    for (int i = 0; i < healthPotionNum; i++)
+    {
+        painter.drawPixmap(healthPotions[i].getTarget(), healthPotions[i].getTexture(), healthPotions[i].getSource());
+    }
+
+    painter.drawPixmap(magicGateY1.getTarget(), magicGateY1.getTexture(), magicGateY1.getSource());
+    painter.drawPixmap(magicGateY2.getTarget(), magicGateY2.getTexture(), magicGateY2.getSource());
+    painter.drawPixmap(magicGateX.getTarget(), magicGateX.getTexture(), magicGateX.getSource());
+    painter.drawPixmap(magicGate.getTarget(), magicGate.getTexture(), magicGate.getSource());
+
+    painter.drawPixmap(fireBall.getTarget(), fireBall.getTexture(), fireBall.getSource());
+    painter.drawPixmap(darkBall.getTarget(), darkBall.getTexture(), darkBall.getSource());
+    painter.drawPixmap(tornado.getTarget(), tornado.getTexture(), tornado.getSource());
+    painter.drawPixmap(explosion2.getTarget(), explosion2.getTexture(), explosion2.getSource());
 }
 
 void Map::move(double tx)
 {
-    mapLimitPoint1.setX(mapLimitPoint1.x() + tx);
-    mapLimitPoint2.setX(mapLimitPoint2.x() + tx);
+    mapCurrentPointLeft.setX(mapCurrentPointLeft.x() - tx);
+    mapCurrentPointRight.setX(mapCurrentPointRight.x() - tx);
+    if (mapCurrentPointLeft.x() < pseudoLimitPointLeft.x())
+    {
+        move(- (pseudoLimitPointLeft.x() - mapCurrentPointLeft.x()));
+    }
+    if (mapCurrentPointRight.x() > pseudoLimitPointRight.x())
+    {
+        move(mapCurrentPointRight.x() - pseudoLimitPointRight.x());
+    }
+
 
     backgrounds[1].setPosition(backgrounds[1].getPosition().x() + tx / 100, backgrounds[1].getPosition().y());
     backgrounds[2].setPosition(backgrounds[2].getPosition().x() + tx / 10, backgrounds[2].getPosition().y());
@@ -157,10 +254,41 @@ void Map::move(double tx)
     {
         walls[i].setPosition(walls[i].getPosition().x() + tx, walls[i].getPosition().y());
     }
-    for (unsigned int i = 0; i < wraiths.size(); i++)
+    for (unsigned int i = 0; i < NPCs.size(); i++)
     {
-        wraiths[i].setPosition(wraiths[i].getPosition().x() + tx, wraiths[i].getPosition().y());
+        NPCs[i]->setPosition(NPCs[i]->getPosition().x() + tx, NPCs[i]->getPosition().y());
+
+        NPCs[i]->setLimitArea(NPCs[i]->getLimitArea(1).x() + tx,
+                              NPCs[i]->getLimitArea(1).y(),
+                              NPCs[i]->getLimitArea(4).x() + tx,
+                              NPCs[i]->getLimitArea(4).y());
     }
+
+
+
+    //...
+    for (int i = 0; i < energyPotionNum; i++)
+    {
+        energyPotions[i].setPosition(energyPotions[i].getPosition().x() + tx, energyPotions[i].getPosition().y());
+    }
+    for (int i = 0; i < healthPotionNum; i++)
+    {
+        healthPotions[i].setPosition(healthPotions[i].getPosition().x() + tx, healthPotions[i].getPosition().y());
+    }
+
+
+    magicGateY1.setPosition(magicGateY1.getPosition().x() + tx, magicGateY1.getPosition().y());
+    magicGateY2.setPosition(magicGateY2.getPosition().x() + tx, magicGateY2.getPosition().y());
+
+    magicGateX.setPosition(magicGateX.getPosition().x() + tx, magicGateX.getPosition().y());
+
+    magicGate.setPosition(magicGate.getPosition().x() + tx, magicGate.getPosition().y());
+
+
+    fireBall.setPosition(fireBall.getPosition().x() + tx, fireBall.getPosition().y());
+    darkBall.setPosition(darkBall.getPosition().x() + tx, darkBall.getPosition().y());
+    tornado.setPosition(tornado.getPosition().x() + tx, tornado.getPosition().y());
+    explosion2.setPosition(explosion2.getPosition().x() + tx, explosion2.getPosition().y());
 
     clip();
 }
@@ -180,6 +308,14 @@ void Map::clip()
         if (walls[i].getLimitArea(1).x() > xvMax || walls[i].getLimitArea(3).x() < xvMin) continue;
         temp_walls.push_back(walls[i]);
     }
+    for (unsigned int i = 0; i < pseudoPoints.size(); i++)
+    {
+        if (pseudoPoints[i].x() <= mapCurrentPointRight.x())
+        {
+            pseudoLimitPointRight = pseudoPoints[i];
+            pseudoLimitPointLeft = QPointF(pseudoPoints[i].x() - width, pseudoPoints[i].y());
+        }
+    }
     currentGrounds = temp_grounds;
     currentWalls = temp_walls;
 }
@@ -196,6 +332,8 @@ void Map::setViewPort(double width, double height)
 {
     this->width = width;
     this->height = height;
+    mapCurrentPointLeft = QPoint(0, 0);
+    mapCurrentPointRight = QPoint(width, 0);
     convert();
     clip();
 }
@@ -210,14 +348,26 @@ std::vector<Wall> Map::getWalls()
     return currentWalls;
 }
 
-QPoint Map::getMapLimit(int number)
+QPointF Map::getMapLimit(int number)
 {
     if (number == 1)
     {
-        return mapLimitPoint1;
+        return pseudoLimitPointLeft;
     }
     else
     {
-        return mapLimitPoint2;
+        return pseudoLimitPointRight;
+    }
+}
+
+QPointF Map::getCurrentMapPoint(int number)
+{
+    if (number == 1)
+    {
+        return mapCurrentPointLeft;
+    }
+    else
+    {
+        return mapCurrentPointRight;
     }
 }

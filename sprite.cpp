@@ -3,7 +3,7 @@
 #include <iostream>
 
 Sprite::Sprite()
-    : clock(0), tiktok(0), delayTime(50), totalPicture(1)
+    : totalPicture(1), clock(0)
 {
 }
 
@@ -51,13 +51,6 @@ void Sprite::setSpeed(double s)
 void Sprite::setClock(int c)
 {
     clock = c;
-    /*
-    tiktok++;
-    if (tiktok == delayTime)
-    {
-        tiktok = 0;
-        clock++;
-    }*/
 }
 
 void Sprite::setOrigin(double x, double y)
@@ -105,6 +98,21 @@ void Sprite::setLimitArea(double x1, double y1, double x2, double y2)
     limitRightBelow = QPointF(x2, y2);
 }
 
+void Sprite::setVisionArea(double x1, double y1, double x2, double y2)
+{
+    /*
+    1(x1, y1).--------y1--------.(x2, y1)3
+            |                  |
+            |                  |
+            |                  |
+    2(x1, y2).--------y2--------.(x2, y2)4
+    */
+    visionLeftAbove = QPointF(x1, y1);
+    visionLeftBelow = QPointF(x1, y2);
+    visionRightAbove = QPointF(x2, y1);
+    visionRightBelow = QPointF(x2, y2);
+}
+
 QPointF Sprite::getPointHitBox(int number)
 {
     switch(number)
@@ -120,6 +128,25 @@ QPointF Sprite::getPointHitBox(int number)
         break;
     default:    //case 4:
         return pointRightBelow;
+        break;
+    }
+}
+
+QPointF Sprite::getVisionArea(int number)
+{
+    switch(number)
+    {
+    case 1:
+        return visionLeftAbove;
+        break;
+    case 2:
+        return visionLeftBelow;
+        break;
+    case 3:
+        return visionRightAbove;
+        break;
+    default:    //case 4:
+        return visionRightBelow;
         break;
     }
 }

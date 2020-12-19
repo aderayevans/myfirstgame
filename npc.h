@@ -2,56 +2,44 @@
 #define NPC_H
 #include "sprite.h"
 
-enum NPC_State { Walking, Casting, Dying, Hurt, Idle };
+enum NPC_State { Attacking, Walking, Casting, Dying, Hurt, Idle };
 class NPC
 {
 public:
     NPC();
-    void setTexture();
+    virtual void setTexture();
+    virtual void setPosition(double, double);
+    virtual void setLimitArea(double x1 = 0, double y1 = 0, double x2 = 0, double y2 = 0);
+    virtual void setVisionArea(double x1 = 0, double y1 = 0, double x2 = 0, double y2 = 0);
+    virtual void setHitBox(double x1 = 0, double y1 = 0, double x2 = 0, double y2 = 0);
+    virtual void setClock();
+    virtual double getSpeed();
+    virtual QPointF getLimitArea(int);
+    virtual QPointF getVisionArea(int);
+    virtual QPointF getPointHitBox(int);
+    virtual QRectF getTarget();
+    virtual QRectF getSource();
+    virtual QPixmap getTexture();
+    virtual double getWidth();
+    virtual double getHeight();
     void setState(NPC_State);
     void setDirection(Direction);
-    void setPosition(double, double);
     void setOrigin(double, double);
-    void setLimitArea(double, double, double, double);
-    void setHitBox(double, double, double, double);
-    void setClock();
-    double getSpeed();
-    QPointF getLimitArea(int);
-    QPointF getPointHitBox(int);
+    void setHealth(double);
+    void setMaxHealth(double);
     QPointF getPosition();
-    QRectF getTarget();
-    QRectF getSource();
-    QPixmap getTexture();
     NPC_State getState();
-    double getWidth();
-    double getHeight();
+    Direction getDirection();
     QPointF getLowestPoint();
-    int getFullHealth();
-    int getLeftHealth();
+    double getMaxHealth();
+    double getLeftHealth();
 
-    Sprite walkSprite;
-    Sprite walkSprite2;
-    Sprite idleSprite;
-    Sprite idleSprite2;
-    Sprite castingSprite;
-    Sprite castingSprite2;
-    NPC_State state = Casting;
+private:
+    NPC_State state;
     Direction direct = rightLeft;
     QPointF position;
-    int clock = 0;
-    int castingClock = 0;
-    int castingPicture = 0;
-    int castingSlowTime = 2;
-    //int attackPicture = 0;
-    //int attackClock = 0;
-    //int attackSlowTime = 2;
-    //int runTime = 0;
-
-    int fallingRangeEachTimeID = 30;
-    int speed = 10;
-    int scale = 3;
-    int fullHealth = 1000;
-    int leftHealth = 10;
+    double maxHealth;
+    double leftHealth;
 };
 
 #endif // NPC_H
