@@ -6,7 +6,7 @@ Map::Map()
 {
     mapLimitPointLeft.setX(0);
     mapLimitPointLeft.setY(0);
-    mapLimitPointRight.setX(8000);
+    mapLimitPointRight.setX(16000);
     mapLimitPointRight.setY(0);
     pseudoLimitPointLeft = mapLimitPointLeft;
     pseudoLimitPointRight = mapLimitPointRight;
@@ -47,20 +47,25 @@ Map::Map()
         grounds.push_back(g[i]);
     }
 
-
-    Wall wall01, wall02;
+    Wall wall01, wall02, wall03, wall04;
     wall01.setOrigin(70, 100);
     wall02.setOrigin(70, 431);
+    wall03.setOrigin(15900, 100);
+    wall04.setOrigin(15900, 431);
     walls.push_back(wall01);
     walls.push_back(wall02);
+    walls.push_back(wall03);
+    walls.push_back(wall04);
 
     //NPC
     Wraith *wraith01 = new Wraith();
-    wraith01->setOrigin(2000, 300);
+    wraith01->setOrigin(1000, 300);
+    wraith01->setLimitArea(200, wraith01->getPosition().y(), 2500, wraith01->getPosition().y() + wraith01->getHeight());
     NPCs.push_back(wraith01);
 
     Wraith *wraith02 = new Wraith();
-    wraith02->setOrigin(2500, 300);
+    wraith02->setOrigin(2700, 300);
+    wraith02->setLimitArea(2700, wraith02->getPosition().y(), 4000, wraith02->getPosition().y() + wraith02->getHeight());
     NPCs.push_back(wraith02);
 
     Kong *kong01 = new Kong();
@@ -68,20 +73,19 @@ Map::Map()
     kong01->setLimitArea(200, kong01->getPosition().y(), 1200, kong01->getPosition().y() + kong01->getHeight());
     NPCs.push_back(kong01);
 
-
     //...
-    for (int i = 0; i < energyPotionNum; i++)
+    for (int i = 0; i < 100; i++)
     {
         Sprite temp;
         temp.setTexture("D://Games//Toshizo//energyPotion.png", 1, 10);
-        temp.setOrigin(1000 + (100 * i), 600);
+        temp.setOrigin(1100 * (i + 1), 600);
         energyPotions.push_back(temp);
     }
-    for (int i = 0; i < healthPotionNum; i++)
+    for (int i = 0; i < 100; i++)
     {
         Sprite temp;
         temp.setTexture("D://Games//Toshizo//healthPotion.png", 1, 9);
-        temp.setOrigin(1250 + (100 * i), 600);
+        temp.setOrigin(1250 * (i + 1), 600);
         healthPotions.push_back(temp);
     }
 
@@ -104,8 +108,37 @@ Map::Map()
     tornado.setOrigin(1500, 450);
 
     explosion2.setTexture("D://Games//Toshizo//explosion.png", 4, 1);
-    explosion2.setOrigin(2400, 450);
-    //Sprite magicGate, magicGateX1, magicGateX2, magicGateY, fireBall, darkBall, posion, bum, tornado, aura, explosion2;
+    explosion2.setOrigin(2400, 200);
+
+    for (int i = 0; i < 100; i++)
+    {
+        Sprite snowman;
+        snowman.setTexture("D://Games//Toshizo//snowman.png", 1, 2);
+        snowman.setOrigin(500*(i + 1), 660);
+        snowmans.push_back(snowman);
+
+        Sprite tree;
+        tree.setTexture("D://Games//Toshizo//snowtree1.png", 1, 2);
+        tree.setOrigin(200*(i + 1), 635);
+
+        Sprite tree2;
+        tree2.setTexture("D://Games//Toshizo//snowtree2.png", 1, 2);
+        tree2.setOrigin(250*(i + 1), 650);
+
+        snowtrees.push_back(tree);
+        snowtrees.push_back(tree2);
+
+        Sprite signboard;
+        signboard.setTexture("D://Games//Toshizo//board.png", 1, 2);
+        signboard.setOrigin(1000*(i + 1), 685);
+        signboards.push_back(signboard);
+    }
+    lightning.setTexture("D://Games//Toshizo//lightning.png", 5, 4);
+    lightning.setOrigin(1820, 170);
+    dirt.setTexture("D://Games//Toshizo//dirt.png", 10, 6);
+    dirt.setOrigin(300, 660);
+    bluefire.setTexture("D://Games//Toshizo//bluefire.png", 12, 2);
+    bluefire.setOrigin(400, 400);
 }
 
 void Map::setClock()
@@ -121,6 +154,7 @@ void Map::setClock()
     {
         NPCs[i]->setClock();
     }
+    updateRedCollisions();
 
     //...
     magicGateY1.setClock(clock);
@@ -131,6 +165,22 @@ void Map::setClock()
     darkBall.setClock(clock);
     tornado.setClock(clock);
     explosion2.setClock(clock);
+
+    lightning.setClock(clock);
+    dirt.setClock(clock);
+    bluefire.setClock(clock);
+}
+
+void Map::updateRedCollisions()
+{
+    std::vector<QRectF> temp;
+    for (unsigned int i = 0; i < currentNPCs.size(); i++)
+    {
+        QRectF tempRedCollision(currentNPCs[i]->getPosition().x(), currentNPCs[i]->getPosition().y(),
+                                currentNPCs[i]->getWidth(), currentNPCs[i]->getHeight());
+        temp.push_back(tempRedCollision);
+    }
+    redCollisions = temp;
 }
 
 void Map::draw(QPainter &painter)
@@ -185,6 +235,20 @@ void Map::draw(QPainter &painter)
 //                         currentGrounds[i].getPointHitBox(4).y() - currentGrounds[i].getPointHitBox(3).y());//delete this
         painter.drawPixmap(currentGrounds[i].getTarget(), currentGrounds[i].getTexture(), currentGrounds[i].getSource());
     }
+
+    for (unsigned int i = 0; i < snowmans.size(); i++)
+    {
+        painter.drawPixmap(snowmans[i].getTarget(), snowmans[i].getTexture(), snowmans[i].getSource());
+    }
+    for (unsigned int i = 0; i < snowtrees.size(); i++)
+    {
+        painter.drawPixmap(snowtrees[i].getTarget(), snowtrees[i].getTexture(), snowtrees[i].getSource());
+    }
+    for (unsigned int i = 0; i < signboards.size(); i++)
+    {
+        painter.drawPixmap(signboards[i].getTarget(), signboards[i].getTexture(), signboards[i].getSource());
+    }
+
     for (unsigned int i = 0; i < currentWalls.size(); i++)
     {
 //        painter.drawRect(currentWalls[i].getPointHitBox(1).x(), currentWalls[i].getPointHitBox(1).y(),
@@ -192,28 +256,38 @@ void Map::draw(QPainter &painter)
 //                         currentWalls[i].getPointHitBox(4).y() - currentWalls[i].getPointHitBox(3).y());//delete this
         painter.drawPixmap(currentWalls[i].getTarget(), currentWalls[i].getTexture(), currentWalls[i].getSource());
     }
-    for (unsigned int i = 0; i < NPCs.size(); i++)
+    for (unsigned int i = 0; i < currentNPCs.size(); i++)
     {
-        painter.drawPixmap(NPCs[i]->getTarget(), NPCs[i]->getTexture(), NPCs[i]->getSource());
-        painter.drawRect(NPCs[i]->getPointHitBox(1).x(), NPCs[i]->getPointHitBox(1).y(),
-                         NPCs[i]->getPointHitBox(4).x() - NPCs[i]->getPointHitBox(2).x(),
-                         NPCs[i]->getPointHitBox(4).y() - NPCs[i]->getPointHitBox(3).y());//delete this
+        painter.drawPixmap(currentNPCs[i]->getTarget(), currentNPCs[i]->getTexture(), currentNPCs[i]->getSource());
 
-        painter.drawRect(NPCs[i]->getVisionArea(1).x(), NPCs[i]->getVisionArea(1).y(),
-                         NPCs[i]->getVisionArea(4).x() - NPCs[i]->getVisionArea(2).x(),
-                         NPCs[i]->getVisionArea(4).y() - NPCs[i]->getVisionArea(3).y());//delete this
+//        painter.drawRect(currentNPCs[i]->getPosition().x(), currentNPCs[i]->getPosition().y(),
+//                         currentNPCs[i]->getWidth(), currentNPCs[i]->getHeight());//delete this
 
-        painter.drawRect(NPCs[i]->getLimitArea(1).x(), NPCs[i]->getLimitArea(1).y(),
-                         NPCs[i]->getLimitArea(4).x() - NPCs[i]->getLimitArea(2).x(),
-                         NPCs[i]->getLimitArea(4).y() - NPCs[i]->getLimitArea(3).y());//delete this
+//        painter.drawRect(currentNPCs[i]->getPointHitBox(1).x(), currentNPCs[i]->getPointHitBox(1).y(),
+//                         currentNPCs[i]->getPointHitBox(4).x() - currentNPCs[i]->getPointHitBox(2).x(),
+//                         currentNPCs[i]->getPointHitBox(4).y() - currentNPCs[i]->getPointHitBox(3).y());//delete this
+
+//        painter.drawRect(currentNPCs[i]->getVisionArea(1).x(), currentNPCs[i]->getVisionArea(1).y(),
+//                         currentNPCs[i]->getVisionArea(4).x() - currentNPCs[i]->getVisionArea(2).x(),
+//                         currentNPCs[i]->getVisionArea(4).y() - currentNPCs[i]->getVisionArea(3).y());//delete this
+
+//        painter.drawRect(currentNPCs[i]->getLimitArea(1).x(), currentNPCs[i]->getLimitArea(1).y(),
+//                         currentNPCs[i]->getLimitArea(4).x() - currentNPCs[i]->getLimitArea(2).x(),
+//                         currentNPCs[i]->getLimitArea(4).y() - currentNPCs[i]->getLimitArea(3).y());//delete this
     }
+    for (unsigned int i = 0; i < redCollisions.size(); i++)
+    {
+        painter.setPen(Qt::red);
+        painter.drawRect(redCollisions[i]);
+    }
+    painter.setPen(Qt::black);
 
     //...
-    for (int i = 0; i < energyPotionNum; i++)
+    for (unsigned int i = 0; i < energyPotions.size(); i++)
     {
         painter.drawPixmap(energyPotions[i].getTarget(), energyPotions[i].getTexture(), energyPotions[i].getSource());
     }
-    for (int i = 0; i < healthPotionNum; i++)
+    for (unsigned int i = 0; i < healthPotions.size(); i++)
     {
         painter.drawPixmap(healthPotions[i].getTarget(), healthPotions[i].getTexture(), healthPotions[i].getSource());
     }
@@ -227,6 +301,10 @@ void Map::draw(QPainter &painter)
     painter.drawPixmap(darkBall.getTarget(), darkBall.getTexture(), darkBall.getSource());
     painter.drawPixmap(tornado.getTarget(), tornado.getTexture(), tornado.getSource());
     painter.drawPixmap(explosion2.getTarget(), explosion2.getTexture(), explosion2.getSource());
+
+    painter.drawPixmap(lightning.getTarget(), lightning.getTexture(), lightning.getSource());
+    painter.drawPixmap(dirt.getTarget(), dirt.getTexture(), dirt.getSource());
+    painter.drawPixmap(bluefire.getTarget(), bluefire.getTexture(), bluefire.getSource());
 }
 
 void Map::move(double tx)
@@ -241,8 +319,6 @@ void Map::move(double tx)
     {
         move(mapCurrentPointRight.x() - pseudoLimitPointRight.x());
     }
-
-
     backgrounds[1].setPosition(backgrounds[1].getPosition().x() + tx / 100, backgrounds[1].getPosition().y());
     backgrounds[2].setPosition(backgrounds[2].getPosition().x() + tx / 10, backgrounds[2].getPosition().y());
 
@@ -265,17 +341,15 @@ void Map::move(double tx)
     }
 
 
-
     //...
-    for (int i = 0; i < energyPotionNum; i++)
+    for (unsigned int i = 0; i < energyPotions.size(); i++)
     {
         energyPotions[i].setPosition(energyPotions[i].getPosition().x() + tx, energyPotions[i].getPosition().y());
     }
-    for (int i = 0; i < healthPotionNum; i++)
+    for (unsigned int i = 0; i < healthPotions.size(); i++)
     {
         healthPotions[i].setPosition(healthPotions[i].getPosition().x() + tx, healthPotions[i].getPosition().y());
     }
-
 
     magicGateY1.setPosition(magicGateY1.getPosition().x() + tx, magicGateY1.getPosition().y());
     magicGateY2.setPosition(magicGateY2.getPosition().x() + tx, magicGateY2.getPosition().y());
@@ -290,6 +364,22 @@ void Map::move(double tx)
     tornado.setPosition(tornado.getPosition().x() + tx, tornado.getPosition().y());
     explosion2.setPosition(explosion2.getPosition().x() + tx, explosion2.getPosition().y());
 
+    for (unsigned int i = 0; i < snowmans.size(); i++)
+    {
+        snowmans[i].setPosition(snowmans[i].getPosition().x() + tx, snowmans[i].getPosition().y());
+    }
+    for (unsigned int i = 0; i < snowtrees.size(); i++)
+    {
+        snowtrees[i].setPosition(snowtrees[i].getPosition().x() + tx, snowtrees[i].getPosition().y());
+    }
+    for (unsigned int i = 0; i < signboards.size(); i++)
+    {
+        signboards[i].setPosition(signboards[i].getPosition().x() + tx, signboards[i].getPosition().y());
+    }
+    lightning.setPosition(lightning.getPosition().x() + tx, lightning.getPosition().y());
+    dirt.setPosition(dirt.getPosition().x() + tx, dirt.getPosition().y());
+    bluefire.setPosition(bluefire.getPosition().x() + tx, bluefire.getPosition().y());
+
     clip();
 }
 
@@ -297,7 +387,7 @@ void Map::clip()
 {
     std::vector<Ground> temp_grounds;
     std::vector<Wall> temp_walls;
-
+    std::vector<NPC *> temp_NPCs;
     for (unsigned int i = 0; i < grounds.size(); i++)
     {
         if (grounds[i].getLimitArea(1).x() > xvMax || grounds[i].getLimitArea(3).x() < xvMin) continue;
@@ -307,6 +397,11 @@ void Map::clip()
     {
         if (walls[i].getLimitArea(1).x() > xvMax || walls[i].getLimitArea(3).x() < xvMin) continue;
         temp_walls.push_back(walls[i]);
+    }
+    for (unsigned int i = 0; i < NPCs.size(); i++)
+    {
+        if (NPCs[i]->getLimitArea(1).x() > xvMax || NPCs[i]->getLimitArea(3).x() < xvMin) continue;
+        temp_NPCs.push_back(NPCs[i]);
     }
     for (unsigned int i = 0; i < pseudoPoints.size(); i++)
     {
@@ -318,6 +413,7 @@ void Map::clip()
     }
     currentGrounds = temp_grounds;
     currentWalls = temp_walls;
+    currentNPCs = temp_NPCs;
 }
 
 void Map::convert()
@@ -346,6 +442,16 @@ std::vector<Ground> Map::getGrounds()
 std::vector<Wall> Map::getWalls()
 {
     return currentWalls;
+}
+
+std::vector<NPC *> Map::getNPCs()
+{
+    return currentNPCs;
+}
+
+std::vector<QRectF> Map::getRedCollisions()
+{
+    return redCollisions;
 }
 
 QPointF Map::getMapLimit(int number)

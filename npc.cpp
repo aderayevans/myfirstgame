@@ -67,9 +67,9 @@ void NPC::setHealth(double h)
 {
     leftHealth = h;
 }
-void NPC::setMaxHealth(double h)
+void NPC::setFullHealth(double h)
 {
-    maxHealth = h;
+    fullHealth = h;
 }
 
 double NPC::getHeight()
@@ -98,9 +98,9 @@ QPointF NPC::getLowestPoint()
     return QPointF(position.x() + getWidth()/2, position.y() + getHeight());
 }
 
-double NPC::getMaxHealth()
+double NPC::getFullHealth()
 {
-    return maxHealth;
+    return fullHealth;
 }
 double NPC::getLeftHealth()
 {

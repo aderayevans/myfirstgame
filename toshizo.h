@@ -15,8 +15,12 @@ public:
     void setLimitArea(double x1, double y1, double x2, double y2);
     void setHitBox(double x1, double y1, double x2, double y2);
     void setDoubleJump();
+    void setHealth(double);
     bool doubleJumped();
     bool isBuffed();
+    bool isHacked();
+    void hackON();
+    void hackOFF();
     void setClock();
     double getSpeed();
     QPointF getLimitArea(int);
@@ -29,23 +33,23 @@ public:
     double getWidth();
     double getHeight();
     QPointF getLowestPoint();
-    int getFullHealth();
-    int getLeftHealth();
-    int getFullEnergy();
-    int getLeftEnergy();
+    double getFullHealth();
+    double getLeftHealth();
+    double getFullEnergy();
+    double getLeftEnergy();
 private:
-    Sprite standSprite, buffedStandSprite;
-    Sprite standSprite2, buffedStandSprite2;
-    Sprite runSprite;
-    Sprite runSprite2;
-    Sprite jumpSprite;
-    Sprite jumpSprite2;
-    Sprite attackSprite, buffedAttackSprite;
-    Sprite attackSprite2, buffedAttackSprite2;
+    Sprite standSprite, buffedStandSprite, hurtingStandSprite, buffedHurtingStandSprite;
+    Sprite standSprite2, buffedStandSprite2, hurtingStandSprite2, buffedHurtingStandSprite2;
+    Sprite runSprite, hurtingRunSprite;
+    Sprite runSprite2, hurtingRunSprite2;
+    Sprite jumpSprite, hurtingJumpSprite;
+    Sprite jumpSprite2, hurtingJumpSprite2;
+    Sprite attackSprite, buffedAttackSprite, hurtingAttackSprite, buffedHurtingAttackSprite;
+    Sprite attackSprite2, buffedAttackSprite2, hurtingAttackSprite2, buffedHurtingAttackSprite2;
     Sprite jumpAttackSprite, buffedJumpAttackSprite;
     Sprite jumpAttackSprite2, buffedJumpAttackSprite2;
-    Sprite buffSprite;
-    Sprite buffSprite2;
+    Sprite buffSprite, hurtingBuffSprite;
+    Sprite buffSprite2, hurtingBuffSprite2;
     State state = Stand;
     Direction direct = leftRight;
     QPointF position;
@@ -62,16 +66,22 @@ private:
     int buffClock = 0;
     int standSlowTime = 2;
     int attackSlowTime = 2;
-    int jumpAttackSlowTime = 0;
+    int jumpAttackSlowTime = 2;
     int buffSlowTime = 10;
     int runTime = 0;
-    int buffTime = 100000000; //0
-    int maxBuffTime = 100000000;//30*5; //30s
+    int flyTime = 0;
+    int onSkyTime_forNotBuffedJumpAttack = 3;
+    int maxFlyTime = 7;
+    int hackedFlyTime = 60*5;
+    int maxBuffTime = 30*5; //5s
     int jumpLimitTime = 6;
-    int goCrazyTime = 15;
+    int boostTime = 15;
     bool doubleJump = false;
-    bool buffed = true; //false
-
+    int buffed = 0;
+    int hurted = 0;
+    int maxHurtTime = 15;
+    bool hacked = false;
+    bool immortal = false;
     int boostHigh = 0;
     int boostSpeed = 0;
     int buffedSkillRange = 50;
@@ -80,10 +90,10 @@ private:
     int maxBoost = 10;
     int speed = 10;
     int scale = 1;
-    int fullHealth = 1000;
-    int leftHealth = 10;
-    int fullEnergy = 1000;
-    int leftEnergy = 500;
+    double fullHealth = 1000;
+    double leftHealth = 1000;
+    double fullEnergy = 1000;
+    double leftEnergy = 500;
 };
 
 #endif // TOSHIZO_H

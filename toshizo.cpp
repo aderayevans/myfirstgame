@@ -15,23 +15,47 @@ void Toshizo::setDirection(Direction direct)
 void Toshizo::setTexture()
 {
     standSprite.setTexture("D://Games//Toshizo//implementStandingToshizo.png", 4, scale);
+    hurtingStandSprite.setTexture("D://Games//Toshizo//implementStandingHurtingToshizo.png", 4, scale);
     buffedStandSprite.setTexture("D://Games//Toshizo//implementBuffedStandingToshizo.png", 4, scale);
+    buffedHurtingStandSprite.setTexture("D://Games//Toshizo//implementBuffedStandingHurtingToshizo.png", 4, scale);
+
     runSprite.setTexture("D://Games//Toshizo//implementRunningToshizo.png", 5, scale);
     runSprite.setSpeed(speed);                                                       // for moving
+    hurtingRunSprite.setTexture("D://Games//Toshizo//implementRunningHurtingToshizo.png", 5, scale);
+
     jumpSprite.setTexture("D://Games//Toshizo//implementJumpingToshizo.png", 5, scale);
+    hurtingJumpSprite.setTexture("D://Games//Toshizo//implementJumpingHurtingToshizo.png", 5, scale);
+
     attackSprite.setTexture("D://Games//Toshizo//implementAttackingToshizo.png", 2, scale);
+    hurtingAttackSprite.setTexture("D://Games//Toshizo//implementAttackingHurtingToshizo.png", 2, scale);
     buffedAttackSprite.setTexture("D://Games//Toshizo//implementBuffedAttackingToshizo.png", 2, scale);
+    buffedHurtingAttackSprite.setTexture("D://Games//Toshizo//implementBuffedAttackingHurtingToshizo.png", 2, scale);
+
     buffSprite.setTexture("D://Games//Toshizo//implementBuffingToshizo.png", 3, scale);
+    hurtingBuffSprite.setTexture("D://Games//Toshizo//implementBuffingHurtingToshizo.png", 3, scale);
+
     jumpAttackSprite.setTexture("D://Games//Toshizo//implementJumpAttackingToshizo.png", 4, scale);
     buffedJumpAttackSprite.setTexture("D://Games//Toshizo//implementPeashooter.png", 8, scale*2);
-
+    //---
     standSprite2.setTexture("D://Games//Toshizo//flippedStandingToshizo.png", 4, scale);
+    hurtingStandSprite2.setTexture("D://Games//Toshizo//flippedStandingHurtingToshizo.png", 4, scale);
     buffedStandSprite2.setTexture("D://Games//Toshizo//flippedBuffedStandingToshizo.png", 4, scale);
+    buffedHurtingStandSprite2.setTexture("D://Games//Toshizo//flippedBuffedStandingHurtingToshizo.png", 4, scale);
+
     runSprite2.setTexture("D://Games//Toshizo//flippedRunningToshizo.png", 5, scale);
+    hurtingRunSprite2.setTexture("D://Games//Toshizo//flippedRunningHurtingToshizo.png", 5, scale);
+
     jumpSprite2.setTexture("D://Games//Toshizo//flippedJumpingToshizo.png", 5, scale);
+    hurtingJumpSprite2.setTexture("D://Games//Toshizo//flippedJumpingHurtingToshizo.png", 5, scale);
+
     attackSprite2.setTexture("D://Games//Toshizo//flippedAttackingToshizo.png", 2, scale);
+    hurtingAttackSprite2.setTexture("D://Games//Toshizo//flippedAttackingHurtingToshizo.png", 2, scale);
     buffedAttackSprite2.setTexture("D://Games//Toshizo//flippedBuffedAttackingToshizo.png", 2, scale);
+    buffedHurtingAttackSprite2.setTexture("D://Games//Toshizo//flippedBuffedAttackingHurtingToshizo.png", 2, scale);
+
     buffSprite2.setTexture("D://Games//Toshizo//flippedBuffingToshizo.png", 3, scale);
+    hurtingBuffSprite2.setTexture("D://Games//Toshizo//flippedBuffingHurtingToshizo.png", 3, scale);
+
     jumpAttackSprite2.setTexture("D://Games//Toshizo//flippedJumpAttackingToshizo.png", 4, scale);
     buffedJumpAttackSprite2.setTexture("D://Games//Toshizo//flippedPeashooter.png", 8, scale*2);
 }
@@ -46,22 +70,46 @@ void Toshizo::setPosition(double x, double y)
     position = QPointF(x, y);
     int tempX = x - 45;     //45 pixels of the sword
     standSprite.setPosition(tempX, y);
+    hurtingStandSprite.setPosition(tempX, y);
     buffedStandSprite.setPosition(x - 52, y - 50);
+    buffedHurtingStandSprite.setPosition(x - 52, y - 50);
+
     runSprite.setPosition(tempX, y);
+    hurtingRunSprite.setPosition(tempX, y);
+
     jumpSprite.setPosition(tempX, y);
+    hurtingJumpSprite.setPosition(tempX, y);
+
     attackSprite.setPosition(tempX, y);
+    hurtingAttackSprite.setPosition(tempX, y);
     buffedAttackSprite.setPosition(x - 65, y - 67);
+    buffedHurtingAttackSprite.setPosition(x - 65, y - 67);
+
     buffSprite.setPosition(x - 60, y - 105);
+    hurtingBuffSprite.setPosition(x - 60, y - 105);
+
     jumpAttackSprite.setPosition(tempX, y - 45);
     buffedJumpAttackSprite.setPosition(x - 160, y);
-
+    //---
     standSprite2.setPosition(x, y);
+    hurtingStandSprite2.setPosition(x, y);
     buffedStandSprite2.setPosition(x - 35, y - 51);
+    buffedHurtingStandSprite2.setPosition(x - 35, y - 51);
+
     runSprite2.setPosition(x, y);
+    hurtingRunSprite2.setPosition(x, y);
+
     jumpSprite2.setPosition(x, y);
+    hurtingJumpSprite2.setPosition(x, y);
+
     attackSprite2.setPosition(x - 120, y);
+    hurtingAttackSprite2.setPosition(x - 120, y);
     buffedAttackSprite2.setPosition(x - 120, y - 67);
+    buffedHurtingAttackSprite2.setPosition(x - 120, y - 67);
+
     buffSprite2.setPosition(x - 90, y - 105);
+    hurtingBuffSprite2.setPosition(x - 90, y - 105);
+
     jumpAttackSprite2.setPosition(tempX, y - 45);
     buffedJumpAttackSprite2.setPosition(x - 30, y);
 
@@ -71,6 +119,16 @@ void Toshizo::setPosition(double x, double y)
 void Toshizo::setOrigin(double x, double y)
 {
     setPosition(x, y);
+}
+
+void Toshizo::setHealth(double h)
+{
+    if (hurted || immortal);
+    else
+    {
+        leftHealth = h;
+        hurted = maxHurtTime;
+    }
 }
 
 void Toshizo::setLimitArea(double x1, double y1, double x2, double y2)
@@ -138,19 +196,48 @@ double Toshizo::getSpeed()
     case Fall:
         return runSprite.getSpeed();
         break;
-    default:    //case Stand:
+    case JumpAttack:
+        return runSprite.getSpeed() + boostSpeed;
+        break;
+    case Stand:
         return 0;
         break;
     }
 }
 
+void Toshizo::hackON()
+{
+    hacked = true;
+}
+
+void Toshizo::hackOFF()
+{
+
+    hacked = false;
+}
+
+bool Toshizo::isHacked()
+{
+
+    return hacked;
+}
+
 void Toshizo::setClock()
 {
     this->clock++;
-    if (buffed)
+    if (buffed && !hacked)
     {
-        if (!buffTime) buffed = false;
-        else buffTime--;
+        if (buffed) buffed--;
+    }
+    if (hurted)
+    {
+        if (hurted) hurted--;
+    }
+    if (hacked)
+    {
+        immortal = true;
+        leftEnergy = fullEnergy;
+        leftHealth = fullHealth;
     }
     switch (state)
     {
@@ -166,13 +253,25 @@ void Toshizo::setClock()
         boostSpeed = 0;
         boostHigh = 0;
         doubleJump = false;
+        flyTime = 0;
         standClock++;
         if (standClock > standSlowTime)
         {
             standPicture++;
             standClock = 0;
         }
-        if (buffed)
+        if (buffed && hurted)
+        {
+            switch (direct) {
+            case rightLeft:
+                buffedHurtingStandSprite2.setClock(standPicture);
+                break;
+            default:    //case leftRight:
+                buffedHurtingStandSprite.setClock(standPicture);
+                break;
+            }
+        }
+        else if (buffed)
         {
             switch (direct) {
             case rightLeft:
@@ -183,6 +282,17 @@ void Toshizo::setClock()
                 break;
             }
 
+        }
+        else if (hurted)
+        {
+            switch (direct) {
+            case rightLeft:
+                hurtingStandSprite2.setClock(standPicture);
+                break;
+            default:    //case leftRight:
+                hurtingStandSprite.setClock(standPicture);
+                break;
+            }
         }
         else
         {
@@ -197,19 +307,33 @@ void Toshizo::setClock()
         }
         break;
     case Run:
-        if (runTime == goCrazyTime)
+        if (runTime == boostTime)
         {
             boostSpeed = maxBoost;
             boostHigh = maxBoost;
         }
         runTime++;
-        switch (direct) {
-        case rightLeft:
-            runSprite2.setClock(this->clock);
-            break;
-        default:    //case leftRight:
-            runSprite.setClock(this->clock);
-            break;
+        if (hurted)
+        {
+            switch (direct) {
+            case rightLeft:
+                hurtingRunSprite2.setClock(this->clock);
+                break;
+            default:    //case leftRight:
+                hurtingRunSprite.setClock(this->clock);
+                break;
+            }
+        }
+        else
+        {
+            switch (direct) {
+            case rightLeft:
+                runSprite2.setClock(this->clock);
+                break;
+            default:    //case leftRight:
+                runSprite.setClock(this->clock);
+                break;
+            }
         }
         break;
     case Jump:
@@ -230,14 +354,29 @@ void Toshizo::setClock()
         {
             jumpPicture = 3;
         }
-        switch (direct)
+        if (hurted)
         {
-        case rightLeft:
-            jumpSprite2.setClock(jumpPicture++);
-            break;
-        default:    //case leftRight:
-            jumpSprite.setClock(jumpPicture++);
-            break;
+            switch (direct)
+            {
+            case rightLeft:
+                hurtingJumpSprite2.setClock(jumpPicture++);
+                break;
+            default:    //case leftRight:
+                hurtingJumpSprite.setClock(jumpPicture++);
+                break;
+            }
+        }
+        else
+        {
+            switch (direct)
+            {
+            case rightLeft:
+                jumpSprite2.setClock(jumpPicture++);
+                break;
+            default:    //case leftRight:
+                jumpSprite.setClock(jumpPicture++);
+                break;
+            }
         }
         break;
     }
@@ -253,7 +392,19 @@ void Toshizo::setClock()
         {
             setState(Stand);
         }
-        if (buffed)
+        if (buffed && hurted)
+        {
+            switch (direct)
+            {
+            case rightLeft:
+                buffedHurtingAttackSprite2.setClock(attackPicture);
+                break;
+            default:    //case leftRight:
+                buffedHurtingAttackSprite.setClock(attackPicture);
+                break;
+            }
+        }
+        else if (buffed)
         {
             switch (direct)
             {
@@ -264,7 +415,18 @@ void Toshizo::setClock()
                 buffedAttackSprite.setClock(attackPicture);
                 break;
             }
-
+        }
+        else if (hurted)
+        {
+            switch (direct)
+            {
+            case rightLeft:
+                hurtingAttackSprite2.setClock(attackPicture);
+                break;
+            default:    //case leftRight:
+                hurtingAttackSprite.setClock(attackPicture);
+                break;
+            }
         }
         else
         {
@@ -282,6 +444,7 @@ void Toshizo::setClock()
     }
     case JumpAttack:
     {
+        immortal = true;
         if (buffed)
         {
             if (jumpAttackClock > jumpAttackSlowTime)
@@ -289,8 +452,16 @@ void Toshizo::setClock()
                 jumpAttackPicture++;
                 jumpAttackClock = 0;
             }
+            if (!jumpAttackPicture)
+            {
+                flyTime = maxFlyTime;
+            }
+            else if (!hacked)
+            {
+                flyTime--;
+            }
             jumpAttackClock++;
-            if (jumpAttackPicture >= buffedJumpAttackSprite.getTotalPicture())
+            if (!flyTime)
             {
                 setState(Fall);
             }
@@ -314,7 +485,7 @@ void Toshizo::setClock()
                 jumpAttackClock = 0;
             }
             jumpAttackClock++;
-            if (jumpAttackPicture >= jumpAttackSprite.getTotalPicture())
+            if (jumpAttackPicture >= onSkyTime_forNotBuffedJumpAttack)
             {
                 setState(Fall);
             }
@@ -346,17 +517,31 @@ void Toshizo::setClock()
         if (buffPicture >= buffSprite.getTotalPicture())
         {
             leftEnergy-=500;
-            buffed = true;
-            buffTime = maxBuffTime;
+            buffed = maxBuffTime;
         }
-        switch (direct)
+        if (hurted)
         {
-        case rightLeft:
-            buffSprite2.setClock(buffPicture);
-            break;
-        default:    //case leftRight:
-            buffSprite.setClock(buffPicture);
-            break;
+            switch (direct)
+            {
+            case rightLeft:
+                hurtingBuffSprite2.setClock(buffPicture);
+                break;
+            default:    //case leftRight:
+                hurtingBuffSprite.setClock(buffPicture);
+                break;
+            }
+        }
+        else
+        {
+            switch (direct)
+            {
+            case rightLeft:
+                buffSprite2.setClock(buffPicture);
+                break;
+            default:    //case leftRight:
+                buffSprite.setClock(buffPicture);
+                break;
+            }
         }
         break;
     }
@@ -365,13 +550,27 @@ void Toshizo::setClock()
         int fallAnimation;
         if (doubleJump) fallAnimation = 4;
         else fallAnimation = 2;
-        switch (direct) {
-        case rightLeft:
-            jumpSprite2.setClock(fallAnimation);
-            break;
-        default:    //case leftRight:
-            jumpSprite.setClock(fallAnimation);
-            break;
+        if (hurted)
+        {
+            switch (direct) {
+            case rightLeft:
+                hurtingJumpSprite2.setClock(fallAnimation);
+                break;
+            default:    //case leftRight:
+                hurtingJumpSprite.setClock(fallAnimation);
+                break;
+            }
+        }
+        else
+        {
+            switch (direct) {
+            case rightLeft:
+                jumpSprite2.setClock(fallAnimation);
+                break;
+            default:    //case leftRight:
+                jumpSprite.setClock(fallAnimation);
+                break;
+            }
         }
         break;
     }
@@ -387,19 +586,19 @@ QPointF Toshizo::getLowestPoint()
     return QPointF(position.x() + getWidth()/2, position.y() + getHeight());
 }
 
-int Toshizo::getFullHealth()
+double Toshizo::getFullHealth()
 {
     return fullHealth;
 }
-int Toshizo::getLeftHealth()
+double Toshizo::getLeftHealth()
 {
     return leftHealth;
 }
-int Toshizo::getFullEnergy()
+double Toshizo::getFullEnergy()
 {
     return fullEnergy;
 }
-int Toshizo::getLeftEnergy()
+double Toshizo::getLeftEnergy()
 {
     return leftEnergy;
 }
@@ -407,34 +606,87 @@ QRectF Toshizo::getTarget()
 {
     switch (state) {
     case Run:
-        switch (direct) {
-        case rightLeft:
-            return runSprite2.getTarget();
-            break;
-        default:    //case leftRight:
-            return runSprite.getTarget();
-            break;
+        if (hurted)
+        {
+            switch (direct) {
+            case rightLeft:
+                return hurtingRunSprite2.getTarget();
+                break;
+            default:    //case leftRight:
+                return hurtingRunSprite.getTarget();
+                break;
+            }
+        }
+        else
+        {
+            switch (direct) {
+            case rightLeft:
+                return runSprite2.getTarget();
+                break;
+            default:    //case leftRight:
+                return runSprite.getTarget();
+                break;
+            }
         }
     case Jump:
-        switch (direct) {
-        case rightLeft:
-            return jumpSprite2.getTarget();
-            break;
-        default:    //case leftRight:
-            return jumpSprite.getTarget();
-            break;
+        if (hurted)
+        {
+            switch (direct) {
+            case rightLeft:
+                return hurtingJumpSprite2.getTarget();
+                break;
+            default:    //case leftRight:
+                return hurtingJumpSprite.getTarget();
+                break;
+            }
+        }
+        else
+        {
+            switch (direct) {
+            case rightLeft:
+                return jumpSprite2.getTarget();
+                break;
+            default:    //case leftRight:
+                return jumpSprite.getTarget();
+                break;
+            }
         }
     case Fall:
-        switch (direct) {
-        case rightLeft:
-            return jumpSprite2.getTarget();
-            break;
-        default:    //case leftRight:
-            return jumpSprite.getTarget();
-            break;
+        if (hurted)
+        {
+            switch (direct) {
+            case rightLeft:
+                return hurtingJumpSprite2.getTarget();
+                break;
+            default:    //case leftRight:
+                return hurtingJumpSprite.getTarget();
+                break;
+            }
+        }
+        else
+        {
+            switch (direct) {
+            case rightLeft:
+                return jumpSprite2.getTarget();
+                break;
+            default:    //case leftRight:
+                return jumpSprite.getTarget();
+                break;
+            }
         }
     case Attack:
-        if (buffed)
+        if (buffed && hurted)
+        {
+            switch (direct) {
+            case rightLeft:
+                return buffedHurtingAttackSprite2.getTarget();
+                break;
+            default:    //case leftRight:
+                return buffedHurtingAttackSprite.getTarget();
+                break;
+            }
+        }
+        else if (buffed)
         {
             switch (direct) {
             case rightLeft:
@@ -442,6 +694,17 @@ QRectF Toshizo::getTarget()
                 break;
             default:    //case leftRight:
                 return buffedAttackSprite.getTarget();
+                break;
+            }
+        }
+        else if (hurted)
+        {
+            switch (direct) {
+            case rightLeft:
+                return hurtingAttackSprite2.getTarget();
+                break;
+            default:    //case leftRight:
+                return hurtingAttackSprite.getTarget();
                 break;
             }
         }
@@ -480,16 +743,42 @@ QRectF Toshizo::getTarget()
             }
         }
     case Buff:
-        switch (direct) {
-        case rightLeft:
-            return buffSprite2.getTarget();
-            break;
-        default:    //case leftRight:
-            return buffSprite.getTarget();
-            break;
+        if (hurted)
+        {
+            switch (direct) {
+            case rightLeft:
+                return hurtingBuffSprite2.getTarget();
+                break;
+            default:    //case leftRight:
+                return hurtingBuffSprite.getTarget();
+                break;
+            }
+        }
+        else
+        {
+            switch (direct) {
+            case rightLeft:
+                return buffSprite2.getTarget();
+                break;
+            default:    //case leftRight:
+                return buffSprite.getTarget();
+                break;
+            }
         }
     default:    //case Stand:
-        if (buffed)
+        if (buffed && hurted)
+        {
+            switch (direct) {
+            case rightLeft:
+                return buffedHurtingStandSprite2.getTarget();
+                break;
+            default:    //case leftRight:
+                return buffedHurtingStandSprite.getTarget();
+                break;
+            }
+
+        }
+        else if (buffed)
         {
             switch (direct) {
             case rightLeft:
@@ -500,6 +789,17 @@ QRectF Toshizo::getTarget()
                 break;
             }
 
+        }
+        else if (hurted)
+        {
+            switch (direct) {
+            case rightLeft:
+                return hurtingStandSprite2.getTarget();
+                break;
+            default:    //case leftRight:
+                return hurtingStandSprite.getTarget();
+                break;
+            }
         }
         else
         {
@@ -519,34 +819,87 @@ QRectF Toshizo::getSource()
 {
     switch (state) {
     case Run:
-        switch (direct) {
-        case rightLeft:
-            return runSprite2.getSource();
-            break;
-        default:    //case leftRight:
-            return runSprite.getSource();
-            break;
+        if (hurted)
+        {
+            switch (direct) {
+            case rightLeft:
+                return hurtingRunSprite2.getSource();
+                break;
+            default:    //case leftRight:
+                return hurtingRunSprite.getSource();
+                break;
+            }
+        }
+        else
+        {
+            switch (direct) {
+            case rightLeft:
+                return runSprite2.getSource();
+                break;
+            default:    //case leftRight:
+                return runSprite.getSource();
+                break;
+            }
         }
     case Jump:
-        switch (direct) {
-        case rightLeft:
-            return jumpSprite2.getSource();
-            break;
-        default:    //case leftRight:
-            return jumpSprite.getSource();
-            break;
+        if (hurted)
+        {
+            switch (direct) {
+            case rightLeft:
+                return hurtingJumpSprite2.getSource();
+                break;
+            default:    //case leftRight:
+                return hurtingJumpSprite.getSource();
+                break;
+            }
+        }
+        else
+        {
+            switch (direct) {
+            case rightLeft:
+                return jumpSprite2.getSource();
+                break;
+            default:    //case leftRight:
+                return jumpSprite.getSource();
+                break;
+            }
         }
     case Fall:
-        switch (direct) {
-        case rightLeft:
-            return jumpSprite2.getSource();
-            break;
-        default:    //case leftRight:
-            return jumpSprite.getSource();
-            break;
+        if (hurted)
+        {
+            switch (direct) {
+            case rightLeft:
+                return hurtingJumpSprite2.getSource();
+                break;
+            default:    //case leftRight:
+                return hurtingJumpSprite.getSource();
+                break;
+            }
+        }
+        else
+        {
+            switch (direct) {
+            case rightLeft:
+                return jumpSprite2.getSource();
+                break;
+            default:    //case leftRight:
+                return jumpSprite.getSource();
+                break;
+            }
         }
     case Attack:
-        if (buffed)
+        if (buffed && hurted)
+        {
+            switch (direct) {
+            case rightLeft:
+                return buffedHurtingAttackSprite2.getSource();
+                break;
+            default:    //case leftRight:
+                return buffedHurtingAttackSprite.getSource();
+                break;
+            }
+        }
+        else if (buffed)
         {
             switch (direct) {
             case rightLeft:
@@ -554,6 +907,17 @@ QRectF Toshizo::getSource()
                 break;
             default:    //case leftRight:
                 return buffedAttackSprite.getSource();
+                break;
+            }
+        }
+        else if (hurted)
+        {
+            switch (direct) {
+            case rightLeft:
+                return hurtingAttackSprite2.getSource();
+                break;
+            default:    //case leftRight:
+                return hurtingAttackSprite.getSource();
                 break;
             }
         }
@@ -592,16 +956,42 @@ QRectF Toshizo::getSource()
             }
         }
     case Buff:
-        switch (direct) {
-        case rightLeft:
-            return buffSprite2.getSource();
-            break;
-        default:    //case leftRight:
-            return buffSprite.getSource();
-            break;
+        if (hurted)
+        {
+            switch (direct) {
+            case rightLeft:
+                return hurtingBuffSprite2.getSource();
+                break;
+            default:    //case leftRight:
+                return hurtingBuffSprite.getSource();
+                break;
+            }
+        }
+        else
+        {
+            switch (direct) {
+            case rightLeft:
+                return buffSprite2.getSource();
+                break;
+            default:    //case leftRight:
+                return buffSprite.getSource();
+                break;
+            }
         }
     default:    //case Stand:
-        if (buffed)
+        if (buffed && hurted)
+        {
+            switch (direct) {
+            case rightLeft:
+                return buffedHurtingStandSprite2.getSource();
+                break;
+            default:    //case leftRight:
+                return buffedHurtingStandSprite.getSource();
+                break;
+            }
+
+        }
+        else if (buffed)
         {
             switch (direct) {
             case rightLeft:
@@ -612,6 +1002,17 @@ QRectF Toshizo::getSource()
                 break;
             }
 
+        }
+        else if (hurted)
+        {
+            switch (direct) {
+            case rightLeft:
+                return hurtingStandSprite2.getSource();
+                break;
+            default:    //case leftRight:
+                return hurtingStandSprite.getSource();
+                break;
+            }
         }
         else
         {
@@ -631,34 +1032,87 @@ QPixmap Toshizo::getTexture()
 {
     switch (state) {
     case Run:
-        switch (direct) {
-        case rightLeft:
-            return runSprite2.getTexture();
-            break;
-        default:    //case leftRight:
-            return runSprite.getTexture();
-            break;
+        if (hurted)
+        {
+            switch (direct) {
+            case rightLeft:
+                return hurtingRunSprite2.getTexture();
+                break;
+            default:    //case leftRight:
+                return hurtingRunSprite.getTexture();
+                break;
+            }
+        }
+        else
+        {
+            switch (direct) {
+            case rightLeft:
+                return runSprite2.getTexture();
+                break;
+            default:    //case leftRight:
+                return runSprite.getTexture();
+                break;
+            }
         }
     case Jump:
-        switch (direct) {
-        case rightLeft:
-            return jumpSprite2.getTexture();
-            break;
-        default:    //case leftRight:
-            return jumpSprite.getTexture();
-            break;
+        if (hurted)
+        {
+            switch (direct) {
+            case rightLeft:
+                return hurtingJumpSprite2.getTexture();
+                break;
+            default:    //case leftRight:
+                return hurtingJumpSprite.getTexture();
+                break;
+            }
+        }
+        else
+        {
+            switch (direct) {
+            case rightLeft:
+                return jumpSprite2.getTexture();
+                break;
+            default:    //case leftRight:
+                return jumpSprite.getTexture();
+                break;
+            }
         }
     case Fall:
-        switch (direct) {
-        case rightLeft:
-            return jumpSprite2.getTexture();
-            break;
-        default:    //case leftRight:
-            return jumpSprite.getTexture();
-            break;
+        if (hurted)
+        {
+            switch (direct) {
+            case rightLeft:
+                return hurtingJumpSprite2.getTexture();
+                break;
+            default:    //case leftRight:
+                return hurtingJumpSprite.getTexture();
+                break;
+            }
+        }
+        else
+        {
+            switch (direct) {
+            case rightLeft:
+                return jumpSprite2.getTexture();
+                break;
+            default:    //case leftRight:
+                return jumpSprite.getTexture();
+                break;
+            }
         }
     case Attack:
-        if (buffed)
+        if (buffed && hurted)
+        {
+            switch (direct) {
+            case rightLeft:
+                return buffedHurtingAttackSprite2.getTexture();
+                break;
+            default:    //case leftRight:
+                return buffedHurtingAttackSprite.getTexture();
+                break;
+            }
+        }
+        else if (buffed)
         {
             switch (direct) {
             case rightLeft:
@@ -666,6 +1120,17 @@ QPixmap Toshizo::getTexture()
                 break;
             default:    //case leftRight:
                 return buffedAttackSprite.getTexture();
+                break;
+            }
+        }
+        else if (hurted)
+        {
+            switch (direct) {
+            case rightLeft:
+                return hurtingAttackSprite2.getTexture();
+                break;
+            default:    //case leftRight:
+                return hurtingAttackSprite.getTexture();
                 break;
             }
         }
@@ -704,16 +1169,42 @@ QPixmap Toshizo::getTexture()
             }
         }
     case Buff:
-        switch (direct) {
-        case rightLeft:
-            return buffSprite2.getTexture();
-            break;
-        default:    //case leftRight:
-            return buffSprite.getTexture();
-            break;
+        if (hurted)
+        {
+            switch (direct) {
+            case rightLeft:
+                return hurtingBuffSprite2.getTexture();
+                break;
+            default:    //case leftRight:
+                return hurtingBuffSprite.getTexture();
+                break;
+            }
+        }
+        else
+        {
+            switch (direct) {
+            case rightLeft:
+                return buffSprite2.getTexture();
+                break;
+            default:    //case leftRight:
+                return buffSprite.getTexture();
+                break;
+            }
         }
     default:    //case Stand:
-        if (buffed)
+        if (buffed && hurted)
+        {
+            switch (direct) {
+            case rightLeft:
+                return buffedHurtingStandSprite2.getTexture();
+                break;
+            default:    //case leftRight:
+                return buffedHurtingStandSprite.getTexture();
+                break;
+            }
+
+        }
+        else if (buffed)
         {
             switch (direct) {
             case rightLeft:
@@ -724,6 +1215,17 @@ QPixmap Toshizo::getTexture()
                 break;
             }
 
+        }
+        else if (hurted)
+        {
+            switch (direct) {
+            case rightLeft:
+                return hurtingStandSprite2.getTexture();
+                break;
+            default:    //case leftRight:
+                return hurtingStandSprite.getTexture();
+                break;
+            }
         }
         else
         {

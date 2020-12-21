@@ -17,9 +17,12 @@ public:
     void move(double);
     void clip();
     void convert();
+    void updateRedCollisions();
     void setViewPort(double, double);
     std::vector<Ground> getGrounds();
     std::vector<Wall> getWalls();
+    std::vector<NPC *> getNPCs();
+    std::vector<QRectF> getRedCollisions();
     QPointF getMapLimit(int);
     QPointF getCurrentMapPoint(int);
 private:
@@ -31,15 +34,15 @@ private:
     int cloud = 1;
     std::vector<Ground> grounds, currentGrounds;
     std::vector<Wall> walls, currentWalls;
-    std::vector<NPC *> NPCs;
+    std::vector<NPC *> NPCs, currentNPCs;
     QPointF mapLimitPointLeft, mapLimitPointRight, mapCurrentPointLeft,
             mapCurrentPointRight, pseudoLimitPointLeft, pseudoLimitPointRight;
     std::vector<QPointF> pseudoPoints;
+    std::vector<QRectF> redCollisions;
 
-    std::vector<Sprite> energyPotions, healthPotions;
-    int energyPotionNum = 10, healthPotionNum = 10;
+    std::vector<Sprite> energyPotions, healthPotions, snowmans, snowtrees, signboards;
     Sprite magicGate, magicGateY1, magicGateY2, magicGateX, fireBall, darkBall, posion, bum, tornado, aura, explosion2;
-
+    Sprite lightning, dirt, bluefire;
 };
 
 #endif // MAP_H

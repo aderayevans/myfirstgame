@@ -3,22 +3,23 @@
 
 Wraith::Wraith()
 {
-    setState(Casting);
-    setMaxHealth(1000);
-    setHealth(100);
+    setState(Walking);
+    setDirection(leftRight);
+    setFullHealth(1000);
+    setHealth(getFullHealth());
     setTexture();
 }
 
 void Wraith::setTexture()
 {
-    walkSprite.setTexture("D://Users//Downloads//WraithGameAsset//implementRunningWraith.png", 5, scale);
+    walkSprite.setTexture("D://Games//Toshizo//Wraith_Moving_Forward.png", 18, scale);
     walkSprite.setSpeed(speed);                                                       // for moving
-    idleSprite.setTexture("D://Users//Downloads//WraithGameAsset//implementAttackingWraith.png", 2, scale);
+    idleSprite.setTexture("D://Games//Toshizo//implementAttackingWraith.png", 2, scale);
     castingSprite.setTexture("D://Games//Toshizo//Wraith_Casting_Spells.png", 18, scale);
 
-    walkSprite2.setTexture("D://Users//Downloads//WraithGameAsset//implementRunningWraith.png", 5, scale);
+    walkSprite2.setTexture("D://Games//Toshizo//Wraith_Moving_Forward_2.png", 1, scale);
     walkSprite2.setSpeed(speed);                                                       // for moving
-    idleSprite2.setTexture("D://Users//Downloads//WraithGameAsset//implementAttackingWraith.png", 2, scale);
+    idleSprite2.setTexture("D://Games//Toshizo//implementAttackingWraith.png", 2, scale);
     castingSprite2.setTexture("D://Games//Toshizo//Wraith_Casting_Spells_2.png", 18, scale);
 }
 
@@ -32,15 +33,13 @@ void Wraith::setPosition(double x, double y)
 
     walkSprite2.setPosition(x, y);
     castingSprite2.setPosition(x, y);
-    idleSprite2.setPosition(2, y);
+    idleSprite2.setPosition(x, y);
 
     setHitBox(x, y, x + getWidth(), y + getHeight());
 }
 
 void Wraith::setLimitArea(double x1, double y1, double x2, double y2)
 {
-    x2 -= getWidth();
-    y1 += getHeight();
     walkSprite.setLimitArea(x1, y1, x2, y2);
 }
 
@@ -78,7 +77,7 @@ double Wraith::getHeight()
 
 double Wraith::getWidth()
 {
-    return walkSprite.getWidth() - 50;
+    return walkSprite.getWidth();
 }
 
 double Wraith::getSpeed()
@@ -96,13 +95,36 @@ void Wraith::setClock()
     switch (getState())
     {
     case Walking:
-        //runTime++;
+        if (walkClock > walkSlowTime)
+        {
+            walkPicture++;
+            walkClock = 0;
+        }
+        walkClock++;
         switch (getDirection()) {
         case rightLeft:
-            walkSprite2.setClock(clock);
+            if (getPosition().x() < getLimitArea(1).x())
+            {
+                setPosition(getLimitArea(1).x(), getPosition().y());
+                setDirection(leftRight);
+            }
+            else
+            {
+                setPosition(getPosition().x() - speed, getPosition().y());
+            }
+            walkSprite2.setClock(walkPicture);
             break;
         default:    //case leftRight:
-            walkSprite.setClock(clock);
+            if (getPosition().x() + getWidth() > getLimitArea(3).x())
+            {
+                setPosition(getLimitArea(3).x() - getWidth(), getPosition().y());
+                setDirection(rightLeft);
+            }
+            else
+            {
+                setPosition(getPosition().x() + speed, getPosition().y());
+            }
+            walkSprite.setClock(walkPicture);
             break;
         }
         break;

@@ -26,7 +26,7 @@ bool MainWindow::eventFilter( QObject * object, QEvent * eve ){
         }
         else if (keyEvent->isAutoRepeat()) return false;
         else if (keyEvent->key() == Qt::Key_Space    || keyEvent->key() == Qt::Key_Down  ||
-            keyEvent->key() == Qt::Key_Left     || keyEvent->key() == Qt::Key_Right ||
+            keyEvent->key() == Qt::Key_H        || keyEvent->key() == Qt::Key_X ||
             keyEvent->key() == Qt::Key_C        || keyEvent->key() == Qt::Key_Z     ||
             keyEvent->key() == Qt::Key_Return)
         {
@@ -42,6 +42,7 @@ bool MainWindow::eventFilter( QObject * object, QEvent * eve ){
         if (keyEvent->isAutoRepeat()) return false;
         else if (keyEvent->key() == Qt::Key_Space    || keyEvent->key() == Qt::Key_Down  ||
             keyEvent->key() == Qt::Key_Left     || keyEvent->key() == Qt::Key_Right ||
+            keyEvent->key() == Qt::Key_H        || keyEvent->key() == Qt::Key_X ||
             keyEvent->key() == Qt::Key_C        || keyEvent->key() == Qt::Key_Z     ||
             keyEvent->key() == Qt::Key_Return)
         {

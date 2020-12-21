@@ -32,13 +32,16 @@ private:
     int castingClock = 0;
     int castingPicture = 0;
     int castingSlowTime = 2;
+    int walkClock = 0;
+    int walkPicture = 0;
+    int walkSlowTime = 5;
     //int attackPicture = 0;
     //int attackClock = 0;
     //int attackSlowTime = 2;
 
     int fallingRangeEachTimeID = 30;
-    int speed = 10;
-    int scale = 3;
+    int speed = 5;
+    int scale = 2;
 };
 
 #endif // WRAITH_H

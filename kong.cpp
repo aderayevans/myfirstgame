@@ -4,8 +4,8 @@
 Kong::Kong()
 {
     setState(Walking);
-    setMaxHealth(1000);
-    setHealth(100);
+    setFullHealth(1000);
+    setHealth(getFullHealth());
     setTexture();
 }
 
@@ -90,6 +90,7 @@ void Kong::setClock()
     switch (getState())
     {
     case Walking:
+
         if (walkClock > walkSlowTime)
         {
             walkPicture++;

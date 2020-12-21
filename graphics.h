@@ -9,6 +9,7 @@
 #include "map.h"
 #include <vector>
 
+enum SideOfBox { Left, Right, Outside };
 class graphics : public QWidget
 {
     Q_OBJECT
@@ -20,8 +21,14 @@ public:
     void keyReleaseEvent(QKeyEvent *event);
     void initial();
     void youDie();
-    bool isGround(QPointF);
+    bool isGround();
+    void checkCollision();
+    bool checkCollision(SideOfBox option, QPointF leftAbove, QPointF leftBelow, QPointF rightAbove, QPointF rightBelow);
+    SideOfBox checkCollision(QPointF leftAbove, QPointF leftBelow, QPointF rightAbove, QPointF rightBelow);
+    bool checkCollision(QPointF point, double xMin, double xMax, double yMin, double yMax);
     void checkWall();
+    void checkRedCollision();
+    void checkMoveMap();
     void drawHealthbar(QPainter &);
     void drawText(QPainter &, QRectF, QColor, int, QString);
     void drawHUD(QPainter &);   //Heads-up display
@@ -38,6 +45,7 @@ public:
     bool enterIsPressed = false;
     bool cIsPressed = false;
     bool zIsPressed = false;
+    bool hIsPressed = false;
 
     bool allKeysReleased = false;
     bool acceptInput = false;
@@ -45,8 +53,8 @@ public:
     bool initialed = false;
     bool dying = false;
     Toshizo player;
-    std::vector<Ground> groundArray;
-    std::vector<Wall> wallArray;
+    std::vector<Ground> grounds;
+    std::vector<Wall> walls;
     Map map;
     Sprite timeCircle;
     int point;

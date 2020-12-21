@@ -6,6 +6,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <QDebug>
+#define max(x,y) x>y?x:y
 
 graphics::graphics(QWidget *parent) :
     QWidget(parent)
@@ -43,14 +44,20 @@ void graphics::keyPressEvent(QKeyEvent *event)
             dying = false;
         }
     }
-    else if (player.getState() == JumpAttack && player.isBuffed());
+    else if (player.getState() == JumpAttack && player.isBuffed())
+    {
+        if (event->key() == Qt::Key_Down)
+        {
+            player.setState(Stand);
+        }
+    }
     else
     {
         switch (event->key())
         {
         case (Qt::Key_Right):
             player.setDirection(leftRight);
-            if (player.getState() != Jump && player.getState() != Fall)
+            if (player.getState() != Jump && player.getState() != Fall && player.getState() != JumpAttack)
             {
                 player.setState(Run);
             }
@@ -58,20 +65,14 @@ void graphics::keyPressEvent(QKeyEvent *event)
             break;
         case (Qt::Key_Left):
             player.setDirection(rightLeft);
-            if (player.getState() != Jump && player.getState() != Fall)
+            if (player.getState() != Jump && player.getState() != Fall && player.getState() != JumpAttack)
             {
                 player.setState(Run);
             }
             leftIsPressed = true;
             break;
-        case (Qt::Key_Down):
-            if (player.getState() != Jump && player.getState() != Fall)
-            {
-                player.setState(Stand);
-            }
-            break;
         case (Qt::Key_Space):
-            if (player.getState() != Jump && player.getState() != Fall)
+            if (player.getState() != Jump && player.getState() != Fall && player.getState() != JumpAttack)
             {
                 player.setState(Jump);
             }
@@ -83,7 +84,7 @@ void graphics::keyPressEvent(QKeyEvent *event)
             spaceIsPressed = true; //double jump //upgrade later
             break;
         case (Qt::Key_C):
-            if (player.getState() != Jump && player.getState() != Fall)
+            if (player.getState() != Jump && player.getState() != Fall && player.getState() != JumpAttack)
             {
                 if (player.getState() != Attack)
                 {
@@ -91,18 +92,23 @@ void graphics::keyPressEvent(QKeyEvent *event)
                     cIsPressed = true;
                 }
             }
-            else if (player.getState() == Jump || player.getState() == Fall)
+            else if ((player.getState() == Jump || player.getState() == Fall) && player.getState() != JumpAttack)
             {
                 player.setState(JumpAttack);
                 cIsPressed = true;
             }
             break;
         case (Qt::Key_Z):
-            if (player.getState() != Jump && player.getState() != Fall)
+            if (player.getState() != Jump && player.getState() != Fall && player.getState() != JumpAttack)
             {
                 player.setState(Buff);
                 zIsPressed = true;
             }
+            break;
+        case (Qt::Key_H):
+            if (player.isHacked()) player.hackOFF();
+            else player.hackON();
+            hIsPressed = true;
             break;
         }
     }
@@ -116,43 +122,49 @@ void graphics::keyReleaseEvent(QKeyEvent *event)
         switch (event->key())
         {
         case (Qt::Key_Right):
-            if (player.getState() != Jump && player.getState() != Fall)
+            if (player.getState() != Jump && player.getState() != Fall && player.getState() != JumpAttack)
             {
                 player.setState(Stand);
             }
             rightIsPressed = false;
             break;
         case (Qt::Key_Left):
-            if (player.getState() != Jump && player.getState() != Fall)
+            if (player.getState() != Jump && player.getState() != Fall && player.getState() != JumpAttack)
             {
                 player.setState(Stand);
             }
             leftIsPressed = false;
             break;
         case (Qt::Key_Down):
-            if (player.getState() != Jump && player.getState())
+            if (player.getState() != Jump && player.getState() != Fall && player.getState() != JumpAttack)
             {
                 player.setState(Stand);
             }
             break;
         case (Qt::Key_Space):
+            if (player.getState() == JumpAttack) break;
             spaceIsPressed = false;
             break;
         case (Qt::Key_Return):
+            if (player.getState() == JumpAttack) break;
             enterIsPressed = false;
             break;
         case (Qt::Key_C):
+            if (player.getState() == JumpAttack) break;
             cIsPressed = false;
             break;
         case (Qt::Key_Z):
-            if (player.getState() != Jump && player.getState() != Fall)
+            if (player.getState() != Jump && player.getState() != Fall && player.getState() != JumpAttack)
             {
                 player.setState(Stand);
             }
             zIsPressed = false;
             break;
+        case (Qt::Key_H):
+            hIsPressed = false;
+            break;
         }
-        if (!spaceIsPressed && !rightIsPressed && !leftIsPressed && !enterIsPressed && !cIsPressed && !zIsPressed)
+        if (!spaceIsPressed && !rightIsPressed && !leftIsPressed && !enterIsPressed && !cIsPressed && !zIsPressed && !hIsPressed)
         {
             allKeysReleased = true;
         }
@@ -172,6 +184,7 @@ void graphics::paintEvent(QPaintEvent *)
     if (clock) //draw map
     {
         map.setClock();
+        player.setClock();
         map.draw(painter);
         drawHUD(painter);
     }
@@ -185,56 +198,19 @@ void graphics::paintEvent(QPaintEvent *)
         drawText(painter, QRectF(width()/2 - 200, height()/2 - 100, width(), height()), Qt::red, 32, "You died");
         drawText(painter, QRectF(width()/2 - 200, height()/2, width(), height()), Qt::red, 32, "Press Enter to restart");
     }
-    else if (!initialed)
+    else if (!initialed)    //initialize
     {
         acceptInput = true;
         initial();
     }
-    else if (!paused)
+    else if (!paused)   //game running
     {
-        player.setClock();
-
-        if (player.getState() != Jump && player.getState() != JumpAttack)
-        {
-            if (!isGround(player.getLowestPoint()))
-            {
-                player.setState(Fall);
-            }
-            else if (player.getState() == Fall) player.setState(Stand);
-        }
-
-        checkWall();
-
-        if (player.getPosition().x() > width()/2 && map.getCurrentMapPoint(2).x() < map.getMapLimit(2).x())
-        {
-            //map.move(-player.getSpeed());
-            map.move(width()/2 - player.getPosition().x());
-            groundArray = map.getGrounds();
-            wallArray = map.getWalls();
-            player.setPosition(width()/2, player.getPosition().y());
-        }
-        else if (player.getPosition().x() < width()/2 && map.getCurrentMapPoint(1).x() > map.getMapLimit(1).x())
-        {
-            //map.move(player.getSpeed());
-            map.move(width()/2 - player.getPosition().x());
-            groundArray = map.getGrounds();
-            wallArray = map.getWalls();
-            player.setPosition(width()/2, player.getPosition().y());
-        }
-        else if (player.getPosition().y() > player.getLimitArea(2).y())
-        {
-            goto hell;
-        }
-//        painter.drawRect(player.getPointHitBox(1).x(), player.getPointHitBox(1).y(),
-//                         player.getPointHitBox(3).x() - player.getPointHitBox(1).x(),
-//                         player.getPointHitBox(4).y() - player.getPointHitBox(3).y());//delete this
-        painter.drawPixmap(player.getTarget(), player.getTexture(), player.getSource());
-        drawHealthbar(painter);
-
-    }
-    if (false)
-    {
-hell:        youDie();
+        checkCollision();
+        if (player.getLeftHealth() <= 0) youDie();
+        painter.drawRect(player.getPointHitBox(1).x(), player.getPointHitBox(3).y(),
+                         player.getPointHitBox(4).x() - player.getPointHitBox(2).x(),
+                         player.getPointHitBox(4).y() - player.getPointHitBox(3).y());//delete this
+        painter.drawPixmap(player.getTarget(), player.getTexture(), player.getSource());    //draw character
     }
 }
 
@@ -245,9 +221,10 @@ void graphics::initial()
     //qDebug() << width() << "; " << height();
     map = Map();
     map.setViewPort(width(), height());
-    groundArray = map.getGrounds();
-    wallArray = map.getWalls();
+    grounds = map.getGrounds();
+    walls = map.getWalls();
 
+    player = Toshizo();
     player.setOrigin(200, height() - 400 - player.getHeight());
     player.setLimitArea(100, 0, width() - 100, height());
 
@@ -263,62 +240,172 @@ void graphics::youDie()
     initialed = false;
 }
 
-bool graphics::isGround(QPointF lowestPoint)
+void graphics::checkCollision()
 {
-    for (unsigned int j = 0; j < groundArray.size(); j++)
+    if (player.getState() != Jump && player.getState() != JumpAttack)
     {
-        if (lowestPoint.x() < groundArray[j].getPointHitBox(1).x()
-                || lowestPoint.x() > groundArray[j].getPointHitBox(3).x())
-            continue;
-        if (lowestPoint.y() < groundArray[j].getPointHitBox(1).y() - 30
-                || lowestPoint.y() > groundArray[j].getPointHitBox(1).y())
-            continue;
-        player.setPosition(player.getPosition().x(), groundArray[j].getHighestY() - player.getHeight());
-        return true;
+        if (isGround())
+        {
+            if (player.getState() == Fall) player.setState(Stand);
+        }
+        else player.setState(Fall);
+    }
+    checkWall();
+    checkMoveMap();
+    checkRedCollision();
+
+    if (player.getPosition().y() > player.getLimitArea(2).y())
+    {
+        youDie();
+    }
+
+}
+
+void graphics::checkRedCollision()
+{
+    for (unsigned int i = 0; i < map.getRedCollisions().size(); i++)
+    {
+        if ((checkCollision(player.getPointHitBox(1),
+                           map.getRedCollisions()[i].x(),
+                           map.getRedCollisions()[i].x() + map.getRedCollisions()[i].width(),
+                           map.getRedCollisions()[i].y(),
+                           map.getRedCollisions()[i].y() + map.getRedCollisions()[i].height()))
+            ||
+            (checkCollision(player.getPointHitBox(2),
+                                       map.getRedCollisions()[i].x(),
+                                       map.getRedCollisions()[i].x() + map.getRedCollisions()[i].width(),
+                                       map.getRedCollisions()[i].y(),
+                                       map.getRedCollisions()[i].y() + map.getRedCollisions()[i].height()))
+            ||
+            (checkCollision(player.getPointHitBox(3),
+                                       map.getRedCollisions()[i].x(),
+                                       map.getRedCollisions()[i].x() + map.getRedCollisions()[i].width(),
+                                       map.getRedCollisions()[i].y(),
+                                       map.getRedCollisions()[i].y() + map.getRedCollisions()[i].height()))
+            ||
+            (checkCollision(player.getPointHitBox(4),
+                                       map.getRedCollisions()[i].x(),
+                                       map.getRedCollisions()[i].x() + map.getRedCollisions()[i].width(),
+                                       map.getRedCollisions()[i].y(),
+                                       map.getRedCollisions()[i].y() + map.getRedCollisions()[i].height()))
+            ||
+            (checkCollision(QPointF(map.getRedCollisions()[i].x(),
+                                    map.getRedCollisions()[i].y()),
+                                       player.getPointHitBox(1).x(),
+                                       player.getPointHitBox(3).x(),
+                                       player.getPointHitBox(1).y(),
+                                       player.getPointHitBox(2).y()))
+            ||
+            (checkCollision(QPointF(map.getRedCollisions()[i].x(),
+                                    map.getRedCollisions()[i].y() + map.getRedCollisions()[i].height()),
+                                        player.getPointHitBox(1).x(),
+                                        player.getPointHitBox(3).x(),
+                                        player.getPointHitBox(1).y(),
+                                        player.getPointHitBox(2).y()))
+            ||
+            (checkCollision(QPointF(map.getRedCollisions()[i].x() + map.getRedCollisions()[i].width(),
+                                    map.getRedCollisions()[i].y()),
+                                        player.getPointHitBox(1).x(),
+                                        player.getPointHitBox(3).x(),
+                                        player.getPointHitBox(1).y(),
+                                        player.getPointHitBox(2).y()))
+                ||
+            (checkCollision(QPointF(map.getRedCollisions()[i].x() + map.getRedCollisions()[i].width(),
+                                    map.getRedCollisions()[i].y() + map.getRedCollisions()[i].height()),
+                                        player.getPointHitBox(1).x(),
+                                        player.getPointHitBox(3).x(),
+                                        player.getPointHitBox(1).y(),
+                                        player.getPointHitBox(2).y())))
+
+        {
+            player.setHealth(player.getLeftHealth() - 100);
+        }
+
+    }
+}
+
+bool graphics::checkCollision(SideOfBox option, QPointF leftAbove, QPointF leftBelow, QPointF rightAbove, QPointF rightBelow)
+{
+    return option == checkCollision(leftAbove, leftBelow, rightAbove, rightBelow);
+}
+/*
+1(x1, y1).--------y1--------.(x2, y1)3
+        |                  |
+        |                  |
+        |                  |
+2(x1, y2).--------y2--------.(x2, y2)4
+*/
+SideOfBox graphics::checkCollision(QPointF leftAbove, QPointF leftBelow, QPointF rightAbove, QPointF rightBelow)
+{
+    if (checkCollision(player.getPointHitBox(3), leftBelow.x(), rightBelow.x(), rightAbove.y(), leftBelow.y()) ||
+        checkCollision(player.getPointHitBox(4), leftBelow.x(), rightBelow.x(), rightAbove.y(), leftBelow.y())
+        )
+    {
+        return Left;
+    }
+    else if (checkCollision(player.getPointHitBox(1), leftBelow.x(), rightBelow.x(), leftAbove.y(), leftBelow.y()) ||
+        checkCollision(player.getPointHitBox(2), leftBelow.x(), rightBelow.x(), leftAbove.y(), leftBelow.y())
+        )
+    {
+        return Right;
+    }
+    return Outside;
+}
+
+bool graphics::checkCollision(QPointF point, double xMin, double xMax, double yMin, double yMax)
+{
+    if (point.x() < xMin || point.x() > xMax ||
+        point.y() < yMin || point.y() > yMax)
+    {
+        return false;   //outside
+    }
+    //0000
+    return true;
+}
+
+bool graphics::isGround()
+{
+    for (unsigned int i = 0; i < grounds.size(); i++)
+    {
+        if (checkCollision(player.getLowestPoint(),
+                           grounds[i].getPointHitBox(1).x(),
+                           grounds[i].getPointHitBox(3).x(),
+                           grounds[i].getPointHitBox(1).y() - 30,
+                           grounds[i].getPointHitBox(1).y()))
+        {
+            player.setPosition(player.getPosition().x(), grounds[i].getHighestY() - player.getHeight());
+            return true;
+        }
     }
     return false;
 }
 
 void graphics::checkWall()
 {
-    for (unsigned int j = 0; j < wallArray.size(); j++)
+    for (unsigned int i = 0; i < walls.size(); i++)
     {
-        if ((player.getPointHitBox(3).y() > wallArray[j].getPointHitBox(1).y()
-                && player.getPointHitBox(3).y() < wallArray[j].getPointHitBox(2).y())
-                ||
-                (player.getPointHitBox(4).y() > wallArray[j].getPointHitBox(1).y()
-                && player.getPointHitBox(4).y() < wallArray[j].getPointHitBox(2).y())
-                ||
-                (player.getPointHitBox(3).y() < wallArray[j].getPointHitBox(1).y()
-                && player.getPointHitBox(4).y() > wallArray[j].getPointHitBox(2).y())
-                ||
-                (player.getPointHitBox(3).y() > wallArray[j].getPointHitBox(1).y()
-                && player.getPointHitBox(4).y() < wallArray[j].getPointHitBox(2).y()))
+        if (checkCollision(Left, walls[i].getPointHitBox(1), walls[i].getPointHitBox(2),
+                       walls[i].getPointHitBox(3), walls[i].getPointHitBox(4)))
         {
-            if (player.getPointHitBox(3).x() > wallArray[j].getPointHitBox(1).x()
-                    && player.getPointHitBox(3).x() < wallArray[j].getPointHitBox(3).x())
-            {
-                player.setPosition(wallArray[j].getLeftX() - player.getWidth(), player.getPosition().y());
-            }
+            player.setPosition(walls[i].getLeftX() - player.getWidth(), player.getPosition().y());
         }
-        if ((player.getPointHitBox(1).y() > wallArray[j].getPointHitBox(3).y()
-                  && player.getPointHitBox(1).y() < wallArray[j].getPointHitBox(4).y())
-                  ||
-                  (player.getPointHitBox(2).y() > wallArray[j].getPointHitBox(3).y()
-                  && player.getPointHitBox(2).y() < wallArray[j].getPointHitBox(4).y())
-                  ||
-                  (player.getPointHitBox(1).y() < wallArray[j].getPointHitBox(3).y()
-                  && player.getPointHitBox(2).y() > wallArray[j].getPointHitBox(4).y())
-                  ||
-                  (player.getPointHitBox(1).y() > wallArray[j].getPointHitBox(3).y()
-                  && player.getPointHitBox(2).y() < wallArray[j].getPointHitBox(4).y()))
+        else if (checkCollision(Right, walls[i].getPointHitBox(1), walls[i].getPointHitBox(2),
+                       walls[i].getPointHitBox(3), walls[i].getPointHitBox(4)))
         {
-            if (player.getPointHitBox(1).x() < wallArray[j].getPointHitBox(3).x()
-                    && player.getPointHitBox(1).x() > wallArray[j].getPointHitBox(1).x())
-            {
-                player.setPosition(wallArray[j].getRightX(), player.getPosition().y());
-            }
+            player.setPosition(walls[i].getRightX() + player.getSpeed(), player.getPosition().y());
         }
+    }
+}
+
+void graphics::checkMoveMap()
+{
+    if ((player.getPosition().x() > width()/2 && map.getCurrentMapPoint(2).x() < map.getMapLimit(2).x()) ||
+        (player.getPosition().x() < width()/2 && map.getCurrentMapPoint(1).x() > map.getMapLimit(1).x()))
+    {
+        map.move(width()/2 - player.getPosition().x());
+        grounds = map.getGrounds();
+        walls = map.getWalls();
+        player.setPosition(width()/2, player.getPosition().y());
     }
 }
 
@@ -326,18 +413,26 @@ void graphics::drawHealthbar(QPainter &painter)
 {
     painter.setPen(Qt::NoPen);
     painter.setBrush(Qt::green);
-    painter.drawRect(player.getPosition().x(),
-                     player.getPosition().y() - 14,
-                     (player.getWidth())*((double)player.getLeftHealth() / player.getFullHealth()),
-                     5);
-
+    painter.drawRect(player.getPosition().x(), player.getPosition().y() - 14,
+                     (player.getWidth())*((double)player.getLeftHealth()
+                                          / player.getFullHealth()), 5);
+    for (unsigned int i = 0; i < map.getNPCs().size(); i++)
+    {
+        painter.drawRect(map.getNPCs()[i]->getPosition().x(),map.getNPCs()[i]->getPosition().y() - 14,
+                         (map.getNPCs()[i]->getWidth())*((double)map.getNPCs()[i]->getLeftHealth()
+                                                         / map.getNPCs()[i]->getFullHealth()), 5);
+    }
 
     painter.setBrush(Qt::NoBrush);
     painter.setPen(Qt::black);
-    painter.drawRect(player.getPosition().x(),
-                     player.getPosition().y() - 14,
-                     (player.getWidth()),
-                     5);
+    painter.drawRect(player.getPosition().x(), player.getPosition().y() - 14,
+                     (player.getWidth()), 5);
+
+    for (unsigned int i = 0; i < map.getNPCs().size(); i++)
+    {
+        painter.drawRect(map.getNPCs()[i]->getPosition().x(),map.getNPCs()[i]->getPosition().y() - 14,
+                         (map.getNPCs()[i]->getWidth()), 5);
+    }
 
 }
 
@@ -362,16 +457,18 @@ void graphics::drawHUD(QPainter &painter)
 
     painter.setPen(Qt::NoPen);
     painter.setBrush(Qt::red);
-    double health = 300*((double)player.getLeftHealth() / player.getFullHealth());
+    double health = max(0, 300*((double)player.getLeftHealth() / player.getFullHealth()));
     painter.drawRect(5, 5, health, 20);
     painter.setBrush(Qt::blue);
-    double energy = 300*((double)player.getLeftEnergy() / player.getFullEnergy());
+    double energy = max(0, 300*((double)player.getLeftEnergy() / player.getFullEnergy()));
     painter.drawRect(5, 30, energy, 20);
 
     painter.setBrush(Qt::NoBrush);
     painter.setPen(Qt::black);
     painter.drawRect(5, 5, 300, 20);
     painter.drawRect(5, 30, 300, 20);
+
+    drawHealthbar(painter);
 
     if (player.isBuffed())
     {

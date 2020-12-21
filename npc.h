@@ -26,19 +26,19 @@ public:
     void setDirection(Direction);
     void setOrigin(double, double);
     void setHealth(double);
-    void setMaxHealth(double);
+    void setFullHealth(double);
     QPointF getPosition();
     NPC_State getState();
     Direction getDirection();
     QPointF getLowestPoint();
-    double getMaxHealth();
+    double getFullHealth();
     double getLeftHealth();
 
 private:
     NPC_State state;
     Direction direct = rightLeft;
     QPointF position;
-    double maxHealth;
+    double fullHealth;
     double leftHealth;
 };
 
