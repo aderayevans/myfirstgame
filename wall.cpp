@@ -2,19 +2,11 @@
 
 Wall::Wall()
 {
-    setTexture("D://Games//Toshizo//stoneWall.png", 1, 2);
-}
-
-void Wall::setOrigin(double x, double y)
-{
-    Sprite::setOrigin(x, y);
-    Sprite::setLimitArea(x, y, x + getWidth(), y + getHeight());
-    Sprite::setHitBox(x + 15, y + 30, x + getWidth() - 15, y + getHeight());
+    setTexture(":/images/backgrounds/stoneWall.png", 1, 2);
 }
 
 void Wall::setPosition(double x, double y)
 {
     Sprite::setPosition(x, y);
-    Sprite::setLimitArea(x, y, x + getWidth(), y + getHeight());
-    Sprite::setHitBox(x + 15, y + 30, x + getWidth() - 15, y + getHeight());
+    Sprite::setHitBox(QRectF(x + 15, y + 30, getWidth() - 15, getHeight()));
 }

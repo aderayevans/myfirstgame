@@ -6,6 +6,7 @@
 #include "sprite.h"
 #include "wraith.h"
 #include "kong.h"
+#include "collision.h"
 
 
 class Map
@@ -18,13 +19,20 @@ public:
     void clip();
     void convert();
     void updateRedCollisions();
+    void deleteNPCAt(int locate);
+    void deleteHealthAt(int locate);
+    void deleteEnergyAt(int locate);
     void setViewPort(double, double);
+    void generateDirtAt(QPointF);
     std::vector<Ground> getGrounds();
     std::vector<Wall> getWalls();
     std::vector<NPC *> getNPCs();
-    std::vector<QRectF> getRedCollisions();
+    std::vector<Sprite *> getHealthPotions();
+    std::vector<Sprite *> getEnergyPotions();
+    std::vector<Collision> getRedCollisions();
     QPointF getMapLimit(int);
     QPointF getCurrentMapPoint(int);
+    void getPlayerSprites(std::vector<Sprite*>);
 private:
     double xwMax = 1366, ywMax = 768, xwMin = 0, ywMin = 0, xvMax, xvMin, yvMax, yvMin;
     double width, height;
@@ -34,15 +42,18 @@ private:
     int cloud = 1;
     std::vector<Ground> grounds, currentGrounds;
     std::vector<Wall> walls, currentWalls;
-    std::vector<NPC *> NPCs, currentNPCs;
-    QPointF mapLimitPointLeft, mapLimitPointRight, mapCurrentPointLeft,
-            mapCurrentPointRight, pseudoLimitPointLeft, pseudoLimitPointRight;
+    std::vector<NPC *> NPCs;
+    QPointF mapLimitPointLeft, mapLimitPointRight,
+            mapCurrentPointLeft, mapCurrentPointRight,
+            pseudoLimitPointLeft, pseudoLimitPointRight;
     std::vector<QPointF> pseudoPoints;
-    std::vector<QRectF> redCollisions;
+    std::vector<Collision> redCollisions;
 
-    std::vector<Sprite> energyPotions, healthPotions, snowmans, snowtrees, signboards;
-    Sprite magicGate, magicGateY1, magicGateY2, magicGateX, fireBall, darkBall, posion, bum, tornado, aura, explosion2;
-    Sprite lightning, dirt, bluefire;
+    std::vector<Sprite *> energyPotions, healthPotions;
+    std::vector<Sprite> snowmans, snowtrees, signboards, bodyExplosions;
+    Sprite dirtPattern, explosion1Pattern, dirt;
+    bool booleanDirt = false;
+    std::vector<Sprite*> playerSprites;
 };
 
 #endif // MAP_H

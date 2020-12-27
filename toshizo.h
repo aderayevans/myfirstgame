@@ -1,8 +1,10 @@
 #ifndef TOSHIZO_H
 #define TOSHIZO_H
+#include <QPainter>
 #include "sprite.h"
+#include "collision.h"
 
-enum State { Stand, Run, Jump, Fall, Attack, JumpAttack, Buff };
+enum State { Stand, Run, Jump, Fall, Attack, JumpAttack, Buff, Dying };
 class Toshizo
 {
 public:
@@ -11,11 +13,10 @@ public:
     void setState(State);
     void setDirection(Direction);
     void setPosition(double, double);
-    void setOrigin(double, double);
-    void setLimitArea(double x1, double y1, double x2, double y2);
-    void setHitBox(double x1, double y1, double x2, double y2);
+    void setHitBox(QRectF);
     void setDoubleJump();
     void setHealth(double);
+    void setEnergy(double);
     bool doubleJumped();
     bool isBuffed();
     bool isHacked();
@@ -23,21 +24,36 @@ public:
     void hackOFF();
     void setClock();
     double getSpeed();
-    QPointF getLimitArea(int);
-    QPointF getPointHitBox(int);
     QPointF getPosition();
-    QRectF getTarget();
-    QRectF getSource();
-    QPixmap getTexture();
+    QRectF getHitBox();
+    Sprite getSprite();
+    std::vector<Sprite*> getSprites();
+    std::vector<Collision> getBlueCollisions();
     State getState();
+    double getDamage();
     double getWidth();
     double getHeight();
     QPointF getLowestPoint();
+    Direction getDirection();
     double getFullHealth();
     double getLeftHealth();
     double getFullEnergy();
     double getLeftEnergy();
+    void draw(QPainter &);
+    void setHealthPotionNumber(int);
+    void setEnergyPotionNumber(int);
+    int getHealthPotionNumber();
+    int getEnergyPotionNumber();
+    Sprite getAvatar();
+    void useHealthPotion();
+    void useEnergyPotion();
+    void useSkill1();
+    void useSkill2();
+    void useSkill3();
 private:
+    State state = Stand;
+    Direction direct = leftRight;
+    QPointF position;
     Sprite standSprite, buffedStandSprite, hurtingStandSprite, buffedHurtingStandSprite;
     Sprite standSprite2, buffedStandSprite2, hurtingStandSprite2, buffedHurtingStandSprite2;
     Sprite runSprite, hurtingRunSprite;
@@ -50,10 +66,28 @@ private:
     Sprite jumpAttackSprite2, buffedJumpAttackSprite2;
     Sprite buffSprite, hurtingBuffSprite;
     Sprite buffSprite2, hurtingBuffSprite2;
-    State state = Stand;
-    Direction direct = leftRight;
-    QPointF position;
-    int clock = 0;
+    Sprite dyingSprite;
+    Sprite avatar;
+    Sprite tornadoPattern, darkBallPattern, rasenganPattern, rasenganPattern2;
+    std::vector<Sprite> tornados, darkBalls, rasengans;
+    std::vector<Collision> collisions;
+    int cooldownSkill1 = 30*2;
+    int cooldownSkill2 = 30*2;
+    int cooldownSkill3 = 30*2;
+    int countdownSkill1 = 0;
+    int countdownSkill2 = 0;
+    int countdownSkill3 = 0;
+    int lifetimeSkill1 = 30;
+    int lifetimeSkill2 = 30;
+    double tornadoDamage = 50;
+    double darkBallDamage = 80;
+    double rasenganDamage = 100;
+    int buffRequiredEnergy = 100;
+    int skill1RequiredEnergy = 100;
+    int skill2RequiredEnergy = 100;
+    int skill3RequiredEnergy = 100;
+    int healthPotionNumber = 0;
+    int energyPotionNumber = 0;
     int jumpPicture = 0;
     int standPicture = 0;
     int attackPicture = 0;
@@ -67,7 +101,7 @@ private:
     int standSlowTime = 2;
     int attackSlowTime = 2;
     int jumpAttackSlowTime = 2;
-    int buffSlowTime = 10;
+    int buffSlowTime = 8;
     int runTime = 0;
     int flyTime = 0;
     int onSkyTime_forNotBuffedJumpAttack = 3;
@@ -76,12 +110,9 @@ private:
     int maxBuffTime = 30*5; //5s
     int jumpLimitTime = 6;
     int boostTime = 15;
-    bool doubleJump = false;
     int buffed = 0;
     int hurted = 0;
     int maxHurtTime = 15;
-    bool hacked = false;
-    bool immortal = false;
     int boostHigh = 0;
     int boostSpeed = 0;
     int buffedSkillRange = 50;
@@ -90,10 +121,16 @@ private:
     int maxBoost = 10;
     int speed = 10;
     int scale = 1;
+    double damage = 20;
+    double buffedDamage = 100;
+    double maxDamage = 10000;
+    bool hacked = false;
+    bool immortal = false;
+    bool doubleJump = false;
     double fullHealth = 1000;
-    double leftHealth = 1000;
+    double leftHealth = 600;
     double fullEnergy = 1000;
-    double leftEnergy = 500;
+    double leftEnergy = 0;
 };
 
 #endif // TOSHIZO_H

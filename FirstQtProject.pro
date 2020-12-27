@@ -22,6 +22,7 @@ SOURCES += \
     wraith.cpp
 
 HEADERS += \
+    collision.h \
     graphics.h \
     ground.h \
     kong.h \
@@ -40,3 +41,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    Resources.qrc

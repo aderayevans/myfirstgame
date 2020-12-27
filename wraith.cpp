@@ -5,69 +5,94 @@ Wraith::Wraith()
 {
     setState(Walking);
     setDirection(leftRight);
-    setFullHealth(1000);
+    setFullHealth(500);
     setHealth(getFullHealth());
     setTexture();
 }
 
 void Wraith::setTexture()
 {
-    walkSprite.setTexture("D://Games//Toshizo//Wraith_Moving_Forward.png", 18, scale);
+    walkSprite.setTexture(":/images/npcs/Wraith_Moving_Forward.png", 5, scale);
     walkSprite.setSpeed(speed);                                                       // for moving
-    idleSprite.setTexture("D://Games//Toshizo//implementAttackingWraith.png", 2, scale);
-    castingSprite.setTexture("D://Games//Toshizo//Wraith_Casting_Spells.png", 18, scale);
+    idleSprite.setTexture(":/images/npcs/Wraith_Idle.png", 4, scale);
+    hurtSprite.setTexture(":/images/npcs/Wraith_Hurt.png", 4, scale);
+    attackingSprite.setTexture(":/images/npcs/Wraith_Casting_Spells.png", 18, scale);
 
-    walkSprite2.setTexture("D://Games//Toshizo//Wraith_Moving_Forward_2.png", 1, scale);
+    walkSprite2.setTexture(":/images/npcs/Wraith_Moving_Forward_2.png", 5, scale);
     walkSprite2.setSpeed(speed);                                                       // for moving
-    idleSprite2.setTexture("D://Games//Toshizo//implementAttackingWraith.png", 2, scale);
-    castingSprite2.setTexture("D://Games//Toshizo//Wraith_Casting_Spells_2.png", 18, scale);
+    idleSprite2.setTexture(":/images/npcs/Wraith_Idle_2.png", 4, scale);
+    hurtSprite2.setTexture(":/images/npcs/Wraith_Hurt_2.png", 4, scale);
+    attackingSprite2.setTexture(":/images/npcs/Wraith_Casting_Spells_2.png", 18, scale);
 }
 
 void Wraith::setPosition(double x, double y)
 {
     NPC::setPosition(x, y);
-    setVisionArea(x - 200, y - 200, x + 200, y + 200);
+    if (getDirection() == leftRight)
+    {
+        //setVisionArea(QRectF(x, 0, 1000, 800));
+        //setAttackArea(QRect(x, y - 200, getWidth() + 800, 800));
+        setVisionArea(QRectF(0, 0, 0, 0));
+        setAttackArea(QRectF(0, 0, 0, 0));
+    }
+    else
+    {
+        //setVisionArea(QRectF(x + getWidth() - 1000, 0, 1000, 800));
+        //setAttackArea(QRect(x - 800, y - 200, getWidth() + 800, 800));
+        setVisionArea(QRectF(0, 0, 0, 0));
+        setAttackArea(QRectF(0, 0, 0, 0));
+    }
     walkSprite.setPosition(x, y);
-    castingSprite.setPosition(x, y);
+    attackingSprite.setPosition(x, y);
+    hurtSprite.setPosition(x, y);
     idleSprite.setPosition(x, y);
 
     walkSprite2.setPosition(x, y);
-    castingSprite2.setPosition(x, y);
+    attackingSprite2.setPosition(x, y);
+    hurtSprite2.setPosition(x, y);
     idleSprite2.setPosition(x, y);
 
-    setHitBox(x, y, x + getWidth(), y + getHeight());
+    setHitBox(QRectF(x, y, getWidth(), getHeight()));
 }
 
-void Wraith::setLimitArea(double x1, double y1, double x2, double y2)
+void Wraith::setLimitArea(QRectF q)
 {
-    walkSprite.setLimitArea(x1, y1, x2, y2);
+    walkSprite.setLimitArea(q);
 }
 
-void Wraith::setVisionArea(double x1, double y1, double x2, double y2)
+void Wraith::setVisionArea(QRectF q)
 {
-    x2 += getWidth();
-    y2 += getHeight();
-    walkSprite.setVisionArea(x1, y1, x2, y2);
+    walkSprite.setVisionArea(q);
 }
 
-void Wraith::setHitBox(double x1, double y1, double x2, double y2)
+void Wraith::setAttackArea(QRectF q)
 {
-    walkSprite.setHitBox(x1, y1, x2, y2);
+    walkSprite.setAttackArea(q);
 }
 
-QPointF Wraith::getLimitArea(int number)
+void Wraith::setHitBox(QRectF q)
 {
-    return walkSprite.getLimitArea(number);
+    walkSprite.setHitBox(q);
 }
 
-QPointF Wraith::getVisionArea(int number)
+QRectF Wraith::getLimitArea()
 {
-    return walkSprite.getVisionArea(number);
+    return walkSprite.getLimitArea();
 }
 
-QPointF Wraith::getPointHitBox(int number)
+QRectF Wraith::getVisionArea()
 {
-    return walkSprite.getPointHitBox(number);
+    return walkSprite.getVisionArea();
+}
+
+QRectF Wraith::getAttackArea()
+{
+    return walkSprite.getAttackArea();
+}
+
+QRectF Wraith::getHitBox()
+{
+    return walkSprite.getHitBox();
 }
 
 double Wraith::getHeight()
@@ -80,6 +105,23 @@ double Wraith::getWidth()
     return walkSprite.getWidth();
 }
 
+void Wraith::setSpeed(double s)
+{
+    walkSprite.setSpeed(s);
+}
+
+void Wraith::isSeeingSomethingSus()
+{
+    walkSprite.setSpeed(maxSpeed);
+}
+
+void Wraith::isBeingAttacked(double damage)
+{
+    setHealth(getLeftHealth() - damage);
+    setState(Hurt);
+    caution = true;
+}
+
 double Wraith::getSpeed()
 {
     switch (getState()) {
@@ -89,9 +131,13 @@ double Wraith::getSpeed()
     }
 }
 
+double Wraith::getDamage()
+{
+    return damage;
+}
+
 void Wraith::setClock()
 {
-    clock++;
     switch (getState())
     {
     case Walking:
@@ -100,64 +146,135 @@ void Wraith::setClock()
             walkPicture++;
             walkClock = 0;
         }
+        if (walkPicture == walkSprite.getTotalPicture())
+        {
+            walkPicture = 0;
+        }
         walkClock++;
         switch (getDirection()) {
         case rightLeft:
-            if (getPosition().x() < getLimitArea(1).x())
+            if (getPosition().x() < getLimitArea().topLeft().x())
             {
-                setPosition(getLimitArea(1).x(), getPosition().y());
-                setDirection(leftRight);
+                setState(Idle);
+                setPosition(getLimitArea().topLeft().x(), getPosition().y());
             }
             else
             {
-                setPosition(getPosition().x() - speed, getPosition().y());
+                setPosition(getPosition().x() - getSpeed(), getPosition().y());
             }
-            walkSprite2.setClock(walkPicture);
+            walkSprite2.setFrame(walkPicture);
             break;
         default:    //case leftRight:
-            if (getPosition().x() + getWidth() > getLimitArea(3).x())
+            if (getPosition().x() + getWidth() > getLimitArea().topRight().x())
             {
-                setPosition(getLimitArea(3).x() - getWidth(), getPosition().y());
-                setDirection(rightLeft);
+                setState(Idle);
+                setPosition(getLimitArea().topRight().x() - getWidth(), getPosition().y());
             }
             else
             {
-                setPosition(getPosition().x() + speed, getPosition().y());
+                setPosition(getPosition().x() + getSpeed(), getPosition().y());
             }
-            walkSprite.setClock(walkPicture);
+            walkSprite.setFrame(walkPicture);
             break;
         }
+        walkSprite.setSpeed(speed);
         break;
-    case Casting:
+    case Attacking:
     {
-        if (castingClock > castingSlowTime)
+        if (attackClock > attackSlowTime)
         {
-            castingPicture++;
+            attackPicture++;
+            attackClock = 0;
         }
-        castingClock++;
+        if (attackPicture >= attackingSprite.getTotalPicture())
+        {
+            attackPicture = 0;
+            if (attackingSkillTime > maxAttackingSkillTime)
+            {
+                setState(Walking);
+            }
+            attackingSkillTime++;
+        }
+        attackClock++;
         switch (getDirection())
         {
         case rightLeft:
-            castingSprite2.setClock(castingPicture);
+            attackingSprite2.setFrame(attackPicture);
             break;
         default:    //case leftRight:
-            castingSprite.setClock(castingPicture);
+            attackingSprite.setFrame(attackPicture);
             break;
         }
         break;
     }
     case Idle:
+        if (idleClock > idleSlowTime)
+        {
+            idlePicture++;
+            idleClock = 0;
+        }
+        if (idlePicture == idleSprite.getTotalPicture())
+        {
+            idlePicture = 0;
+        }
+        idleClock++;
+        idleTime++;
         switch (getDirection())
         {
         case rightLeft:
-            idleSprite2.setClock(clock);
+            if (idleTime > idleMaxTime)
+            {
+                idleTime = 0;
+                setDirection(leftRight);
+                setState(Walking);
+            }
+            idleSprite2.setFrame(idlePicture);
             break;
         default:    //case leftRight:
-            idleSprite.setClock(clock);
+            if (idleTime > idleMaxTime)
+            {
+                idleTime = 0;
+                setDirection(rightLeft);
+                setState(Walking);
+            }
+            idleSprite.setFrame(idlePicture);
+            break;
+        }
+        break;
+    case Hurt:
+        if (hurtClock > hurtSlowTime)
+        {
+            hurtPicture++;
+            hurtClock = 0;
+        }
+        if (hurtPicture == hurtSprite.getTotalPicture())
+        {
+            hurtPicture = 0;
+            setState(Walking);
+        }
+        hurtClock++;
+        switch (getDirection())
+        {
+        case rightLeft:
+            hurtSprite2.setFrame(hurtPicture);
+            break;
+        default:    //case leftRight:
+            hurtSprite.setFrame(hurtPicture);
             break;
         }
         break;
     }
+}
+
+std::vector<QRectF> Wraith::getRedCollisions()
+{
+    std::vector<QRectF> temps;
+    temps.push_back(getHitBox());
+    if (booleanNormalAttack)
+    {
+        //temps.push_back(getAttackArea());
+    }
+    return temps;
 }
 
 QRectF Wraith::getTarget()
@@ -172,13 +289,13 @@ QRectF Wraith::getTarget()
             return walkSprite.getTarget();
             break;
         }
-    case Casting:
+    case Attacking:
         switch (getDirection()) {
         case rightLeft:
-            return castingSprite2.getTarget();
+            return attackingSprite2.getTarget();
             break;
         default:    //case leftRight:
-            return castingSprite.getTarget();
+            return attackingSprite.getTarget();
             break;
         }
     //default:
@@ -189,6 +306,15 @@ QRectF Wraith::getTarget()
             break;
         default:    //case leftRight:
             return idleSprite.getTarget();
+            break;
+        }
+    case Hurt:
+        switch (getDirection()) {
+        case rightLeft:
+            return hurtSprite2.getTarget();
+            break;
+        default:    //case leftRight:
+            return hurtSprite.getTarget();
             break;
         }
     }
@@ -206,13 +332,13 @@ QRectF Wraith::getSource()
             return walkSprite.getSource();
             break;
         }
-    case Casting:
+    case Attacking:
         switch (getDirection()) {
         case rightLeft:
-            return castingSprite2.getSource();
+            return attackingSprite2.getSource();
             break;
         default:    //case leftRight:
-            return castingSprite.getSource();
+            return attackingSprite.getSource();
             break;
         }
     //default:
@@ -223,6 +349,15 @@ QRectF Wraith::getSource()
             break;
         default:    //case leftRight:
             return idleSprite.getSource();
+            break;
+        }
+    case Hurt:
+        switch (getDirection()) {
+        case rightLeft:
+            return hurtSprite2.getSource();
+            break;
+        default:    //case leftRight:
+            return hurtSprite.getSource();
             break;
         }
     }
@@ -240,13 +375,13 @@ QPixmap Wraith::getTexture()
             return walkSprite.getTexture();
             break;
         }
-    case Casting:
+    case Attacking:
         switch (getDirection()) {
         case rightLeft:
-            return castingSprite2.getTexture();
+            return attackingSprite2.getTexture();
             break;
         default:    //case leftRight:
-            return castingSprite.getTexture();
+            return attackingSprite.getTexture();
             break;
         }
     //default:
@@ -257,6 +392,15 @@ QPixmap Wraith::getTexture()
             break;
         default:    //case leftRight:
             return idleSprite.getTexture();
+            break;
+        }
+    case Hurt:
+        switch (getDirection()) {
+        case rightLeft:
+            return hurtSprite2.getTexture();
+            break;
+        default:    //case leftRight:
+            return hurtSprite.getTexture();
             break;
         }
     }
