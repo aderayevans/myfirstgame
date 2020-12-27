@@ -9,7 +9,6 @@
 #include "map.h"
 #include <vector>
 
-enum SideOfBox { Left, Right, Outside };
 class graphics : public QWidget
 {
     Q_OBJECT
@@ -23,11 +22,11 @@ public:
     void youDie();
     bool isGround();
     void checkCollision();
-    bool checkCollision(SideOfBox option, QPointF leftAbove, QPointF leftBelow, QPointF rightAbove, QPointF rightBelow);
-    SideOfBox checkCollision(QPointF leftAbove, QPointF leftBelow, QPointF rightAbove, QPointF rightBelow);
-    bool checkCollision(QPointF point, double xMin, double xMax, double yMin, double yMax);
-    void checkWall();
+    void checkBlueCollision();
     void checkRedCollision();
+    void checkPotionsCollision();
+    void checkVision();
+    void checkWall();
     void checkMoveMap();
     void drawHealthbar(QPainter &);
     void drawText(QPainter &, QRectF, QColor, int, QString);
@@ -39,15 +38,17 @@ public:
     const double PI = 3.14159265358979323846;
     double timerId;
     int clock = 0;
+    int fallingRangeEachTimeID = 30;
+    int onLandTime = 0;
+    int maxOnLandTime = 3;
     bool rightIsPressed = false;
     bool leftIsPressed = false;
-    bool spaceIsPressed = false;
-    bool enterIsPressed = false;
-    bool cIsPressed = false;
-    bool zIsPressed = false;
-    bool hIsPressed = false;
-
-    bool allKeysReleased = false;
+    //bool spaceIsPressed = false;
+    //bool enterIsPressed = false;
+    //bool cIsPressed = false;
+    //bool zIsPressed = false;
+    //bool hIsPressed = false;
+    //bool allKeysReleased = false;
     bool acceptInput = false;
     bool paused = true;
     bool initialed = false;
@@ -56,8 +57,7 @@ public:
     std::vector<Ground> grounds;
     std::vector<Wall> walls;
     Map map;
-    Sprite timeCircle;
-    int point;
+    Sprite timeCircle, background, energyPotionIcon, healthPotionIcon;
 signals:
 };
 

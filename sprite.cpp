@@ -1,10 +1,31 @@
 #include "sprite.h"
-
+#include <QDebug>
 #include <iostream>
 
 Sprite::Sprite()
     : totalPicture(1), clock(0)
 {
+}
+
+Sprite::~Sprite(){}
+
+void Sprite::operator = (const Sprite &A)
+{
+    texture = A.texture;
+    width = A.width;
+    height = A.height;
+    totalPicture = A.totalPicture;
+    position = A.position;
+    hitBox = A.hitBox;
+    limitArea = A.limitArea;
+    visionArea = A.visionArea;
+    attackArea = A.attackArea;
+    speed = A.speed;
+    duration = A.duration;
+    direct = A.direct;
+    frame = A.frame;
+    clock = A.clock;
+    lifetime = A.lifetime;
 }
 
 Sprite::Sprite(const QPixmap &pixmap, int totalPicture, int scale)
@@ -48,29 +69,43 @@ void Sprite::setSpeed(double s)
     speed = s;
 }
 
-void Sprite::setClock(int c)
+void Sprite::setFrame(int f)
 {
-    clock = c;
+    frame = f;
 }
 
-void Sprite::setOrigin(double x, double y)
+void Sprite::setClock()
 {
-    position = QPointF(x, y);
-    setHitBox(x, y, x + width, y + height);
+    if (!stop)
+    {
+        if (clock > duration)
+        {
+            frame++;
+            clock = 0;
+        }
+        if (frame == totalPicture)
+        {
+            frame = 0;
+        }
+        clock++;
+    }
+    lifetime++;
+}
+
+void Sprite::setDuration(int d)
+{
+    duration = d;
+}
+
+void Sprite::setDirection(Direction d)
+{
+    direct = d;
 }
 
 void Sprite::setPosition(double x, double y)
 {
     position = QPointF(x, y);
-    setHitBox(x, y, x + width, y + height);
-}
-
-void Sprite::setHitBox(double x1, double y1, double x2, double y2)
-{
-    pointLeftAbove = QPointF(x1, y1);
-    pointLeftBelow = QPointF(x1, y2);
-    pointRightAbove = QPointF(x2, y1);
-    pointRightBelow = QPointF(x2, y2);
+    setHitBox(QRectF(x, y, width, height));
 }
 
 void Sprite::setSource(QRectF source)
@@ -83,91 +118,44 @@ void Sprite::setTarget(QRectF target)
     this->target = target;
 }
 
-void Sprite::setLimitArea(double x1, double y1, double x2, double y2)
+void Sprite::setHitBox(QRectF q)
 {
-    /*
-    1(x1, y1).--------y1--------.(x2, y1)3
-            |                  |
-            |                  |
-            |                  |
-    2(x1, y2).--------y2--------.(x2, y2)4
-    */
-    limitLeftAbove = QPointF(x1, y1);
-    limitLeftBelow = QPointF(x1, y2);
-    limitRightAbove = QPointF(x2, y1);
-    limitRightBelow = QPointF(x2, y2);
+    hitBox = q;
 }
 
-void Sprite::setVisionArea(double x1, double y1, double x2, double y2)
+void Sprite::setLimitArea(QRectF q)
 {
-    /*
-    1(x1, y1).--------y1--------.(x2, y1)3
-            |                  |
-            |                  |
-            |                  |
-    2(x1, y2).--------y2--------.(x2, y2)4
-    */
-    visionLeftAbove = QPointF(x1, y1);
-    visionLeftBelow = QPointF(x1, y2);
-    visionRightAbove = QPointF(x2, y1);
-    visionRightBelow = QPointF(x2, y2);
+    limitArea = q;
 }
 
-QPointF Sprite::getPointHitBox(int number)
+void Sprite::setVisionArea(QRectF q)
 {
-    switch(number)
-    {
-    case 1:
-        return pointLeftAbove;
-        break;
-    case 2:
-        return pointLeftBelow;
-        break;
-    case 3:
-        return pointRightAbove;
-        break;
-    default:    //case 4:
-        return pointRightBelow;
-        break;
-    }
+    visionArea = q;
 }
 
-QPointF Sprite::getVisionArea(int number)
+void Sprite::setAttackArea(QRectF q)
 {
-    switch(number)
-    {
-    case 1:
-        return visionLeftAbove;
-        break;
-    case 2:
-        return visionLeftBelow;
-        break;
-    case 3:
-        return visionRightAbove;
-        break;
-    default:    //case 4:
-        return visionRightBelow;
-        break;
-    }
+    attackArea = q;
 }
 
-QPointF Sprite::getLimitArea(int number)
+QRectF Sprite::getHitBox()
 {
-    switch(number)
-    {
-    case 1:
-        return limitLeftAbove;
-        break;
-    case 2:
-        return limitLeftBelow;
-        break;
-    case 3:
-        return limitRightAbove;
-        break;
-    default:    //case 4:
-        return limitRightBelow;
-        break;
-    }
+    return hitBox;
+}
+
+QRectF Sprite::getVisionArea()
+{
+    return visionArea;
+}
+
+QRectF Sprite::getLimitArea()
+{
+    return limitArea;
+}
+
+QRectF Sprite::getAttackArea()
+{
+    return attackArea;
 }
 
 int Sprite::getTotalPicture()
@@ -194,10 +182,34 @@ QPointF Sprite::getPosition()
     return position;
 }
 
-QRectF Sprite::getSource()
+Direction Sprite::getDirection()
 {
+    return direct;
+}
 
-    return QRectF(width*(double)(clock % (totalPicture)), 0, width, height);
+int Sprite::getDuration()
+{
+    return duration;
+}
+
+int Sprite::getFrame()
+{
+    return frame;
+}
+
+int Sprite::getLifetime()
+{
+    return lifetime;
+}
+
+void Sprite::stopFrame()
+{
+    stop = true;
+}
+
+void Sprite::goOn()
+{
+    stop = false;
 }
 
 QRectF Sprite::getTarget()
@@ -208,4 +220,9 @@ QRectF Sprite::getTarget()
 QPixmap Sprite::getTexture()
 {
     return texture;
+}
+
+QRectF Sprite::getSource()
+{
+    return QRectF(width*(double)(frame), 0, width, height);
 }

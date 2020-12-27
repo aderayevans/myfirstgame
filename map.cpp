@@ -21,124 +21,175 @@ Map::Map()
     backgrounds[7].setTexture("D://Games//Toshizo//bgLayer7.png", 1, 1);
     for (int i = 0; i < bgLayers; i++)
     {
-        backgrounds[i].setOrigin(0, 0);
+        backgrounds[i].setPosition(0, 0);
     }
-
-    Ground ground01, ground02, ground03, ground04, ground05, g[100];
-    ground01 = Ground(7);
-    ground01.setOrigin(150, 610);
-    ground02 = Ground(6);
-    ground02.setOrigin(350, 560);
-    ground03 = Ground(5);
-    ground03.setOrigin(720, 460);
-    ground04 = Ground(4);
-    ground04.setOrigin(920, 360);
-    ground05 = Ground(8);
-    ground05.setOrigin(1600, 260);
-    grounds.push_back(ground01);
-    grounds.push_back(ground02);
-    grounds.push_back(ground03);
-    grounds.push_back(ground04);
-    grounds.push_back(ground05);
-    for (int i = 0; i < 100; i++)
+    double range = 1;
+    for (int i = 0; i < 50; i++)
     {
-        g[i] = Ground(1);
-        g[i].setOrigin((g[i].getWidth() - 2)*i, 710);
-        grounds.push_back(g[i]);
+        Ground ground01, ground02, ground03, ground04, ground05, g;
+        ground01 = Ground(7);
+        ground01.setPosition(150 * range, 610);
+        ground02 = Ground(6);
+        ground02.setPosition(350 * range, 560);
+        ground03 = Ground(5);
+        ground03.setPosition(720 * range, 460);
+        ground04 = Ground(4);
+        ground04.setPosition(920 * range, 360);
+        ground05 = Ground(8);
+        ground05.setPosition(1600 * range, 260);
+        g = Ground(1);
+        double landSpace = g.getWidth() - 2;
+        g.setPosition(landSpace*i, 710);
+        grounds.push_back(ground01);
+        grounds.push_back(ground02);
+        grounds.push_back(ground03);
+        grounds.push_back(ground04);
+        grounds.push_back(ground05);
+        if (i % 7 == 0 && i != 0);
+        else
+        {
+            grounds.push_back(g);
+        }
+        range *= 4;
     }
 
     Wall wall01, wall02, wall03, wall04;
-    wall01.setOrigin(70, 100);
-    wall02.setOrigin(70, 431);
-    wall03.setOrigin(15900, 100);
-    wall04.setOrigin(15900, 431);
+    wall01.setPosition(70, 100);
+    wall02.setPosition(70, 431);
+    wall03.setPosition(15900, 100);
+    wall04.setPosition(15900, 431);
     walls.push_back(wall01);
     walls.push_back(wall02);
     walls.push_back(wall03);
     walls.push_back(wall04);
 
     //NPC
-    Wraith *wraith01 = new Wraith();
-    wraith01->setOrigin(1000, 300);
-    wraith01->setLimitArea(200, wraith01->getPosition().y(), 2500, wraith01->getPosition().y() + wraith01->getHeight());
-    NPCs.push_back(wraith01);
+    //init patterns
+    Sprite snowmanPattern;
+    snowmanPattern.setTexture("D://Games//Toshizo//snowman.png", 1, 2);
+    Sprite signboardPattern;
+    signboardPattern.setTexture("D://Games//Toshizo//board.png", 1, 2);
+    Sprite treePattern1, treePattern2;
+    treePattern1.setTexture("D://Games//Toshizo//snowtree1.png", 1, 2);
+    treePattern2.setTexture("D://Games//Toshizo//snowtree2.png", 1, 2);
 
-    Wraith *wraith02 = new Wraith();
-    wraith02->setOrigin(2700, 300);
-    wraith02->setLimitArea(2700, wraith02->getPosition().y(), 4000, wraith02->getPosition().y() + wraith02->getHeight());
-    NPCs.push_back(wraith02);
+    //assign
+    Sprite snowman, signboard, tree;
 
-    Kong *kong01 = new Kong();
-    kong01->setOrigin(1000, 610);
-    kong01->setLimitArea(200, kong01->getPosition().y(), 1200, kong01->getPosition().y() + kong01->getHeight());
+    //first island
+    snowman = snowmanPattern;
+    snowman.setPosition(300, 660);
+    snowmans.push_back(snowman);
+
+    NPC *wr01 = new Wraith();
+    wr01->setPosition(500, 300);
+    wr01->setLimitArea(QRectF(300, 2000, 2050 - 300, wr01->getHeight()));
+    NPCs.push_back(wr01);
+
+    //second island
+    signboard = signboardPattern;
+    signboard.setPosition(2850, 685);
+    signboards.push_back(signboard);
+
+    NPC *kong01 = new Kong();
+    kong01->setPosition(3000, 610);
+    kong01->setLimitArea(QRectF(2900, 610, 1600, kong01->getHeight()));
     NPCs.push_back(kong01);
 
-    //...
-    for (int i = 0; i < 100; i++)
+    for (int i = 1; i <= 12; i++)
     {
-        Sprite temp;
-        temp.setTexture("D://Games//Toshizo//energyPotion.png", 1, 10);
-        temp.setOrigin(1100 * (i + 1), 600);
-        energyPotions.push_back(temp);
-    }
-    for (int i = 0; i < 100; i++)
-    {
-        Sprite temp;
-        temp.setTexture("D://Games//Toshizo//healthPotion.png", 1, 9);
-        temp.setOrigin(1250 * (i + 1), 600);
-        healthPotions.push_back(temp);
-    }
-
-    magicGateY1.setTexture("D://Games//Toshizo//magicGateY.png", 12, 1);
-    magicGateY1.setOrigin(1800, 400);
-    magicGateY2.setTexture("D://Games//Toshizo//flippedMagicGateY.png", 12, 1);
-    magicGateY2.setOrigin(1700, 200);
-
-    magicGateX.setTexture("D://Games//Toshizo//magicGate2.png", 12, 1);
-    magicGateX.setOrigin(1800, 100);
-
-    magicGate.setTexture("D://Games//Toshizo//magicGate1.png", 20, 1);
-    magicGate.setOrigin(2300, 200);
-
-    fireBall.setTexture("D://Games//Toshizo//fireBall.png", 25, 1);
-    fireBall.setOrigin(1750, 450);
-    darkBall.setTexture("D://Games//Toshizo//darkBall.png", 8, 5);
-    darkBall.setOrigin(1200, 450);
-    tornado.setTexture("D://Games//Toshizo//water-tornado.png", 4, 1);
-    tornado.setOrigin(1500, 450);
-
-    explosion2.setTexture("D://Games//Toshizo//explosion.png", 4, 1);
-    explosion2.setOrigin(2400, 200);
-
-    for (int i = 0; i < 100; i++)
-    {
-        Sprite snowman;
-        snowman.setTexture("D://Games//Toshizo//snowman.png", 1, 2);
-        snowman.setOrigin(500*(i + 1), 660);
-        snowmans.push_back(snowman);
-
+        srand(time(0));
         Sprite tree;
-        tree.setTexture("D://Games//Toshizo//snowtree1.png", 1, 2);
-        tree.setOrigin(200*(i + 1), 635);
-
-        Sprite tree2;
-        tree2.setTexture("D://Games//Toshizo//snowtree2.png", 1, 2);
-        tree2.setOrigin(250*(i + 1), 650);
-
+        if (rand() % 2 == 0)
+        {
+            tree = treePattern1;
+            tree.setPosition(2850 + 140*i, 635);
+        }
+        else
+        {
+            tree = treePattern2;
+            tree.setPosition(2850 + 140*i, 650);
+        }
         snowtrees.push_back(tree);
-        snowtrees.push_back(tree2);
-
-        Sprite signboard;
-        signboard.setTexture("D://Games//Toshizo//board.png", 1, 2);
-        signboard.setOrigin(1000*(i + 1), 685);
-        signboards.push_back(signboard);
     }
-    lightning.setTexture("D://Games//Toshizo//lightning.png", 5, 4);
-    lightning.setOrigin(1820, 170);
-    dirt.setTexture("D://Games//Toshizo//dirt.png", 10, 6);
-    dirt.setOrigin(300, 660);
-    bluefire.setTexture("D://Games//Toshizo//bluefire.png", 12, 2);
-    bluefire.setOrigin(400, 400);
+    signboard.setPosition(4600, 685);
+    signboards.push_back(signboard);
+
+    //third island
+    snowman = snowmanPattern;
+    snowman.setPosition(5300, 660);
+    snowmans.push_back(snowman);
+
+    NPC *wr02 = new Wraith();
+    wr02->setPosition(5500, 300);
+    wr02->setLimitArea(QRectF(5300, 2000, 2050 - 200, wr01->getHeight()));
+    NPCs.push_back(wr02);
+
+    //fourth island
+    signboard = signboardPattern;
+    signboard.setPosition(7650, 685);
+    signboards.push_back(signboard);
+
+    NPC *kong02 = new Kong();
+    kong02->setPosition(7800, 610);
+    kong02->setLimitArea(QRectF(7700, 610, 1600, kong01->getHeight()));
+    NPCs.push_back(kong02);
+
+    srand(time(0));
+    for (int i = 1; i <= 12; i++)
+    {
+        Sprite tree;
+        if (rand() % 2 == 0)
+        {
+            tree = treePattern1;
+            tree.setPosition(7650 + 140*i, 635);
+        }
+        else
+        {
+            tree = treePattern2;
+            tree.setPosition(7650 + 140*i, 650);
+        }
+        snowtrees.push_back(tree);
+    }
+
+    signboard.setPosition(9400, 685);
+    signboards.push_back(signboard);
+
+    Sprite *energyPotionPattern = new Sprite();
+    Sprite *healthPotionPattern = new Sprite();
+    energyPotionPattern->setTexture("D://Games//Toshizo//energyPotion.png", 1, 10);
+    energyPotionPattern->setPosition(400, 200);
+    healthPotionPattern->setTexture("D://Games//Toshizo//heartPotion.png", 1, 9);
+    healthPotionPattern->setPosition(950, 200);
+
+    energyPotions.push_back(energyPotionPattern);
+    healthPotions.push_back(healthPotionPattern);
+
+    explosion1Pattern.setTexture("D://Games//Toshizo//enemyDying.png", 4, 5);
+    explosion1Pattern.setDuration(3);
+    explosion1Pattern.setPosition(0, 0);
+
+    dirtPattern.setTexture("D://Games//Toshizo//dirt.png", 5, 6);
+    dirtPattern.setDuration(1);
+    dirtPattern.setPosition(300, 660);
+
+
+
+    //...
+
+//    magicGateY1.setTexture("D://Games//Toshizo//magicGateY.png", 12, 1);
+//    magicGateY1.setPosition(1800, 400);
+//    magicGateY2.setTexture("D://Games//Toshizo//flippedMagicGateY.png", 12, 1);
+//    magicGateY2.setPosition(1700, 200);
+
+//    magicGateX.setTexture("D://Games//Toshizo//magicGate2.png", 12, 1);
+//    magicGateX.setPosition(1800, 100);
+
+//    magicGate.setTexture("D://Games//Toshizo//magicGate1.png", 20, 1);
+//    magicGate.setPosition(2300, 200);
+
+//    fireBall.setTexture("D://Games//Toshizo//fireBall.png", 25, 1);
+//    fireBall.setPosition(200, 450);
 }
 
 void Map::setClock()
@@ -156,63 +207,135 @@ void Map::setClock()
     }
     updateRedCollisions();
 
-    //...
-    magicGateY1.setClock(clock);
-    magicGateY2.setClock(clock);
-    magicGateX.setClock(clock);
-    magicGate.setClock(clock);
-    fireBall.setClock(clock);
-    darkBall.setClock(clock);
-    tornado.setClock(clock);
-    explosion2.setClock(clock);
+    for (unsigned int i = 0; i < bodyExplosions.size(); i++)
+    {
+        bodyExplosions[i].setClock();
+        if (bodyExplosions[i].getFrame() == explosion1Pattern.getTotalPicture() - 1)
+        {
+            bodyExplosions.erase(bodyExplosions.begin() + i);
+        }
+    }
 
-    lightning.setClock(clock);
-    dirt.setClock(clock);
-    bluefire.setClock(clock);
+    if (booleanDirt)
+    {
+        dirt.setClock();
+        if (dirt.getFrame() == dirtPattern.getTotalPicture() - 1)
+        {
+            booleanDirt = false;
+        }
+    }
+
+    //...
+
+//    magicGateY1.setFrame(clock);
+//    magicGateY2.setFrame(clock);
+//    magicGateX.setFrame(clock);
+//    magicGate.setFrame(clock);
+//    fireBall.setFrame(clock);
+//    fireBall.setPosition(fireBall.getPosition().x() + 10, 450);
+//    if (clock % fireBall.getTotalPicture() == 0)
+//    {
+//        fireBall.setPosition(200, 450);
+//    }
+}
+
+void Map::deleteHealthAt(int locate)
+{
+    Sprite *temp = healthPotions[locate];
+    healthPotions.erase(healthPotions.begin() + locate);
+
+    delete temp;
+}
+
+void Map::deleteEnergyAt(int locate)
+{
+    Sprite *temp = energyPotions[locate];
+    energyPotions.erase(energyPotions.begin() + locate);
+
+    delete temp;
+}
+
+void Map::deleteNPCAt(int locate)
+{
+    NPC *temp = NPCs[locate];
+    NPCs.erase(NPCs.begin() + locate);
+
+    Sprite tempBodyExplosion = explosion1Pattern;
+    tempBodyExplosion.setPosition(temp->getPosition().x() - 40, temp->getPosition().y() - 50);
+    bodyExplosions.push_back(tempBodyExplosion);
+
+    srand(time(0));
+    if (rand() % 2 == 0)
+    {
+        Sprite *energyPotionPattern = new Sprite();
+        energyPotionPattern->setTexture("D://Games//Toshizo//energyPotion.png", 1, 10);
+        energyPotionPattern->setPosition(temp->getPosition().x(), temp->getPosition().y());
+        energyPotions.push_back(energyPotionPattern);
+    }
+    else
+    {
+        Sprite *healthPotionPattern = new Sprite();
+        healthPotionPattern->setTexture("D://Games//Toshizo//heartPotion.png", 1, 9);
+        healthPotionPattern->setPosition(temp->getPosition().x(), temp->getPosition().y());
+        healthPotions.push_back(healthPotionPattern);
+    }
+    delete temp;
+}
+
+void Map::generateDirtAt(QPointF p)
+{
+    if (!booleanDirt)
+    {
+        dirt = dirtPattern;
+        dirt.setPosition(p.x(), p.y() - 45);
+        booleanDirt = true;
+    }
 }
 
 void Map::updateRedCollisions()
 {
-    std::vector<QRectF> temp;
-    for (unsigned int i = 0; i < currentNPCs.size(); i++)
+    std::vector<Collision> temp;
+    for (unsigned int i = 0; i < NPCs.size(); i++)
     {
-        QRectF tempRedCollision(currentNPCs[i]->getPosition().x(), currentNPCs[i]->getPosition().y(),
-                                currentNPCs[i]->getWidth(), currentNPCs[i]->getHeight());
-        temp.push_back(tempRedCollision);
+        for (unsigned int j = 0; j < NPCs[i]->getRedCollisions().size(); j++)
+        {
+            temp.push_back(Collision(NPCs[i]->getRedCollisions()[j], NPCs[i]->getDamage()));
+        }
     }
     redCollisions = temp;
 }
 
 void Map::draw(QPainter &painter)
 {
+    setClock();
     for (int i = 0; i < bgLayers - 2; i++)
     {
         if (backgrounds[i].getPosition().x() >= width)
         {
             Sprite tempBg;
             tempBg.setTexture(backgrounds[i].getTexture(), 1, 1);
-            tempBg.setOrigin(backgrounds[i].getPosition().x() - backgrounds[i].getWidth() + 1, backgrounds[i].getPosition().y());
+            tempBg.setPosition(backgrounds[i].getPosition().x() - backgrounds[i].getWidth() + 1, backgrounds[i].getPosition().y());
             backgrounds[i] = tempBg;
         }
         else if (backgrounds[i].getPosition().x() + backgrounds[i].getWidth() <= 0)
         {
             Sprite tempBg;
             tempBg.setTexture(backgrounds[i].getTexture(), 1, 1);
-            tempBg.setOrigin(backgrounds[i].getPosition().x() + backgrounds[i].getWidth() - 1, backgrounds[i].getPosition().y());
+            tempBg.setPosition(backgrounds[i].getPosition().x() + backgrounds[i].getWidth() - 1, backgrounds[i].getPosition().y());
             backgrounds[i] = tempBg;
         }
         else if (backgrounds[i].getPosition().x() > 0)
         {
             Sprite tempBg;
             tempBg.setTexture(backgrounds[i].getTexture(), 1, 1);
-            tempBg.setOrigin(backgrounds[i].getPosition().x() - backgrounds[i].getWidth() + 1, backgrounds[i].getPosition().y());
+            tempBg.setPosition(backgrounds[i].getPosition().x() - backgrounds[i].getWidth() + 1, backgrounds[i].getPosition().y());
             painter.drawPixmap(tempBg.getTarget(), tempBg.getTexture(), tempBg.getSource());
         }
         else if (backgrounds[i].getPosition().x() < 0)
         {
             Sprite tempBg;
             tempBg.setTexture(backgrounds[i].getTexture(), 1, 1);
-            tempBg.setOrigin(backgrounds[i].getPosition().x() + backgrounds[i].getWidth() - 1, backgrounds[i].getPosition().y());
+            tempBg.setPosition(backgrounds[i].getPosition().x() + backgrounds[i].getWidth() - 1, backgrounds[i].getPosition().y());
             painter.drawPixmap(tempBg.getTarget(), tempBg.getTexture(), tempBg.getSource());
         }
         painter.drawPixmap(backgrounds[i].getTarget(), backgrounds[i].getTexture(), backgrounds[i].getSource());
@@ -230,9 +353,6 @@ void Map::draw(QPainter &painter)
 
     for (unsigned int i = 0; i < currentGrounds.size(); i++)
     {
-//        painter.drawRect(currentGrounds[i].getPointHitBox(1).x(), currentGrounds[i].getPointHitBox(1).y(),
-//                         currentGrounds[i].getPointHitBox(3).x() - currentGrounds[i].getPointHitBox(1).x(),
-//                         currentGrounds[i].getPointHitBox(4).y() - currentGrounds[i].getPointHitBox(3).y());//delete this
         painter.drawPixmap(currentGrounds[i].getTarget(), currentGrounds[i].getTexture(), currentGrounds[i].getSource());
     }
 
@@ -251,60 +371,59 @@ void Map::draw(QPainter &painter)
 
     for (unsigned int i = 0; i < currentWalls.size(); i++)
     {
-//        painter.drawRect(currentWalls[i].getPointHitBox(1).x(), currentWalls[i].getPointHitBox(1).y(),
-//                         currentWalls[i].getPointHitBox(3).x() - currentWalls[i].getPointHitBox(1).x(),
-//                         currentWalls[i].getPointHitBox(4).y() - currentWalls[i].getPointHitBox(3).y());//delete this
         painter.drawPixmap(currentWalls[i].getTarget(), currentWalls[i].getTexture(), currentWalls[i].getSource());
     }
-    for (unsigned int i = 0; i < currentNPCs.size(); i++)
+    for (unsigned int i = 0; i < NPCs.size(); i++)
     {
-        painter.drawPixmap(currentNPCs[i]->getTarget(), currentNPCs[i]->getTexture(), currentNPCs[i]->getSource());
+        painter.drawPixmap(NPCs[i]->getTarget(), NPCs[i]->getTexture(), NPCs[i]->getSource());
 
-//        painter.drawRect(currentNPCs[i]->getPosition().x(), currentNPCs[i]->getPosition().y(),
-//                         currentNPCs[i]->getWidth(), currentNPCs[i]->getHeight());//delete this
+//        painter.drawRect(NPCs[i]->getHitBox());//delete this
 
-//        painter.drawRect(currentNPCs[i]->getPointHitBox(1).x(), currentNPCs[i]->getPointHitBox(1).y(),
-//                         currentNPCs[i]->getPointHitBox(4).x() - currentNPCs[i]->getPointHitBox(2).x(),
-//                         currentNPCs[i]->getPointHitBox(4).y() - currentNPCs[i]->getPointHitBox(3).y());//delete this
+//        painter.drawRect(NPCs[i]->getVisionArea());//delete this
 
-//        painter.drawRect(currentNPCs[i]->getVisionArea(1).x(), currentNPCs[i]->getVisionArea(1).y(),
-//                         currentNPCs[i]->getVisionArea(4).x() - currentNPCs[i]->getVisionArea(2).x(),
-//                         currentNPCs[i]->getVisionArea(4).y() - currentNPCs[i]->getVisionArea(3).y());//delete this
+//        painter.drawRect(NPCs[i]->getAttackArea());//delete this
 
-//        painter.drawRect(currentNPCs[i]->getLimitArea(1).x(), currentNPCs[i]->getLimitArea(1).y(),
-//                         currentNPCs[i]->getLimitArea(4).x() - currentNPCs[i]->getLimitArea(2).x(),
-//                         currentNPCs[i]->getLimitArea(4).y() - currentNPCs[i]->getLimitArea(3).y());//delete this
+//        painter.drawRect(NPCs[i]->getLimitArea());//delete this
     }
-    for (unsigned int i = 0; i < redCollisions.size(); i++)
-    {
-        painter.setPen(Qt::red);
-        painter.drawRect(redCollisions[i]);
-    }
-    painter.setPen(Qt::black);
 
-    //...
+//    painter.setPen(Qt::red);
+//    for (unsigned int i = 0; i < redCollisions.size(); i++)
+//    {
+//        painter.drawRect(redCollisions[i]);
+//    }
+//    painter.setPen(Qt::black);  //delete this
+
     for (unsigned int i = 0; i < energyPotions.size(); i++)
     {
-        painter.drawPixmap(energyPotions[i].getTarget(), energyPotions[i].getTexture(), energyPotions[i].getSource());
+        painter.drawPixmap(energyPotions[i]->getTarget(), energyPotions[i]->getTexture(), energyPotions[i]->getSource());
     }
+
     for (unsigned int i = 0; i < healthPotions.size(); i++)
     {
-        painter.drawPixmap(healthPotions[i].getTarget(), healthPotions[i].getTexture(), healthPotions[i].getSource());
+        painter.drawPixmap(healthPotions[i]->getTarget(), healthPotions[i]->getTexture(), healthPotions[i]->getSource());
     }
 
-    painter.drawPixmap(magicGateY1.getTarget(), magicGateY1.getTexture(), magicGateY1.getSource());
-    painter.drawPixmap(magicGateY2.getTarget(), magicGateY2.getTexture(), magicGateY2.getSource());
-    painter.drawPixmap(magicGateX.getTarget(), magicGateX.getTexture(), magicGateX.getSource());
-    painter.drawPixmap(magicGate.getTarget(), magicGate.getTexture(), magicGate.getSource());
+    for (unsigned int i = 0; i < bodyExplosions.size(); i++)
+    {
+        painter.drawPixmap(bodyExplosions[i].getTarget(), bodyExplosions[i].getTexture(), bodyExplosions[i].getSource());
+    }
 
-    painter.drawPixmap(fireBall.getTarget(), fireBall.getTexture(), fireBall.getSource());
-    painter.drawPixmap(darkBall.getTarget(), darkBall.getTexture(), darkBall.getSource());
-    painter.drawPixmap(tornado.getTarget(), tornado.getTexture(), tornado.getSource());
-    painter.drawPixmap(explosion2.getTarget(), explosion2.getTexture(), explosion2.getSource());
+    if (booleanDirt)
+    {
+        painter.drawPixmap(dirt.getTarget(), dirt.getTexture(), dirt.getSource());
+    }
 
-    painter.drawPixmap(lightning.getTarget(), lightning.getTexture(), lightning.getSource());
-    painter.drawPixmap(dirt.getTarget(), dirt.getTexture(), dirt.getSource());
-    painter.drawPixmap(bluefire.getTarget(), bluefire.getTexture(), bluefire.getSource());
+    //player's sprites
+
+
+    for (unsigned int i = 0; i < playerSprites.size(); i++)
+    {
+        painter.drawPixmap(playerSprites[i]->getTarget(), playerSprites[i]->getTexture(), playerSprites[i]->getSource());
+    }
+
+
+    //...
+
 }
 
 void Map::move(double tx)
@@ -334,52 +453,49 @@ void Map::move(double tx)
     {
         NPCs[i]->setPosition(NPCs[i]->getPosition().x() + tx, NPCs[i]->getPosition().y());
 
-        NPCs[i]->setLimitArea(NPCs[i]->getLimitArea(1).x() + tx,
-                              NPCs[i]->getLimitArea(1).y(),
-                              NPCs[i]->getLimitArea(4).x() + tx,
-                              NPCs[i]->getLimitArea(4).y());
+        NPCs[i]->setLimitArea(QRectF(NPCs[i]->getLimitArea().topLeft().x() + tx,
+                              NPCs[i]->getLimitArea().topLeft().y(),
+                              NPCs[i]->getLimitArea().width(),
+                              NPCs[i]->getLimitArea().height()));
     }
-
-
-    //...
-    for (unsigned int i = 0; i < energyPotions.size(); i++)
-    {
-        energyPotions[i].setPosition(energyPotions[i].getPosition().x() + tx, energyPotions[i].getPosition().y());
-    }
-    for (unsigned int i = 0; i < healthPotions.size(); i++)
-    {
-        healthPotions[i].setPosition(healthPotions[i].getPosition().x() + tx, healthPotions[i].getPosition().y());
-    }
-
-    magicGateY1.setPosition(magicGateY1.getPosition().x() + tx, magicGateY1.getPosition().y());
-    magicGateY2.setPosition(magicGateY2.getPosition().x() + tx, magicGateY2.getPosition().y());
-
-    magicGateX.setPosition(magicGateX.getPosition().x() + tx, magicGateX.getPosition().y());
-
-    magicGate.setPosition(magicGate.getPosition().x() + tx, magicGate.getPosition().y());
-
-
-    fireBall.setPosition(fireBall.getPosition().x() + tx, fireBall.getPosition().y());
-    darkBall.setPosition(darkBall.getPosition().x() + tx, darkBall.getPosition().y());
-    tornado.setPosition(tornado.getPosition().x() + tx, tornado.getPosition().y());
-    explosion2.setPosition(explosion2.getPosition().x() + tx, explosion2.getPosition().y());
 
     for (unsigned int i = 0; i < snowmans.size(); i++)
     {
         snowmans[i].setPosition(snowmans[i].getPosition().x() + tx, snowmans[i].getPosition().y());
     }
+
     for (unsigned int i = 0; i < snowtrees.size(); i++)
     {
         snowtrees[i].setPosition(snowtrees[i].getPosition().x() + tx, snowtrees[i].getPosition().y());
     }
+
     for (unsigned int i = 0; i < signboards.size(); i++)
     {
         signboards[i].setPosition(signboards[i].getPosition().x() + tx, signboards[i].getPosition().y());
     }
-    lightning.setPosition(lightning.getPosition().x() + tx, lightning.getPosition().y());
-    dirt.setPosition(dirt.getPosition().x() + tx, dirt.getPosition().y());
-    bluefire.setPosition(bluefire.getPosition().x() + tx, bluefire.getPosition().y());
 
+    for (unsigned int i = 0; i < energyPotions.size(); i++)
+    {
+        energyPotions[i]->setPosition(energyPotions[i]->getPosition().x() + tx, energyPotions[i]->getPosition().y());
+    }
+
+    for (unsigned int i = 0; i < healthPotions.size(); i++)
+    {
+        healthPotions[i]->setPosition(healthPotions[i]->getPosition().x() + tx, healthPotions[i]->getPosition().y());
+    }
+
+//    for (unsigned int i = 0; i < bodyExplosions.size(); i++)
+//    {
+//        bodyExplosions[i].setPosition(bodyExplosions[i].getPosition().x() + tx, bodyExplosions[i].getPosition().y());
+//    }
+
+
+    if (booleanDirt)
+    {
+        dirt.setPosition(dirt.getPosition().x() + tx, dirt.getPosition().y());
+    }
+
+    //...
     clip();
 }
 
@@ -387,22 +503,19 @@ void Map::clip()
 {
     std::vector<Ground> temp_grounds;
     std::vector<Wall> temp_walls;
-    std::vector<NPC *> temp_NPCs;
+
     for (unsigned int i = 0; i < grounds.size(); i++)
     {
-        if (grounds[i].getLimitArea(1).x() > xvMax || grounds[i].getLimitArea(3).x() < xvMin) continue;
-        temp_grounds.push_back(grounds[i]);
+        if (QRectF(0, 0, width, height).intersects(grounds[i].getHitBox()))
+            temp_grounds.push_back(grounds[i]);
     }
+
     for (unsigned int i = 0; i < walls.size(); i++)
     {
-        if (walls[i].getLimitArea(1).x() > xvMax || walls[i].getLimitArea(3).x() < xvMin) continue;
-        temp_walls.push_back(walls[i]);
+        if (QRectF(0, 0, width, height).intersects(walls[i].getHitBox()))
+            temp_walls.push_back(walls[i]);
     }
-    for (unsigned int i = 0; i < NPCs.size(); i++)
-    {
-        if (NPCs[i]->getLimitArea(1).x() > xvMax || NPCs[i]->getLimitArea(3).x() < xvMin) continue;
-        temp_NPCs.push_back(NPCs[i]);
-    }
+
     for (unsigned int i = 0; i < pseudoPoints.size(); i++)
     {
         if (pseudoPoints[i].x() <= mapCurrentPointRight.x())
@@ -411,9 +524,9 @@ void Map::clip()
             pseudoLimitPointLeft = QPointF(pseudoPoints[i].x() - width, pseudoPoints[i].y());
         }
     }
+
     currentGrounds = temp_grounds;
     currentWalls = temp_walls;
-    currentNPCs = temp_NPCs;
 }
 
 void Map::convert()
@@ -444,12 +557,21 @@ std::vector<Wall> Map::getWalls()
     return currentWalls;
 }
 
-std::vector<NPC *> Map::getNPCs()
+std::vector<Sprite *> Map::getHealthPotions()
 {
-    return currentNPCs;
+    return healthPotions;
+}
+std::vector<Sprite *> Map::getEnergyPotions()
+{
+    return energyPotions;
 }
 
-std::vector<QRectF> Map::getRedCollisions()
+std::vector<NPC *> Map::getNPCs()
+{
+    return NPCs;
+}
+
+std::vector<Collision> Map::getRedCollisions()
 {
     return redCollisions;
 }
@@ -476,4 +598,10 @@ QPointF Map::getCurrentMapPoint(int number)
     {
         return mapCurrentPointRight;
     }
+}
+
+void Map::getPlayerSprites(std::vector<Sprite*> playerSprites)
+{
+    this->playerSprites.clear();
+    this->playerSprites = playerSprites;
 }

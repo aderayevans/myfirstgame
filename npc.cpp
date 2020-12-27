@@ -1,56 +1,65 @@
 #include "npc.h"
 #include <iostream>
 
-NPC::NPC()
-{
-}
+NPC::NPC() {}
 
-void NPC::setDirection(Direction direct)
-{
-    this->direct = direct;
-}
+NPC::~NPC(){}
 
-void NPC::setTexture()
-{
-}
-
-void NPC::setState(NPC_State s)
-{
-    state = s;
-}
+void NPC::setTexture() {}
 
 void NPC::setPosition(double x, double y)
 {
     position = QPointF(x, y);
 }
 
-void NPC::setOrigin(double x, double y)
+void NPC::setLimitArea(QRectF q) {}
+
+void NPC::setVisionArea(QRectF q) {}
+
+void NPC::setAttackArea(QRectF q) {}
+
+void NPC::setHitBox(QRectF q) {}
+
+QRectF NPC::getLimitArea() {}
+
+QRectF NPC::getVisionArea() {}
+
+QRectF NPC::getAttackArea() {}
+
+QRectF NPC::getHitBox() {}
+
+double NPC::getHeight() {}
+
+double NPC::getWidth() {}
+
+void NPC::setSpeed(double s){}
+
+void NPC::isSeeingSomethingSus(){}
+
+void NPC::isBeingAttacked(double damage) {}
+
+std::vector<QRectF> NPC::getRedCollisions() {}
+
+double NPC::getSpeed(){}
+
+void NPC::setClock(){}
+
+QRectF NPC::getTarget() {}
+
+QRectF NPC::getSource() {}
+
+QPixmap NPC::getTexture() {}
+
+double NPC::getDamage() {}
+
+void NPC::setDirection(Direction direct)
 {
-    setPosition(x, y);
+    this->direct = direct;
 }
 
-void NPC::setLimitArea(double x1, double y1, double x2, double y2)
+void NPC::setState(NPC_State s)
 {
-}
-
-void NPC::setVisionArea(double x1, double y1, double x2, double y2)
-{
-}
-
-void NPC::setHitBox(double x1, double y1, double x2, double y2)
-{
-}
-
-QPointF NPC::getLimitArea(int number)
-{
-}
-
-QPointF NPC::getVisionArea(int number)
-{
-}
-
-QPointF NPC::getPointHitBox(int number)
-{
+    state = s;
 }
 
 NPC_State NPC::getState()
@@ -72,22 +81,6 @@ void NPC::setFullHealth(double h)
     fullHealth = h;
 }
 
-double NPC::getHeight()
-{
-}
-
-double NPC::getWidth()
-{
-}
-
-double NPC::getSpeed()
-{
-}
-
-void NPC::setClock()
-{
-}
-
 QPointF NPC::getPosition()
 {
     return position;
@@ -105,15 +98,4 @@ double NPC::getFullHealth()
 double NPC::getLeftHealth()
 {
     return leftHealth;
-}
-QRectF NPC::getTarget()
-{
-}
-
-QRectF NPC::getSource()
-{
-}
-
-QPixmap NPC::getTexture()
-{
 }

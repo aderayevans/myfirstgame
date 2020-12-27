@@ -2,26 +2,34 @@
 #define NPC_H
 #include "sprite.h"
 
-enum NPC_State { Attacking, Walking, Casting, Dying, Hurt, Idle };
+enum NPC_State { Attacking, Walking, Hurt, Idle };
 class NPC
 {
 public:
     NPC();
+    virtual ~NPC();
     virtual void setTexture();
     virtual void setPosition(double, double);
-    virtual void setLimitArea(double x1 = 0, double y1 = 0, double x2 = 0, double y2 = 0);
-    virtual void setVisionArea(double x1 = 0, double y1 = 0, double x2 = 0, double y2 = 0);
-    virtual void setHitBox(double x1 = 0, double y1 = 0, double x2 = 0, double y2 = 0);
+    virtual void setLimitArea(QRectF);
+    virtual void setVisionArea(QRectF);
+    virtual void setAttackArea(QRectF);
+    virtual void setHitBox(QRectF);
     virtual void setClock();
+    virtual void setSpeed(double);
     virtual double getSpeed();
-    virtual QPointF getLimitArea(int);
-    virtual QPointF getVisionArea(int);
-    virtual QPointF getPointHitBox(int);
+    virtual void isSeeingSomethingSus();
+    virtual void isBeingAttacked(double damage);
+    virtual QRectF getLimitArea();
+    virtual QRectF getVisionArea();
+    virtual QRectF getAttackArea();
+    virtual QRectF getHitBox();
     virtual QRectF getTarget();
     virtual QRectF getSource();
+    virtual std::vector<QRectF> getRedCollisions();
     virtual QPixmap getTexture();
     virtual double getWidth();
     virtual double getHeight();
+    virtual double getDamage();
     void setState(NPC_State);
     void setDirection(Direction);
     void setOrigin(double, double);
@@ -33,7 +41,6 @@ public:
     QPointF getLowestPoint();
     double getFullHealth();
     double getLeftHealth();
-
 private:
     NPC_State state;
     Direction direct = rightLeft;

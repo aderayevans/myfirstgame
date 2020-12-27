@@ -7,7 +7,6 @@ class Wall : public Ground
 {
 public:
     Wall();
-    void setOrigin(double x, double y) override;
     void setPosition(double x, double y) override;
 
 };

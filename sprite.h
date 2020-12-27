@@ -9,24 +9,30 @@ class Sprite
 {
 public:
     Sprite();
+    ~Sprite();
     Sprite(const QPixmap &pixmap, int totalPicture = 1, int scale = 1);
+    void operator = (const Sprite &A);
     Sprite(const char * xpm, int totalPicture = 1, int scale = 1);
     void setTexture(const QPixmap &pixmap, int totalPicture = 1, int scale = 1);
     void setTexture(const char * xpm, int totalPicture = 1, int scale = 1);
     virtual void setPosition(double, double);
-    virtual void setOrigin(double, double);
     void setTarget();
     void setSource();
     void setSpeed(double);
-    void setClock(int);
+    void setClock();
+    void setFrame(int);
+    void setDuration(int);
+    void setDirection(Direction);
     void setSource(QRectF source);
     void setTarget(QRectF target);
-    void setLimitArea(double x1, double y1, double x2, double y2);
-    void setVisionArea(double x1, double y1, double x2, double y2);
-    void setHitBox(double x1, double y1, double x2, double y2);
-    QPointF getLimitArea(int);
-    QPointF getVisionArea(int);
-    QPointF getPointHitBox(int);
+    void setLimitArea(QRectF);
+    void setVisionArea(QRectF);
+    void setHitBox(QRectF);
+    void setAttackArea(QRectF);
+    QRectF getLimitArea();
+    QRectF getVisionArea();
+    QRectF getHitBox();
+    QRectF getAttackArea();
     int getTotalPicture();
     double getSpeed();
     double getWidth();
@@ -35,18 +41,26 @@ public:
     QRectF getSource();
     QRectF getTarget();
     QPixmap getTexture();
-
+    Direction getDirection();
+    int getDuration();
+    int getFrame();
+    int getLifetime();
+    void stopFrame();
+    void goOn();
 private:
     QPixmap texture;
     double width, height;
     int totalPicture;
     QPointF position;
     QRectF target, source;
+    QRectF hitBox, limitArea, visionArea, attackArea;
     double speed;
-    int clock;
-    QPointF pointLeftBelow, pointLeftAbove, pointRightBelow, pointRightAbove;
-    QPointF limitLeftBelow, limitLeftAbove, limitRightBelow, limitRightAbove;
-    QPointF visionLeftBelow, visionLeftAbove, visionRightBelow, visionRightAbove;
+    int clock = 0;
+    int duration = 0;
+    int frame = 0;
+    Direction direct;
+    bool stop = false;
+    int lifetime = 0;
 };
 
 #endif // SPRITE_H

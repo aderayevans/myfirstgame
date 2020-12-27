@@ -1,5 +1,6 @@
 #include "kong.h"
 #include <iostream>
+#include <QDebug>
 
 Kong::Kong()
 {
@@ -23,46 +24,63 @@ void Kong::setTexture()
 void Kong::setPosition(double x, double y)
 {
     NPC::setPosition(x, y);
-    setVisionArea(x - 200, y - 200, x + 200, y + 200);
-    walkSprite.setPosition(x, y);
-    attackSprite.setPosition(x, y);
+    if (getDirection() == leftRight)
+    {
+        setVisionArea(QRectF(x, y, 1000, getHeight()));
+        setAttackArea(QRect(x, y, getWidth() + 70, getHeight()));
+    }
+    else
+    {
+        setVisionArea(QRectF(x + getWidth() - 1000, y, 1000, getHeight()));
+        setAttackArea(QRect(x - 70, y, getWidth() + 70, getHeight()));
+    }
+    walkSprite.setPosition(x - 5, y - 5);
+    attackSprite.setPosition(x - 30, y - 30);
 
-    walkSprite2.setPosition(x, y);
-    attackSprite2.setPosition(x, y);
+    walkSprite2.setPosition(x - 25, y - 5);
+    attackSprite2.setPosition(x - 60, y - 30);
 
-    setHitBox(x, y, x + getWidth(), y + getHeight());
+    setHitBox(QRectF(x, y, getWidth(), getHeight()));
 }
 
-void Kong::setLimitArea(double x1, double y1, double x2, double y2)
+void Kong::setLimitArea(QRectF q)
 {
-    walkSprite.setLimitArea(x1, y1, x2, y2);
+    walkSprite.setLimitArea(q);
 }
 
-void Kong::setVisionArea(double x1, double y1, double x2, double y2)
+void Kong::setVisionArea(QRectF q)
 {
-    x2 += getWidth();
-    y2 += getHeight();
-    walkSprite.setVisionArea(x1, y1, x2, y2);
+    walkSprite.setVisionArea(q);
 }
 
-void Kong::setHitBox(double x1, double y1, double x2, double y2)
+void Kong::setAttackArea(QRectF q)
 {
-    walkSprite.setHitBox(x1, y1, x2, y2);
+    walkSprite.setAttackArea(q);
 }
 
-QPointF Kong::getLimitArea(int number)
+void Kong::setHitBox(QRectF q)
 {
-    return walkSprite.getLimitArea(number);
+    walkSprite.setHitBox(q);
 }
 
-QPointF Kong::getVisionArea(int number)
+QRectF Kong::getLimitArea()
 {
-    return walkSprite.getVisionArea(number);
+    return walkSprite.getLimitArea();
 }
 
-QPointF Kong::getPointHitBox(int number)
+QRectF Kong::getVisionArea()
 {
-    return walkSprite.getPointHitBox(number);
+    return walkSprite.getVisionArea();
+}
+
+QRectF Kong::getAttackArea()
+{
+    return walkSprite.getAttackArea();
+}
+
+QRectF Kong::getHitBox()
+{
+    return walkSprite.getHitBox();
 }
 
 double Kong::getHeight()
@@ -75,13 +93,35 @@ double Kong::getWidth()
     return walkSprite.getWidth() - 50;
 }
 
+void Kong::setSpeed(double s)
+{
+    walkSprite.setSpeed(s);
+}
+
+void Kong::isSeeingSomethingSus()
+{
+    setSpeed(maxSpeed);
+    seeingSus = true;
+}
+
+void Kong::isBeingAttacked(double damage)
+{
+    setHealth(getLeftHealth() - damage);
+    caution = true;
+}
+
 double Kong::getSpeed()
 {
     switch (getState()) {
     default:    //case Run:
-        return walkSprite.getSpeed();;
+        return walkSprite.getSpeed();
         break;
     }
+}
+
+double Kong::getDamage()
+{
+    return damage;
 }
 
 void Kong::setClock()
@@ -90,52 +130,104 @@ void Kong::setClock()
     switch (getState())
     {
     case Walking:
-
+        booleanNormalAttack = false;
         if (walkClock > walkSlowTime)
         {
+            if (caution && walkPicture == 2 && !seeingSus)
+            {
+                if (getDirection() == leftRight)
+                {
+                    setDirection(rightLeft);
+                }
+                else
+                {
+                    setDirection(leftRight);
+                }
+                caution--;
+            }
             walkPicture++;
             walkClock = 0;
+        }
+        if (walkPicture == walkSprite.getTotalPicture())
+        {
+            walkPicture = 0;
         }
         walkClock++;
         switch (getDirection()) {
         case rightLeft:
-            if (getPosition().x() < getLimitArea(1).x())
+            if (getPosition().x() < getLimitArea().topLeft().x())
             {
-                setPosition(getLimitArea(1).x(), getPosition().y());
+                setPosition(getLimitArea().topLeft().x(), getPosition().y());
                 setDirection(leftRight);
             }
             else
             {
-                setPosition(getPosition().x() - speed, getPosition().y());
+                setPosition(getPosition().x() - getSpeed(), getPosition().y());
             }
-            walkSprite2.setClock(walkPicture);
+            walkSprite2.setFrame(walkPicture);
             break;
         default:    //case leftRight:
-            if (getPosition().x() + getWidth() > getLimitArea(3).x())
+            if (getPosition().x() + getWidth() > getLimitArea().topRight().x())
             {
-                setPosition(getLimitArea(3).x() - getWidth(), getPosition().y());
+                setPosition(getLimitArea().topRight().x() - getWidth(), getPosition().y());
                 setDirection(rightLeft);
             }
             else
             {
-                setPosition(getPosition().x() + speed, getPosition().y());
+                setPosition(getPosition().x() + getSpeed(), getPosition().y());
             }
-            walkSprite.setClock(walkPicture);
+            walkSprite.setFrame(walkPicture);
             break;
         }
+        walkSprite.setSpeed(speed);
+        seeingSus = false;
         break;
     case Attacking:
+        walkPicture = 0;
+        caution = false;
+        if (attackClock > attackSlowTime)
+        {
+            attackPicture++;
+            attackClock = 0;
+        }
+        if (attackPicture == attackSprite.getTotalPicture())
+        {
+            attackPicture = 0;
+            setState(Walking);
+        }
+        attackClock++;
         switch (getDirection())
         {
         case rightLeft:
-            attackSprite2.setClock(clock);
+            attackSprite2.setFrame(attackPicture);
             break;
         default:    //case leftRight:
-            attackSprite.setClock(clock);
+            attackSprite.setFrame(attackPicture);
             break;
         }
+        if (attackPicture > 1 && attackPicture < 5)
+        {
+            booleanNormalAttack = true;
+        }
+        else
+        {
+            booleanNormalAttack = false;
+        }
+        caution = maxCautionTime;
+        seeingSus = false;
         break;
     }
+}
+
+std::vector<QRectF> Kong::getRedCollisions()
+{
+    std::vector<QRectF> temps;
+    temps.push_back(getHitBox());
+    if (booleanNormalAttack)
+    {
+        temps.push_back(getAttackArea());
+    }
+    return temps;
 }
 
 QRectF Kong::getTarget()

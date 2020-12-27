@@ -37,31 +37,8 @@ Ground::Ground(int choice)
     }
 }
 
-void Ground::setOrigin(double x, double y)
-{
-    Sprite::setOrigin(x, y);
-    Sprite::setLimitArea(x, y, x + getWidth(), y + getHeight());
-    Sprite::setHitBox(x, y + 15, x + getWidth(), y + getHeight());
-}
-
 void Ground::setPosition(double x, double y)
 {
     Sprite::setPosition(x, y);
-    Sprite::setLimitArea(x, y, x + getWidth(), y + getHeight());
-    Sprite::setHitBox(x, y + 15, x + getWidth(), y + getHeight());
-}
-
-int Ground::getHighestY()
-{
-    return getPointHitBox(1).y();
-}
-
-int Ground::getLeftX()
-{
-    return getPointHitBox(1).x();
-}
-
-int Ground::getRightX()
-{
-    return getPointHitBox(4).x();
+    Sprite::setHitBox(QRectF(x, y + 15, getWidth(), getHeight()));
 }
