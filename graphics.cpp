@@ -13,11 +13,17 @@ graphics::graphics(QWidget *parent) :
     QWidget(parent)
 {
     startTimer(33);
-    background.setTexture("D://Games//Toshizo//firstBg.png", 1, 1);
+    background.setTexture(":/images/backgrounds/firstBg.png", 1, 1);
     background.setPosition(0, 0);
 
-    energyPotionIcon.setTexture("D://Games//Toshizo//energyPotion.png", 1, 10);
-    healthPotionIcon.setTexture("D://Games//Toshizo//heartPotion.png", 1, 9);
+    energyPotionIcon.setTexture(":/images/icons/energyPotion.png", 1, 10);
+    healthPotionIcon.setTexture(":/images/icons/heartPotion.png", 1, 9);
+    healthPotionIcon.setPosition(35, 205);
+    energyPotionIcon.setPosition(120, 205);
+    boxDialog.setTexture(":/images/backgrounds/boxDialog.png", 1, 1);
+    boxDialog.setPosition(0, 150);
+    bubbleDialog.setTexture(":/images/backgrounds/bubbleDialog.png", 1, 7);
+    bubbleDialog.setPosition(0, 150);
 }
 
 void graphics::timerEvent(QTimerEvent *event)
@@ -106,7 +112,7 @@ void graphics::keyPressEvent(QKeyEvent *event)
             }
             break;
         case (Qt::Key_H):
-            if (player.isHacked()) player.hackOFF();
+            if (player.isHack()) player.hackOFF();
             else player.hackON();
             break;
         case (Qt::Key_1):
@@ -259,6 +265,7 @@ void graphics::checkBlueCollision()
 {
     for (unsigned int i = 0; i < map.getNPCs().size(); i++)
     {
+        if (map.getNPCs()[i]->isAlly()) continue;
 //        if (player.getBlueCollisions().size() > 0)
 //            qDebug() << player.getBlueCollisions().size();
         for (unsigned int j = 0; j < player.getBlueCollisions().size(); j++)
@@ -321,13 +328,30 @@ void graphics::checkVision()
     {
         for (unsigned int i = 0; i < map.getNPCs().size(); i++)
         {
-            if (player.getHitBox().intersects(map.getNPCs()[i]->getVisionArea()))
-            {
-                map.getNPCs()[i]->isSeeingSomethingSus();
-            }
             if (player.getHitBox().intersects(map.getNPCs()[i]->getAttackArea()))
             {
-                map.getNPCs()[i]->setState(Attacking);
+                if (map.getNPCs()[i]->isAlly());
+                else map.getNPCs()[i]->setState(Attacking);
+            }
+            if (player.getHitBox().intersects(map.getNPCs()[i]->getVisionArea()))
+            {
+                if (map.getNPCs()[i]->isAlly())
+                {
+                    acceptInput = false;
+                    if (map.getNPCs()[i]->getState() == Disappear && map.getNPCs()[i]->isDisappeared())
+                    {
+                        map.deleteNPCAt(i);
+                        acceptInput = true;
+                    }
+                    else
+                    {
+                        map.getNPCs()[i]->isSeeingSomethingSus();
+                    }
+                }
+                else
+                {
+                    map.getNPCs()[i]->isSeeingSomethingSus();
+                }
             }
         }
     }
@@ -439,7 +463,8 @@ void graphics::drawHealthbar(QPainter &painter)
 
     for (unsigned int i = 0; i < map.getNPCs().size(); i++)
     {
-        painter.drawRect(map.getNPCs()[i]->getPosition().x(), map.getNPCs()[i]->getPosition().y() - 14,
+        painter.drawRect(map.getNPCs()[i]->getHitBox().topLeft().x(),
+                         map.getNPCs()[i]->getHitBox().topLeft().y() - 14,
                          (map.getNPCs()[i]->getWidth()), 5);
     }
 
@@ -450,8 +475,9 @@ void graphics::drawHealthbar(QPainter &painter)
                                           / player.getFullHealth()), 5);
     for (unsigned int i = 0; i < map.getNPCs().size(); i++)
     {
-        painter.drawRect(map.getNPCs()[i]->getPosition().x(), map.getNPCs()[i]->getPosition().y() - 14,
-                         (map.getNPCs()[i]->getWidth())*((double)map.getNPCs()[i]->getLeftHealth()
+        painter.drawRect(map.getNPCs()[i]->getHitBox().topLeft().x(),
+                         map.getNPCs()[i]->getHitBox().topLeft().y() - 14,
+                         (map.getNPCs()[i]->getWidth())*(map.getNPCs()[i]->getLeftHealth()
                                                          / map.getNPCs()[i]->getFullHealth()), 5);
     }
 
@@ -508,7 +534,6 @@ void graphics::drawHUD(QPainter &painter)
     painter.drawPixmap(player.getAvatar().getTarget(),
                        player.getAvatar().getTexture(),
                        player.getAvatar().getSource()); // draw Avatar Character
-    healthPotionIcon.setPosition(35, 205);
     if (player.getHealthPotionNumber() > 0)
     {
         painter.drawPixmap(healthPotionIcon.getTarget(),
@@ -518,7 +543,6 @@ void graphics::drawHUD(QPainter &painter)
     painter.setBrush(Qt::white);
     painter.drawEllipse(QRectF(70, 185 + 80, 20, 20));
     drawText(painter, QRectF(75, 185 + 80, 100, 100), Qt::darkCyan, 12, QString::number(player.getHealthPotionNumber()));
-    energyPotionIcon.setPosition(120, 205);
     if (player.getEnergyPotionNumber() > 0)
     {
         painter.drawPixmap(energyPotionIcon.getTarget(),
@@ -527,4 +551,34 @@ void graphics::drawHUD(QPainter &painter)
     }
     painter.drawEllipse(QRectF(150, 185 + 80, 20, 20));
     drawText(painter, QRectF(155, 185 + 80, 100, 100), Qt::darkCyan, 12, QString::number(player.getEnergyPotionNumber()));
+
+    for (unsigned int i = 0; i < map.getNPCs().size(); i++)
+    {
+        if (map.getNPCs()[i]->isSpeaking())
+        {
+            Sprite temp = bubbleDialog;
+            temp.setPosition(map.getNPCs()[i]->getHitBox().topLeft().x(),
+                             map.getNPCs()[i]->getHitBox().topLeft().y() - 14 - bubbleDialog.getHeight());
+            painter.drawPixmap(temp.getTarget(),
+                                       temp.getTexture(),
+                                       temp.getSource());
+            drawText(painter, QRectF(map.getNPCs()[i]->getHitBox().topLeft().x() + 2,
+                                     map.getNPCs()[i]->getHitBox().topLeft().y() - 14 - bubbleDialog.getHeight() + 50,
+                                     200, 100),
+                                Qt::darkCyan, 12, map.getNPCs()[i]->getDialog());
+        }
+    }
+
+//    painter.drawPixmap(boxDialog.getTarget(),
+//                               boxDialog.getTexture(),
+//                               boxDialog.getSource());
+
+//    for (unsigned int i = 0; i < map.getNPCs().size(); i++)
+//    {
+//        painter.drawRect(map.getNPCs()[i]->getHitBox().topLeft().x(), map.getNPCs()[i]->getPosition().y() - 14,
+//                         (map.getNPCs()[i]->getWidth())*(map.getNPCs()[i]->getLeftHealth()
+//                                                         / map.getNPCs()[i]->getFullHealth()), 5);
+//    }
+//    drawText(painter, QRectF(350, 287, 150, 28), Qt::white, 22, "Name");
+//    drawText(painter, QRectF(380, 330, 100, 100), Qt::white, 20, "Dialog");
 }

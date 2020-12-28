@@ -16,64 +16,64 @@ void Toshizo::setDirection(Direction direct)
 
 void Toshizo::setTexture()
 {
-    standSprite.setTexture("D://Games//Toshizo//implementStandingToshizo.png", 4, scale);
-    hurtingStandSprite.setTexture("D://Games//Toshizo//implementStandingHurtingToshizo.png", 4, scale);
-    buffedStandSprite.setTexture("D://Games//Toshizo//implementBuffedStandingToshizo.png", 4, scale);
-    buffedHurtingStandSprite.setTexture("D://Games//Toshizo//implementBuffedStandingHurtingToshizo.png", 4, scale);
+    standSprite.setTexture(":/images/characters/toshizo/implementStandingToshizo.png", 4, scale);
+    hurtingStandSprite.setTexture(":/images/characters/toshizo/implementStandingHurtingToshizo.png", 4, scale);
+    buffedStandSprite.setTexture(":/images/characters/toshizo/implementBuffedStandingToshizo.png", 4, scale);
+    buffedHurtingStandSprite.setTexture(":/images/characters/toshizo/implementBuffedStandingHurtingToshizo.png", 4, scale);
 
-    runSprite.setTexture("D://Games//Toshizo//implementRunningToshizo.png", 5, scale);
+    runSprite.setTexture(":/images/characters/toshizo/implementRunningToshizo.png", 5, scale);
     runSprite.setSpeed(speed);                                                       // for moving
-    hurtingRunSprite.setTexture("D://Games//Toshizo//implementRunningHurtingToshizo.png", 5, scale);
+    hurtingRunSprite.setTexture(":/images/characters/toshizo/implementRunningHurtingToshizo.png", 5, scale);
 
-    jumpSprite.setTexture("D://Games//Toshizo//implementJumpingToshizo.png", 5, scale);
-    hurtingJumpSprite.setTexture("D://Games//Toshizo//implementJumpingHurtingToshizo.png", 5, scale);
+    jumpSprite.setTexture(":/images/characters/toshizo/implementJumpingToshizo.png", 5, scale);
+    hurtingJumpSprite.setTexture(":/images/characters/toshizo/implementJumpingHurtingToshizo.png", 5, scale);
 
-    attackSprite.setTexture("D://Games//Toshizo//implementAttackingToshizo.png", 2, scale);
-    hurtingAttackSprite.setTexture("D://Games//Toshizo//implementAttackingHurtingToshizo.png", 2, scale);
-    buffedAttackSprite.setTexture("D://Games//Toshizo//implementBuffedAttackingToshizo.png", 2, scale);
-    buffedHurtingAttackSprite.setTexture("D://Games//Toshizo//implementBuffedAttackingHurtingToshizo.png", 2, scale);
+    attackSprite.setTexture(":/images/characters/toshizo/implementAttackingToshizo.png", 2, scale);
+    hurtingAttackSprite.setTexture(":/images/characters/toshizo/implementAttackingHurtingToshizo.png", 2, scale);
+    buffedAttackSprite.setTexture(":/images/characters/toshizo/implementBuffedAttackingToshizo.png", 2, scale);
+    buffedHurtingAttackSprite.setTexture(":/images/characters/toshizo/implementBuffedAttackingHurtingToshizo.png", 2, scale);
 
-    buffSprite.setTexture("D://Games//Toshizo//implementBuffingToshizo.png", 3, scale);
-    hurtingBuffSprite.setTexture("D://Games//Toshizo//implementBuffingHurtingToshizo.png", 3, scale);
+    buffSprite.setTexture(":/images/characters/toshizo/implementBuffingToshizo.png", 3, scale);
+    hurtingBuffSprite.setTexture(":/images/characters/toshizo/implementBuffingHurtingToshizo.png", 3, scale);
 
-    jumpAttackSprite.setTexture("D://Games//Toshizo//implementJumpAttackingToshizo.png", 4, scale);
-    buffedJumpAttackSprite.setTexture("D://Games//Toshizo//implementPeashooter.png", 8, scale*2);
+    jumpAttackSprite.setTexture(":/images/characters/toshizo/implementJumpAttackingToshizo.png", 4, scale);
+    buffedJumpAttackSprite.setTexture(":/images/characters/toshizo/implementPeashooter.png", 8, scale*2);
 
-    dyingSprite.setTexture("D://Games//Toshizo//implementDyingToshizo.png", 1, scale);
+    dyingSprite.setTexture(":/images/characters/toshizo/implementDyingToshizo.png", 1, scale);
     //---
-    standSprite2.setTexture("D://Games//Toshizo//flippedStandingToshizo.png", 4, scale);
-    hurtingStandSprite2.setTexture("D://Games//Toshizo//flippedStandingHurtingToshizo.png", 4, scale);
-    buffedStandSprite2.setTexture("D://Games//Toshizo//flippedBuffedStandingToshizo.png", 4, scale);
-    buffedHurtingStandSprite2.setTexture("D://Games//Toshizo//flippedBuffedStandingHurtingToshizo.png", 4, scale);
+    standSprite2.setTexture(":/images/characters/toshizo/flippedStandingToshizo.png", 4, scale);
+    hurtingStandSprite2.setTexture(":/images/characters/toshizo/flippedStandingHurtingToshizo.png", 4, scale);
+    buffedStandSprite2.setTexture(":/images/characters/toshizo/flippedBuffedStandingToshizo.png", 4, scale);
+    buffedHurtingStandSprite2.setTexture(":/images/characters/toshizo/flippedBuffedStandingHurtingToshizo.png", 4, scale);
 
-    runSprite2.setTexture("D://Games//Toshizo//flippedRunningToshizo.png", 5, scale);
-    hurtingRunSprite2.setTexture("D://Games//Toshizo//flippedRunningHurtingToshizo.png", 5, scale);
+    runSprite2.setTexture(":/images/characters/toshizo/flippedRunningToshizo.png", 5, scale);
+    hurtingRunSprite2.setTexture(":/images/characters/toshizo/flippedRunningHurtingToshizo.png", 5, scale);
 
-    jumpSprite2.setTexture("D://Games//Toshizo//flippedJumpingToshizo.png", 5, scale);
-    hurtingJumpSprite2.setTexture("D://Games//Toshizo//flippedJumpingHurtingToshizo.png", 5, scale);
+    jumpSprite2.setTexture(":/images/characters/toshizo/flippedJumpingToshizo.png", 5, scale);
+    hurtingJumpSprite2.setTexture(":/images/characters/toshizo/flippedJumpingHurtingToshizo.png", 5, scale);
 
-    attackSprite2.setTexture("D://Games//Toshizo//flippedAttackingToshizo.png", 2, scale);
-    hurtingAttackSprite2.setTexture("D://Games//Toshizo//flippedAttackingHurtingToshizo.png", 2, scale);
-    buffedAttackSprite2.setTexture("D://Games//Toshizo//flippedBuffedAttackingToshizo.png", 2, scale);
-    buffedHurtingAttackSprite2.setTexture("D://Games//Toshizo//flippedBuffedAttackingHurtingToshizo.png", 2, scale);
+    attackSprite2.setTexture(":/images/characters/toshizo/flippedAttackingToshizo.png", 2, scale);
+    hurtingAttackSprite2.setTexture(":/images/characters/toshizo/flippedAttackingHurtingToshizo.png", 2, scale);
+    buffedAttackSprite2.setTexture(":/images/characters/toshizo/flippedBuffedAttackingToshizo.png", 2, scale);
+    buffedHurtingAttackSprite2.setTexture(":/images/characters/toshizo/flippedBuffedAttackingHurtingToshizo.png", 2, scale);
 
-    buffSprite2.setTexture("D://Games//Toshizo//flippedBuffingToshizo.png", 3, scale);
-    hurtingBuffSprite2.setTexture("D://Games//Toshizo//flippedBuffingHurtingToshizo.png", 3, scale);
+    buffSprite2.setTexture(":/images/characters/toshizo/flippedBuffingToshizo.png", 3, scale);
+    hurtingBuffSprite2.setTexture(":/images/characters/toshizo/flippedBuffingHurtingToshizo.png", 3, scale);
 
-    jumpAttackSprite2.setTexture("D://Games//Toshizo//flippedJumpAttackingToshizo.png", 4, scale);
-    buffedJumpAttackSprite2.setTexture("D://Games//Toshizo//flippedPeashooter.png", 8, scale*2);
+    jumpAttackSprite2.setTexture(":/images/characters/toshizo/flippedJumpAttackingToshizo.png", 4, scale);
+    buffedJumpAttackSprite2.setTexture(":/images/characters/toshizo/flippedPeashooter.png", 8, scale*2);
 
     //..
-    avatar.setTexture("D://Games//Toshizo//avatarToshizo.png", 1, scale);
+    avatar.setTexture(":/images/characters/toshizo/avatarToshizo.png", 1, scale);
     avatar.setPosition(70, 85);
 
-    tornadoPattern.setTexture("D://Games//Toshizo//water-tornado.png", 4, 1);
+    tornadoPattern.setTexture(":/images/characters/toshizo/water-tornado.png", 4, 1);
     tornadoPattern.setDuration(2);
-    darkBallPattern.setTexture("D://Games//Toshizo//darkBall.png", 8, 4);
+    darkBallPattern.setTexture(":/images/characters/toshizo/darkBall.png", 8, 4);
     darkBallPattern.setDuration(1);
-    rasenganPattern.setTexture("D://Games//Toshizo//rasengan.png", 13, 1);
+    rasenganPattern.setTexture(":/images/characters/toshizo/rasengan.png", 13, 1);
     rasenganPattern.setDuration(2);
-    rasenganPattern2.setTexture("D://Games//Toshizo//rasengan2.png", 13, 1);
+    rasenganPattern2.setTexture(":/images/characters/toshizo/rasengan2.png", 13, 1);
     rasenganPattern2.setDuration(2);
 }
 
@@ -138,11 +138,11 @@ void Toshizo::setPosition(double x, double y)
 void Toshizo::setHealth(double h)
 {
     if (h >= leftHealth) leftHealth = h;
-    else if (hurted || immortal);
+    else if (hurt || immortal);
     else
     {
         leftHealth = h;
-        hurted = maxHurtTime;
+        hurt = maxHurtTime;
     }
 }
 
@@ -216,17 +216,17 @@ double Toshizo::getSpeed()
 
 void Toshizo::hackON()
 {
-    hacked = true;
+    hack = true;
 }
 
 void Toshizo::hackOFF()
 {
-    hacked = false;
+    hack = false;
 }
 
-bool Toshizo::isHacked()
+bool Toshizo::isHack()
 {
-    return hacked;
+    return hack;
 }
 
 void Toshizo::setClock()
@@ -236,15 +236,15 @@ void Toshizo::setClock()
     if (countdownSkill1) countdownSkill1--;
     if (countdownSkill2) countdownSkill2--;
     if (countdownSkill3) countdownSkill3--;
-    if (!hacked)
+    if (!hack)
     {
         if (buffed) buffed--;
     }
-    if (hurted)
+    if (hurt)
     {
-        if (hurted) hurted--;
+        if (hurt) hurt--;
     }
-    if (hacked)
+    if (hack)
     {
         immortal = true;
         leftEnergy = fullEnergy;
@@ -253,35 +253,35 @@ void Toshizo::setClock()
     switch (state)
     {
     case Stand:
-        jumpPicture = 0;
-        buffPicture = 0;
+        jumpFrame = 0;
+        buffFrame = 0;
         jumpClock = 0;
         runTime = 0;
         buffClock = 0;
         jumpAttackClock = 0;
-        jumpAttackPicture = 0;
+        jumpAttackFrame = 0;
         boostSpeed = 0;
         boostHigh = 0;
         flyTime = maxFlyTime;
         doubleJump = false;
         if (standClock > standSlowTime)
         {
-            standPicture++;
+            standFrame++;
             standClock = 0;
         }
-        if (standPicture == standSprite.getTotalPicture())
+        if (standFrame == standSprite.getTotalFrame())
         {
-            standPicture = 0;
+            standFrame = 0;
         }
         standClock++;
-        if (buffed && hurted)
+        if (buffed && hurt)
         {
             switch (direct) {
             case rightLeft:
-                buffedHurtingStandSprite2.setFrame(standPicture);
+                buffedHurtingStandSprite2.setFrame(standFrame);
                 break;
             default:    //case leftRight:
-                buffedHurtingStandSprite.setFrame(standPicture);
+                buffedHurtingStandSprite.setFrame(standFrame);
                 break;
             }
         }
@@ -289,22 +289,22 @@ void Toshizo::setClock()
         {
             switch (direct) {
             case rightLeft:
-                buffedStandSprite2.setFrame(standPicture);
+                buffedStandSprite2.setFrame(standFrame);
                 break;
             default:    //case leftRight:
-                buffedStandSprite.setFrame(standPicture);
+                buffedStandSprite.setFrame(standFrame);
                 break;
             }
 
         }
-        else if (hurted)
+        else if (hurt)
         {
             switch (direct) {
             case rightLeft:
-                hurtingStandSprite2.setFrame(standPicture);
+                hurtingStandSprite2.setFrame(standFrame);
                 break;
             default:    //case leftRight:
-                hurtingStandSprite.setFrame(standPicture);
+                hurtingStandSprite.setFrame(standFrame);
                 break;
             }
         }
@@ -312,10 +312,10 @@ void Toshizo::setClock()
         {
             switch (direct) {
             case rightLeft:
-                standSprite2.setFrame(standPicture);
+                standSprite2.setFrame(standFrame);
                 break;
             default:    //case leftRight:
-                standSprite.setFrame(standPicture);
+                standSprite.setFrame(standFrame);
                 break;
             }
         }
@@ -327,7 +327,7 @@ void Toshizo::setClock()
             boostHigh = maxBoost;
         }
         runTime++;
-        if (hurted)
+        if (hurt)
         {
             switch (direct) {
             case rightLeft:
@@ -352,7 +352,7 @@ void Toshizo::setClock()
         break;
     case Jump:
     {
-        if (jumpPicture != 0 || (doubleJump && jumpPicture == 3))
+        if (jumpFrame != 0 || (doubleJump && jumpFrame == 3))
             setPosition(position.x(), position.y() - jumpRangeEachTimeID - boostHigh);
         if (jumpClock > jumpLimitTime)
         {
@@ -360,23 +360,23 @@ void Toshizo::setClock()
             break;
         }
         jumpClock++;
-        if (jumpPicture >= 2 && !doubleJump)
+        if (jumpFrame >= 2 && !doubleJump)
         {
-            jumpPicture = 1;
+            jumpFrame = 1;
         }
-        if (jumpPicture >= 3 && doubleJump)
+        if (jumpFrame >= 3 && doubleJump)
         {
-            jumpPicture = 3;
+            jumpFrame = 3;
         }
-        if (hurted)
+        if (hurt)
         {
             switch (direct)
             {
             case rightLeft:
-                hurtingJumpSprite2.setFrame(jumpPicture++);
+                hurtingJumpSprite2.setFrame(jumpFrame++);
                 break;
             default:    //case leftRight:
-                hurtingJumpSprite.setFrame(jumpPicture++);
+                hurtingJumpSprite.setFrame(jumpFrame++);
                 break;
             }
         }
@@ -385,10 +385,10 @@ void Toshizo::setClock()
             switch (direct)
             {
             case rightLeft:
-                jumpSprite2.setFrame(jumpPicture++);
+                jumpSprite2.setFrame(jumpFrame++);
                 break;
             default:    //case leftRight:
-                jumpSprite.setFrame(jumpPicture++);
+                jumpSprite.setFrame(jumpFrame++);
                 break;
             }
         }
@@ -398,39 +398,39 @@ void Toshizo::setClock()
     {
         if (attackClock > attackSlowTime)
         {
-            attackPicture++;
+            attackFrame++;
             attackClock = 0;
         }
         attackClock++;
-        if (attackPicture > 0)
+        if (attackFrame > 0)
         {
             switch (direct) {
             case rightLeft:
                 collisions.push_back(Collision(QRectF(QPointF(getPosition().x() - 120, getPosition().y()),
                               QPointF(getPosition().x(), getPosition().y() + getHeight() - 10)),
-                                 getDamage()));
+                                 getDamage(), false));
                 break;
             default:    //case leftRight:
                 collisions.push_back(Collision(QRectF(QPointF(getPosition().x() + getWidth(), getPosition().y()),
                               QPointF(getPosition().x() + getWidth() + 120, getPosition().y() + getHeight() - 10)),
-                                 getDamage()));
+                                 getDamage(), false));
                 break;
             }
         }
-        if (attackPicture == attackSprite.getTotalPicture())
+        if (attackFrame == attackSprite.getTotalFrame())
         {
-            attackPicture = 0;
+            attackFrame = 0;
             setState(Stand);
         }
-        if (buffed && hurted)
+        if (buffed && hurt)
         {
             switch (direct)
             {
             case rightLeft:
-                buffedHurtingAttackSprite2.setFrame(attackPicture);
+                buffedHurtingAttackSprite2.setFrame(attackFrame);
                 break;
             default:    //case leftRight:
-                buffedHurtingAttackSprite.setFrame(attackPicture);
+                buffedHurtingAttackSprite.setFrame(attackFrame);
                 break;
             }
         }
@@ -439,22 +439,22 @@ void Toshizo::setClock()
             switch (direct)
             {
             case rightLeft:
-                buffedAttackSprite2.setFrame(attackPicture);
+                buffedAttackSprite2.setFrame(attackFrame);
                 break;
             default:    //case leftRight:
-                buffedAttackSprite.setFrame(attackPicture);
+                buffedAttackSprite.setFrame(attackFrame);
                 break;
             }
         }
-        else if (hurted)
+        else if (hurt)
         {
             switch (direct)
             {
             case rightLeft:
-                hurtingAttackSprite2.setFrame(attackPicture);
+                hurtingAttackSprite2.setFrame(attackFrame);
                 break;
             default:    //case leftRight:
-                hurtingAttackSprite.setFrame(attackPicture);
+                hurtingAttackSprite.setFrame(attackFrame);
                 break;
             }
         }
@@ -463,10 +463,10 @@ void Toshizo::setClock()
             switch (direct)
             {
             case rightLeft:
-                attackSprite2.setFrame(attackPicture);
+                attackSprite2.setFrame(attackFrame);
                 break;
             default:    //case leftRight:
-                attackSprite.setFrame(attackPicture);
+                attackSprite.setFrame(attackFrame);
                 break;
             }
         }
@@ -479,14 +479,14 @@ void Toshizo::setClock()
         {
             if (jumpAttackClock > jumpAttackSlowTime)
             {
-                jumpAttackPicture++;
+                jumpAttackFrame++;
                 jumpAttackClock = 0;
             }
-            if (jumpAttackPicture == buffedJumpAttackSprite2.getTotalPicture())
+            if (jumpAttackFrame == buffedJumpAttackSprite2.getTotalFrame())
             {
-                jumpAttackPicture = 0;
+                jumpAttackFrame = 0;
             }
-            if (!hacked)
+            if (!hack)
             {
                 flyTime--;
             }
@@ -499,17 +499,17 @@ void Toshizo::setClock()
             {
             case rightLeft:
                 setPosition(position.x() - buffedSkillRange, position.y());
-                buffedJumpAttackSprite2.setFrame(jumpAttackPicture);
+                buffedJumpAttackSprite2.setFrame(jumpAttackFrame);
                 collisions.push_back(Collision(QRectF(QPointF(getPosition().x() - 15, getPosition().y()),
                               QPointF(getPosition().x() + getWidth() + 100, getPosition().y() + getHeight())),
-                                 getDamage()));
+                                 getDamage(), false));
                 break;
             default:    //case leftRight:
                 setPosition(position.x() + buffedSkillRange, position.y());
-                buffedJumpAttackSprite.setFrame(jumpAttackPicture);
+                buffedJumpAttackSprite.setFrame(jumpAttackFrame);
                 collisions.push_back(Collision(QRectF(QPointF(getPosition().x() - 100, getPosition().y()),
                               QPointF(getPosition().x() + getWidth() + 15, getPosition().y() + getHeight())),
-                                 getDamage()));
+                                 getDamage(), false));
                 break;
             }
         }
@@ -517,24 +517,24 @@ void Toshizo::setClock()
         {
             collisions.push_back(Collision(QRectF(QPointF(getPosition().x() - 40, getPosition().y() - 40),
                           QPointF(getPosition().x() + getWidth() + 50, getPosition().y() + getHeight() + 12)),
-                             getDamage()));
+                             getDamage(), false));
             if (jumpAttackClock > jumpAttackSlowTime)
             {
-                jumpAttackPicture++;
+                jumpAttackFrame++;
                 jumpAttackClock = 0;
             }
             jumpAttackClock++;
-            if (jumpAttackPicture >= onSkyTime_forNotBuffedJumpAttack)
+            if (jumpAttackFrame >= onSkyTime_forNotBuffedJumpAttack)
             {
                 setState(Fall);
             }
             switch (direct)
             {
             case rightLeft:
-                jumpAttackSprite2.setFrame(jumpAttackPicture);
+                jumpAttackSprite2.setFrame(jumpAttackFrame);
                 break;
             default:    //case leftRight:
-                jumpAttackSprite.setFrame(jumpAttackPicture);
+                jumpAttackSprite.setFrame(jumpAttackFrame);
                 break;
             }
         }
@@ -542,32 +542,32 @@ void Toshizo::setClock()
     }
     case Buff:
     {
-        if (leftEnergy < buffRequiredEnergy || buffed || hurted)
+        if (leftEnergy < buffRequiredEnergy || buffed || hurt)
         {
             setState(Stand);
             break;
         }
         if (buffClock > buffSlowTime)
         {
-            buffPicture++;
+            buffFrame++;
             buffClock = 0;
         }
         buffClock++;
-        if (buffPicture == buffSprite.getTotalPicture())
+        if (buffFrame == buffSprite.getTotalFrame())
         {
             leftEnergy-=buffRequiredEnergy;
             buffed = maxBuffTime;
-            buffPicture = 0;
+            buffFrame = 0;
         }
-        if (hurted)
+        if (hurt)
         {
             switch (direct)
             {
             case rightLeft:
-                hurtingBuffSprite2.setFrame(buffPicture);
+                hurtingBuffSprite2.setFrame(buffFrame);
                 break;
             default:    //case leftRight:
-                hurtingBuffSprite.setFrame(buffPicture);
+                hurtingBuffSprite.setFrame(buffFrame);
                 break;
             }
         }
@@ -576,10 +576,10 @@ void Toshizo::setClock()
             switch (direct)
             {
             case rightLeft:
-                buffSprite2.setFrame(buffPicture);
+                buffSprite2.setFrame(buffFrame);
                 break;
             default:    //case leftRight:
-                buffSprite.setFrame(buffPicture);
+                buffSprite.setFrame(buffFrame);
                 break;
             }
         }
@@ -593,7 +593,7 @@ void Toshizo::setClock()
         int fallAnimation;
         if (doubleJump) fallAnimation = 4;
         else fallAnimation = 2;
-        if (hurted)
+        if (hurt)
         {
             switch (direct) {
             case rightLeft:
@@ -627,7 +627,7 @@ void Toshizo::setClock()
                                                   tornados[i].getPosition().y(),
                                                   tornados[i].getWidth(),
                                                   tornados[i].getHeight()),
-                                           tornadoDamage));
+                                           tornadoDamage, false));
         }
         else
         {
@@ -652,7 +652,7 @@ void Toshizo::setClock()
                                                   darkBalls[i].getPosition().y(),
                                                   darkBalls[i].getWidth(),
                                                   darkBalls[i].getHeight()),
-                                           darkBallDamage));
+                                           darkBallDamage, false));
         }
         else
         {
@@ -676,7 +676,7 @@ void Toshizo::setClock()
                                                   rasengans[i].getPosition().y(),
                                                   rasengans[i].getWidth(),
                                                   rasengans[i].getHeight()),
-                                           rasenganDamage));
+                                           rasenganDamage, false));
             switch (rasengans[i].getDirection()) {
             case rightLeft:
                 rasengans[i].setPosition(rasengans[i].getPosition().x() - 20, rasengans[i].getPosition().y());
@@ -686,7 +686,7 @@ void Toshizo::setClock()
                 break;
             }
         }
-        if (rasengans[i].getFrame() == rasenganPattern.getTotalPicture() - 1)
+        if (rasengans[i].getFrame() == rasenganPattern.getTotalFrame() - 1)
         {
             rasengans.erase(rasengans.begin() + i);
         }
@@ -710,7 +710,7 @@ std::vector<Collision> Toshizo::getBlueCollisions()
 
 double Toshizo::getDamage()
 {
-    if (hacked)
+    if (hack)
     {
         return maxDamage;
     }
@@ -753,7 +753,7 @@ Sprite Toshizo::getSprite()
 {
     switch (state) {
     case Run:
-        if (hurted)
+        if (hurt)
         {
             switch (direct) {
             case rightLeft:
@@ -772,7 +772,7 @@ Sprite Toshizo::getSprite()
             }
         }
     case Jump:
-        if (hurted)
+        if (hurt)
         {
             switch (direct) {
             case rightLeft:
@@ -791,7 +791,7 @@ Sprite Toshizo::getSprite()
             }
         }
     case Fall:
-        if (hurted)
+        if (hurt)
         {
             switch (direct) {
             case rightLeft:
@@ -811,7 +811,7 @@ Sprite Toshizo::getSprite()
             }
         }
     case Attack:
-        if (buffed && hurted)
+        if (buffed && hurt)
         {
             switch (direct) {
             case rightLeft:
@@ -829,7 +829,7 @@ Sprite Toshizo::getSprite()
                 return buffedAttackSprite;
             }
         }
-        else if (hurted)
+        else if (hurt)
         {
             switch (direct) {
             case rightLeft:
@@ -867,7 +867,7 @@ Sprite Toshizo::getSprite()
             }
         }
     case Buff:
-        if (hurted)
+        if (hurt)
         {
             switch (direct) {
             case rightLeft:
@@ -888,7 +888,7 @@ Sprite Toshizo::getSprite()
     case Dying:
         return dyingSprite;
     default:    //case Stand:
-        if (buffed && hurted)
+        if (buffed && hurt)
         {
             switch (direct) {
             case rightLeft:
@@ -908,7 +908,7 @@ Sprite Toshizo::getSprite()
             }
 
         }
-        else if (hurted)
+        else if (hurt)
         {
             switch (direct) {
             case rightLeft:
@@ -983,7 +983,7 @@ void Toshizo::useSkill1()   //tornado
     if (!countdownSkill1 && leftEnergy >= skill1RequiredEnergy)
     {
         leftEnergy -= skill1RequiredEnergy;
-        if (hacked) countdownSkill1 = 15;
+        if (hack) countdownSkill1 = 15;
         else countdownSkill1 = cooldownSkill1;
         Sprite temp = tornadoPattern;
         switch (direct) {
@@ -1004,7 +1004,7 @@ void Toshizo::useSkill2()   //darkBall
     if (!countdownSkill2 && leftEnergy >= skill2RequiredEnergy)
     {
         leftEnergy -= skill2RequiredEnergy;
-        if (hacked) countdownSkill2 = 15;
+        if (hack) countdownSkill2 = 15;
         else countdownSkill2 = cooldownSkill2;
         Sprite temp = darkBallPattern;
         switch (direct) {
@@ -1025,7 +1025,7 @@ void Toshizo::useSkill3()   //rasengan
     if (!countdownSkill3 && leftEnergy >= skill3RequiredEnergy)
     {
         leftEnergy -= skill3RequiredEnergy;
-        if (hacked) countdownSkill3 = 15;
+        if (hack) countdownSkill3 = 15;
         else countdownSkill3 = cooldownSkill3;
         Sprite temp;
         switch (direct) {

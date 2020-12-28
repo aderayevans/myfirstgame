@@ -19,7 +19,7 @@ public:
     void setEnergy(double);
     bool doubleJumped();
     bool isBuffed();
-    bool isHacked();
+    bool isHack();
     void hackON();
     void hackOFF();
     void setClock();
@@ -88,11 +88,11 @@ private:
     int skill3RequiredEnergy = 100;
     int healthPotionNumber = 0;
     int energyPotionNumber = 0;
-    int jumpPicture = 0;
-    int standPicture = 0;
-    int attackPicture = 0;
-    int jumpAttackPicture = 0;
-    int buffPicture = 0;
+    int jumpFrame = 0;
+    int standFrame = 0;
+    int attackFrame = 0;
+    int jumpAttackFrame = 0;
+    int buffFrame = 0;
     int jumpClock = 0;
     int standClock = 0;
     int attackClock = 0;
@@ -106,17 +106,17 @@ private:
     int flyTime = 0;
     int onSkyTime_forNotBuffedJumpAttack = 3;
     int maxFlyTime = 7;
-    int hackedFlyTime = 60*5;
+    int hackFlyTime = 60*5;
     int maxBuffTime = 30*5; //5s
     int jumpLimitTime = 6;
     int boostTime = 15;
     int buffed = 0;
-    int hurted = 0;
+    int hurt = 0;
     int maxHurtTime = 15;
     int boostHigh = 0;
     int boostSpeed = 0;
     int buffedSkillRange = 50;
-    int jumpRangeEachTimeID = 30;
+    int jumpRangeEachTimeID = 20;
     int fallingRangeEachTimeID = 30;
     int maxBoost = 10;
     int speed = 10;
@@ -124,7 +124,7 @@ private:
     double damage = 20;
     double buffedDamage = 100;
     double maxDamage = 10000;
-    bool hacked = false;
+    bool hack = false;
     bool immortal = false;
     bool doubleJump = false;
     double fullHealth = 1000;

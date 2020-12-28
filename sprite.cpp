@@ -3,7 +3,7 @@
 #include <iostream>
 
 Sprite::Sprite()
-    : totalPicture(1), clock(0)
+    : totalFrame(1), clock(0)
 {
 }
 
@@ -14,7 +14,7 @@ void Sprite::operator = (const Sprite &A)
     texture = A.texture;
     width = A.width;
     height = A.height;
-    totalPicture = A.totalPicture;
+    totalFrame = A.totalFrame;
     position = A.position;
     hitBox = A.hitBox;
     limitArea = A.limitArea;
@@ -28,40 +28,40 @@ void Sprite::operator = (const Sprite &A)
     lifetime = A.lifetime;
 }
 
-Sprite::Sprite(const QPixmap &pixmap, int totalPicture, int scale)
+Sprite::Sprite(const QPixmap &pixmap, int totalFrame, int scale)
 {
     texture = pixmap;
     texture = texture.scaled(texture.width()/scale, texture.height()/scale);
-    width = texture.width() / totalPicture;
+    width = texture.width() / totalFrame;
     height = texture.height();
-    this->totalPicture = totalPicture;
+    this->totalFrame = totalFrame;
 }
 
-Sprite::Sprite(const char * xpm, int totalPicture, int scale)
+Sprite::Sprite(const char * xpm, int totalFrame, int scale)
 {
     texture.load(xpm);
     texture = texture.scaled(texture.width()/scale, texture.height()/scale);
-    width = texture.width() / totalPicture;
+    width = texture.width() / totalFrame;
     height = texture.height();
-    this->totalPicture = totalPicture;
+    this->totalFrame = totalFrame;
 }
 
-void Sprite::setTexture(const QPixmap &pixmap, int totalPicture, int scale)
+void Sprite::setTexture(const QPixmap &pixmap, int totalFrame, int scale)
 {
     texture = pixmap;
     texture = texture.scaled(texture.width()/scale, texture.height()/scale);
-    width = texture.width() / totalPicture;
+    width = texture.width() / totalFrame;
     height = texture.height();
-    this->totalPicture = totalPicture;
+    this->totalFrame = totalFrame;
 }
 
-void Sprite::setTexture(const char * xpm, int totalPicture, int scale)
+void Sprite::setTexture(const char * xpm, int totalFrame, int scale)
 {
     texture.load(xpm);
     texture = texture.scaled(texture.width()/scale, texture.height()/scale);
-    width = texture.width() / totalPicture;
+    width = texture.width() / totalFrame;
     height = texture.height();
-    this->totalPicture = totalPicture;
+    this->totalFrame = totalFrame;
 }
 
 void Sprite::setSpeed(double s)
@@ -83,7 +83,7 @@ void Sprite::setClock()
             frame++;
             clock = 0;
         }
-        if (frame == totalPicture)
+        if (frame == totalFrame)
         {
             frame = 0;
         }
@@ -158,9 +158,9 @@ QRectF Sprite::getAttackArea()
     return attackArea;
 }
 
-int Sprite::getTotalPicture()
+int Sprite::getTotalFrame()
 {
-    return totalPicture;
+    return totalFrame;
 }
 double Sprite::getSpeed()
 {

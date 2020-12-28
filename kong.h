@@ -6,6 +6,7 @@ class Kong : public NPC
 {
 public:
     Kong();
+    bool isAlly() override;
     void setTexture() override;
     void setPosition(double, double) override;
     void setLimitArea(QRectF) override;
@@ -17,17 +18,18 @@ public:
     double getSpeed() override;
     void isSeeingSomethingSus() override;
     void isBeingAttacked(double damage) override;
+    bool isDisappeared() override;
     QRectF getLimitArea() override;
     QRectF getVisionArea() override;
     QRectF getAttackArea() override;
     QRectF getHitBox() override;
-    QRectF getTarget() override;
-    QRectF getSource() override;
     std::vector<QRectF> getRedCollisions() override;
-    QPixmap getTexture() override;
+    Sprite getSprite() override;
     double getWidth() override;
     double getHeight() override;
     double getDamage() override;
+    bool isSpeaking() override;
+    QString getDialog() override;
 private:
     Sprite walkSprite;
     Sprite walkSprite2;
@@ -37,10 +39,10 @@ private:
     Sprite attackSprite2;
     int clock = 0;
     int attackClock = 0;
-    int attackPicture = 0;
+    int attackFrame = 0;
     int attackSlowTime = 2;
     int walkClock = 0;
-    int walkPicture = 0;
+    int walkFrame = 0;
     int walkSlowTime = 2;
     int caution = 0;
     int maxCautionTime = 3;
@@ -51,6 +53,7 @@ private:
     int maxSpeed = 15;
     int scale = 1;
     double damage = 100;
+    QString dialog;
 };
 
 #endif // KONG_H

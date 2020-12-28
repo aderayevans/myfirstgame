@@ -2,12 +2,13 @@
 #define NPC_H
 #include "sprite.h"
 
-enum NPC_State { Attacking, Walking, Hurt, Idle };
+enum NPC_State { Attacking, Walking, Hurt, Idle, Talking, Disappear };
 class NPC
 {
 public:
     NPC();
     virtual ~NPC();
+    virtual bool isAlly();
     virtual void setTexture();
     virtual void setPosition(double, double);
     virtual void setLimitArea(QRectF);
@@ -19,17 +20,18 @@ public:
     virtual double getSpeed();
     virtual void isSeeingSomethingSus();
     virtual void isBeingAttacked(double damage);
+    virtual bool isDisappeared();
     virtual QRectF getLimitArea();
     virtual QRectF getVisionArea();
     virtual QRectF getAttackArea();
     virtual QRectF getHitBox();
-    virtual QRectF getTarget();
-    virtual QRectF getSource();
     virtual std::vector<QRectF> getRedCollisions();
-    virtual QPixmap getTexture();
+    virtual Sprite getSprite();
     virtual double getWidth();
     virtual double getHeight();
     virtual double getDamage();
+    virtual bool isSpeaking();
+    virtual QString getDialog();
     void setState(NPC_State);
     void setDirection(Direction);
     void setOrigin(double, double);
@@ -41,7 +43,10 @@ public:
     QPointF getLowestPoint();
     double getFullHealth();
     double getLeftHealth();
+    QString getName();
+    void setName(QString);
 private:
+    QString name;
     NPC_State state;
     Direction direct = rightLeft;
     QPointF position;

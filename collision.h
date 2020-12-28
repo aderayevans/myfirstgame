@@ -6,13 +6,14 @@ struct Collision
 {
     QRectF box;
     double damage;
+    bool white;
 
-    Collision() : box(QRectF(0, 0, 0, 0)), damage(0)
+    Collision() : box(QRectF(0, 0, 0, 0)), damage(0), white(false)
     {
 
     }
 
-    Collision(QRectF b, double d) : box(b), damage(d)
+    Collision(QRectF b, double d, bool white) : box(b), damage(d), white(white)
     {
     }
 };

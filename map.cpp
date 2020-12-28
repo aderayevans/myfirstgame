@@ -11,14 +11,14 @@ Map::Map()
     pseudoLimitPointLeft = mapLimitPointLeft;
     pseudoLimitPointRight = mapLimitPointRight;
 
-    backgrounds[0].setTexture("D://Games//Toshizo//bgLayer0.png", 1, 1);
-    backgrounds[1].setTexture("D://Games//Toshizo//bgLayer1.png", 1, 1);
-    backgrounds[2].setTexture("D://Games//Toshizo//bgLayer2.png", 1, 1);
-    backgrounds[3].setTexture("D://Games//Toshizo//bgLayer3.png", 1, 1);
-    backgrounds[4].setTexture("D://Games//Toshizo//bgLayer4.png", 1, 1);
-    backgrounds[5].setTexture("D://Games//Toshizo//bgLayer5.png", 1, 1);
-    backgrounds[6].setTexture("D://Games//Toshizo//bgLayer6.png", 1, 1);
-    backgrounds[7].setTexture("D://Games//Toshizo//bgLayer7.png", 1, 1);
+    backgrounds[0].setTexture(":/images/backgrounds/bgLayer0.png", 1, 1);
+    backgrounds[1].setTexture(":/images/backgrounds/bgLayer1.png", 1, 1);
+    backgrounds[2].setTexture(":/images/backgrounds/bgLayer2.png", 1, 1);
+    backgrounds[3].setTexture(":/images/backgrounds/bgLayer3.png", 1, 1);
+    backgrounds[4].setTexture(":/images/backgrounds/bgLayer4.png", 1, 1);
+    backgrounds[5].setTexture(":/images/backgrounds/bgLayer5.png", 1, 1);
+    backgrounds[6].setTexture(":/images/backgrounds/bgLayer6.png", 1, 1);
+    backgrounds[7].setTexture(":/images/backgrounds/bgLayer7.png", 1, 1);
     for (int i = 0; i < bgLayers; i++)
     {
         backgrounds[i].setPosition(0, 0);
@@ -66,12 +66,12 @@ Map::Map()
     //NPC
     //init patterns
     Sprite snowmanPattern;
-    snowmanPattern.setTexture("D://Games//Toshizo//snowman.png", 1, 2);
+    snowmanPattern.setTexture(":/images/backgrounds/snowman.png", 1, 2);
     Sprite signboardPattern;
-    signboardPattern.setTexture("D://Games//Toshizo//board.png", 1, 2);
+    signboardPattern.setTexture(":/images/backgrounds/board.png", 1, 2);
     Sprite treePattern1, treePattern2;
-    treePattern1.setTexture("D://Games//Toshizo//snowtree1.png", 1, 2);
-    treePattern2.setTexture("D://Games//Toshizo//snowtree2.png", 1, 2);
+    treePattern1.setTexture(":/images/backgrounds/snowtree1.png", 1, 2);
+    treePattern2.setTexture(":/images/backgrounds/snowtree2.png", 1, 2);
 
     //assign
     Sprite snowman, signboard, tree;
@@ -85,6 +85,10 @@ Map::Map()
     wr01->setPosition(500, 300);
     wr01->setLimitArea(QRectF(300, 2000, 2050 - 300, wr01->getHeight()));
     NPCs.push_back(wr01);
+
+    NPC *blueSamurai = new Ally(2);
+    blueSamurai->setPosition(2200, 565);
+    NPCs.push_back(blueSamurai);
 
     //second island
     signboard = signboardPattern;
@@ -125,6 +129,10 @@ Map::Map()
     wr02->setLimitArea(QRectF(5300, 2000, 2050 - 200, wr01->getHeight()));
     NPCs.push_back(wr02);
 
+    NPC *pinkSamurai = new Ally(1);
+    pinkSamurai->setPosition(7000, 595);
+    NPCs.push_back(pinkSamurai);
+
     //fourth island
     signboard = signboardPattern;
     signboard.setPosition(7650, 685);
@@ -155,24 +163,44 @@ Map::Map()
     signboard.setPosition(9400, 685);
     signboards.push_back(signboard);
 
+    //fifth island
+
+    NPC *redSamurai = new Ally(3);
+    redSamurai->setPosition(15700, 595);
+    NPCs.push_back(redSamurai);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     Sprite *energyPotionPattern = new Sprite();
     Sprite *healthPotionPattern = new Sprite();
-    energyPotionPattern->setTexture("D://Games//Toshizo//energyPotion.png", 1, 10);
+    energyPotionPattern->setTexture(":/images/icons/energyPotion.png", 1, 10);
     energyPotionPattern->setPosition(400, 200);
-    healthPotionPattern->setTexture("D://Games//Toshizo//heartPotion.png", 1, 9);
+    healthPotionPattern->setTexture(":/images/icons/heartPotion.png", 1, 9);
     healthPotionPattern->setPosition(950, 200);
 
     energyPotions.push_back(energyPotionPattern);
     healthPotions.push_back(healthPotionPattern);
 
-    explosion1Pattern.setTexture("D://Games//Toshizo//enemyDying.png", 4, 5);
+    explosion1Pattern.setTexture(":/images/npcs/enemyDying.png", 4, 5);
     explosion1Pattern.setDuration(3);
     explosion1Pattern.setPosition(0, 0);
 
-    dirtPattern.setTexture("D://Games//Toshizo//dirt.png", 5, 6);
+    dirtPattern.setTexture(":/images/backgrounds/dirt.png", 5, 6);
     dirtPattern.setDuration(1);
     dirtPattern.setPosition(300, 660);
-
 
 
     //...
@@ -210,7 +238,7 @@ void Map::setClock()
     for (unsigned int i = 0; i < bodyExplosions.size(); i++)
     {
         bodyExplosions[i].setClock();
-        if (bodyExplosions[i].getFrame() == explosion1Pattern.getTotalPicture() - 1)
+        if (bodyExplosions[i].getFrame() == explosion1Pattern.getTotalFrame() - 1)
         {
             bodyExplosions.erase(bodyExplosions.begin() + i);
         }
@@ -219,7 +247,7 @@ void Map::setClock()
     if (booleanDirt)
     {
         dirt.setClock();
-        if (dirt.getFrame() == dirtPattern.getTotalPicture() - 1)
+        if (dirt.getFrame() == dirtPattern.getTotalFrame() - 1)
         {
             booleanDirt = false;
         }
@@ -233,7 +261,7 @@ void Map::setClock()
 //    magicGate.setFrame(clock);
 //    fireBall.setFrame(clock);
 //    fireBall.setPosition(fireBall.getPosition().x() + 10, 450);
-//    if (clock % fireBall.getTotalPicture() == 0)
+//    if (clock % fireBall.getTotalFrame() == 0)
 //    {
 //        fireBall.setPosition(200, 450);
 //    }
@@ -260,23 +288,27 @@ void Map::deleteNPCAt(int locate)
     NPC *temp = NPCs[locate];
     NPCs.erase(NPCs.begin() + locate);
 
-    Sprite tempBodyExplosion = explosion1Pattern;
-    tempBodyExplosion.setPosition(temp->getPosition().x() - 40, temp->getPosition().y() - 50);
-    bodyExplosions.push_back(tempBodyExplosion);
+    if (temp->isAlly());
+    else
+    {
+        Sprite tempBodyExplosion = explosion1Pattern;
+        tempBodyExplosion.setPosition(temp->getPosition().x() - 40, temp->getPosition().y() - 50);
+        bodyExplosions.push_back(tempBodyExplosion);
+    }
 
     srand(time(0));
     if (rand() % 2 == 0)
     {
         Sprite *energyPotionPattern = new Sprite();
         energyPotionPattern->setTexture("D://Games//Toshizo//energyPotion.png", 1, 10);
-        energyPotionPattern->setPosition(temp->getPosition().x(), temp->getPosition().y());
+        energyPotionPattern->setPosition((temp->getHitBox().topLeft().x() + temp->getHitBox().topRight().x()) / 2, temp->getPosition().y());
         energyPotions.push_back(energyPotionPattern);
     }
     else
     {
         Sprite *healthPotionPattern = new Sprite();
         healthPotionPattern->setTexture("D://Games//Toshizo//heartPotion.png", 1, 9);
-        healthPotionPattern->setPosition(temp->getPosition().x(), temp->getPosition().y());
+        healthPotionPattern->setPosition((temp->getHitBox().topLeft().x() + temp->getHitBox().topRight().x()) / 2, temp->getPosition().y());
         healthPotions.push_back(healthPotionPattern);
     }
     delete temp;
@@ -299,7 +331,10 @@ void Map::updateRedCollisions()
     {
         for (unsigned int j = 0; j < NPCs[i]->getRedCollisions().size(); j++)
         {
-            temp.push_back(Collision(NPCs[i]->getRedCollisions()[j], NPCs[i]->getDamage()));
+            if (!NPCs[i]->isAlly())
+            {
+                temp.push_back(Collision(NPCs[i]->getRedCollisions()[j], NPCs[i]->getDamage(), false));
+            }
         }
     }
     redCollisions = temp;
@@ -375,7 +410,7 @@ void Map::draw(QPainter &painter)
     }
     for (unsigned int i = 0; i < NPCs.size(); i++)
     {
-        painter.drawPixmap(NPCs[i]->getTarget(), NPCs[i]->getTexture(), NPCs[i]->getSource());
+        painter.drawPixmap(NPCs[i]->getSprite().getTarget(), NPCs[i]->getSprite().getTexture(), NPCs[i]->getSprite().getSource());
 
 //        painter.drawRect(NPCs[i]->getHitBox());//delete this
 
@@ -452,11 +487,14 @@ void Map::move(double tx)
     for (unsigned int i = 0; i < NPCs.size(); i++)
     {
         NPCs[i]->setPosition(NPCs[i]->getPosition().x() + tx, NPCs[i]->getPosition().y());
-
-        NPCs[i]->setLimitArea(QRectF(NPCs[i]->getLimitArea().topLeft().x() + tx,
-                              NPCs[i]->getLimitArea().topLeft().y(),
-                              NPCs[i]->getLimitArea().width(),
-                              NPCs[i]->getLimitArea().height()));
+        if (NPCs[i]->isAlly());
+        else
+        {
+            NPCs[i]->setLimitArea(QRectF(NPCs[i]->getLimitArea().topLeft().x() + tx,
+                                         NPCs[i]->getLimitArea().topLeft().y(),
+                                         NPCs[i]->getLimitArea().width(),
+                                         NPCs[i]->getLimitArea().height()));
+        }
     }
 
     for (unsigned int i = 0; i < snowmans.size(); i++)

@@ -8,21 +8,28 @@ Wraith::Wraith()
     setFullHealth(500);
     setHealth(getFullHealth());
     setTexture();
+    setName("Poor soul");
+    dialog.append("Stop hitting me T.T");
+}
+
+bool Wraith::isAlly()
+{
+    return false;
 }
 
 void Wraith::setTexture()
 {
-    walkSprite.setTexture("D://Games//Toshizo//Wraith_Moving_Forward.png", 5, scale);
+    walkSprite.setTexture(":/images/npcs/Wraith_Moving_Forward.png", 5, scale);
     walkSprite.setSpeed(speed);                                                       // for moving
-    idleSprite.setTexture("D://Games//Toshizo//Wraith_Idle.png", 4, scale);
-    hurtSprite.setTexture("D://Games//Toshizo//Wraith_Hurt.png", 4, scale);
-    attackingSprite.setTexture("D://Games//Toshizo//Wraith_Casting_Spells.png", 18, scale);
+    idleSprite.setTexture(":/images/npcs/Wraith_Idle.png", 4, scale);
+    hurtSprite.setTexture(":/images/npcs/Wraith_Hurt.png", 4, scale);
+    attackingSprite.setTexture(":/images/npcs/Wraith_Casting_Spells.png", 18, scale);
 
-    walkSprite2.setTexture("D://Games//Toshizo//Wraith_Moving_Forward_2.png", 5, scale);
+    walkSprite2.setTexture(":/images/npcs/Wraith_Moving_Forward_2.png", 5, scale);
     walkSprite2.setSpeed(speed);                                                       // for moving
-    idleSprite2.setTexture("D://Games//Toshizo//Wraith_Idle_2.png", 4, scale);
-    hurtSprite2.setTexture("D://Games//Toshizo//Wraith_Hurt_2.png", 4, scale);
-    attackingSprite2.setTexture("D://Games//Toshizo//Wraith_Casting_Spells_2.png", 18, scale);
+    idleSprite2.setTexture(":/images/npcs/Wraith_Idle_2.png", 4, scale);
+    hurtSprite2.setTexture(":/images/npcs/Wraith_Hurt_2.png", 4, scale);
+    attackingSprite2.setTexture(":/images/npcs/Wraith_Casting_Spells_2.png", 18, scale);
 }
 
 void Wraith::setPosition(double x, double y)
@@ -122,6 +129,11 @@ void Wraith::isBeingAttacked(double damage)
     caution = true;
 }
 
+bool Wraith::isDisappeared()
+{
+    return true;
+}
+
 double Wraith::getSpeed()
 {
     switch (getState()) {
@@ -143,12 +155,12 @@ void Wraith::setClock()
     case Walking:
         if (walkClock > walkSlowTime)
         {
-            walkPicture++;
+            walkFrame++;
             walkClock = 0;
         }
-        if (walkPicture == walkSprite.getTotalPicture())
+        if (walkFrame == walkSprite.getTotalFrame())
         {
-            walkPicture = 0;
+            walkFrame = 0;
         }
         walkClock++;
         switch (getDirection()) {
@@ -162,7 +174,7 @@ void Wraith::setClock()
             {
                 setPosition(getPosition().x() - getSpeed(), getPosition().y());
             }
-            walkSprite2.setFrame(walkPicture);
+            walkSprite2.setFrame(walkFrame);
             break;
         default:    //case leftRight:
             if (getPosition().x() + getWidth() > getLimitArea().topRight().x())
@@ -174,7 +186,7 @@ void Wraith::setClock()
             {
                 setPosition(getPosition().x() + getSpeed(), getPosition().y());
             }
-            walkSprite.setFrame(walkPicture);
+            walkSprite.setFrame(walkFrame);
             break;
         }
         walkSprite.setSpeed(speed);
@@ -183,12 +195,12 @@ void Wraith::setClock()
     {
         if (attackClock > attackSlowTime)
         {
-            attackPicture++;
+            attackFrame++;
             attackClock = 0;
         }
-        if (attackPicture >= attackingSprite.getTotalPicture())
+        if (attackFrame >= attackingSprite.getTotalFrame())
         {
-            attackPicture = 0;
+            attackFrame = 0;
             if (attackingSkillTime > maxAttackingSkillTime)
             {
                 setState(Walking);
@@ -199,10 +211,10 @@ void Wraith::setClock()
         switch (getDirection())
         {
         case rightLeft:
-            attackingSprite2.setFrame(attackPicture);
+            attackingSprite2.setFrame(attackFrame);
             break;
         default:    //case leftRight:
-            attackingSprite.setFrame(attackPicture);
+            attackingSprite.setFrame(attackFrame);
             break;
         }
         break;
@@ -210,12 +222,12 @@ void Wraith::setClock()
     case Idle:
         if (idleClock > idleSlowTime)
         {
-            idlePicture++;
+            idleFrame++;
             idleClock = 0;
         }
-        if (idlePicture == idleSprite.getTotalPicture())
+        if (idleFrame == idleSprite.getTotalFrame())
         {
-            idlePicture = 0;
+            idleFrame = 0;
         }
         idleClock++;
         idleTime++;
@@ -228,7 +240,7 @@ void Wraith::setClock()
                 setDirection(leftRight);
                 setState(Walking);
             }
-            idleSprite2.setFrame(idlePicture);
+            idleSprite2.setFrame(idleFrame);
             break;
         default:    //case leftRight:
             if (idleTime > idleMaxTime)
@@ -237,29 +249,29 @@ void Wraith::setClock()
                 setDirection(rightLeft);
                 setState(Walking);
             }
-            idleSprite.setFrame(idlePicture);
+            idleSprite.setFrame(idleFrame);
             break;
         }
         break;
     case Hurt:
         if (hurtClock > hurtSlowTime)
         {
-            hurtPicture++;
+            hurtFrame++;
             hurtClock = 0;
         }
-        if (hurtPicture == hurtSprite.getTotalPicture())
+        if (hurtFrame == hurtSprite.getTotalFrame())
         {
-            hurtPicture = 0;
+            hurtFrame = 0;
             setState(Walking);
         }
         hurtClock++;
         switch (getDirection())
         {
         case rightLeft:
-            hurtSprite2.setFrame(hurtPicture);
+            hurtSprite2.setFrame(hurtFrame);
             break;
         default:    //case leftRight:
-            hurtSprite.setFrame(hurtPicture);
+            hurtSprite.setFrame(hurtFrame);
             break;
         }
         break;
@@ -277,131 +289,54 @@ std::vector<QRectF> Wraith::getRedCollisions()
     return temps;
 }
 
-QRectF Wraith::getTarget()
+Sprite Wraith::getSprite()
 {
     switch (getState()) {
     case Walking:
         switch (getDirection()) {
         case rightLeft:
-            return walkSprite2.getTarget();
+            return walkSprite2;
             break;
         default:    //case leftRight:
-            return walkSprite.getTarget();
+            return walkSprite;
             break;
         }
     case Attacking:
         switch (getDirection()) {
         case rightLeft:
-            return attackingSprite2.getTarget();
+            return attackingSprite2;
             break;
         default:    //case leftRight:
-            return attackingSprite.getTarget();
+            return attackingSprite;
             break;
         }
     //default:
     case Idle:
         switch (getDirection()) {
         case rightLeft:
-            return idleSprite2.getTarget();
+            return idleSprite2;
             break;
         default:    //case leftRight:
-            return idleSprite.getTarget();
+            return idleSprite;
             break;
         }
     case Hurt:
         switch (getDirection()) {
         case rightLeft:
-            return hurtSprite2.getTarget();
+            return hurtSprite2;
             break;
         default:    //case leftRight:
-            return hurtSprite.getTarget();
+            return hurtSprite;
             break;
         }
     }
 }
 
-QRectF Wraith::getSource()
+bool Wraith::isSpeaking()
 {
-    switch (getState()) {
-    case Walking:
-        switch (getDirection()) {
-        case rightLeft:
-            return walkSprite2.getSource();
-            break;
-        default:    //case leftRight:
-            return walkSprite.getSource();
-            break;
-        }
-    case Attacking:
-        switch (getDirection()) {
-        case rightLeft:
-            return attackingSprite2.getSource();
-            break;
-        default:    //case leftRight:
-            return attackingSprite.getSource();
-            break;
-        }
-    //default:
-    case Idle:
-        switch (getDirection()) {
-        case rightLeft:
-            return idleSprite2.getSource();
-            break;
-        default:    //case leftRight:
-            return idleSprite.getSource();
-            break;
-        }
-    case Hurt:
-        switch (getDirection()) {
-        case rightLeft:
-            return hurtSprite2.getSource();
-            break;
-        default:    //case leftRight:
-            return hurtSprite.getSource();
-            break;
-        }
-    }
+    return caution;
 }
-
-QPixmap Wraith::getTexture()
+QString Wraith::getDialog()
 {
-    switch (getState()) {
-    case Walking:
-        switch (getDirection()) {
-        case rightLeft:
-            return walkSprite2.getTexture();
-            break;
-        default:    //case leftRight:
-            return walkSprite.getTexture();
-            break;
-        }
-    case Attacking:
-        switch (getDirection()) {
-        case rightLeft:
-            return attackingSprite2.getTexture();
-            break;
-        default:    //case leftRight:
-            return attackingSprite.getTexture();
-            break;
-        }
-    //default:
-    case Idle:
-        switch (getDirection()) {
-        case rightLeft:
-            return idleSprite2.getTexture();
-            break;
-        default:    //case leftRight:
-            return idleSprite.getTexture();
-            break;
-        }
-    case Hurt:
-        switch (getDirection()) {
-        case rightLeft:
-            return hurtSprite2.getTexture();
-            break;
-        default:    //case leftRight:
-            return hurtSprite.getTexture();
-            break;
-        }
-    }
+    return dialog;
 }

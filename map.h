@@ -4,9 +4,11 @@
 #include "wall.h"
 #include "ground.h"
 #include "sprite.h"
-#include "wraith.h"
-#include "kong.h"
 #include "collision.h"
+#include "npc.h"
+#include "kong.h"
+#include "wraith.h"
+#include "ally.h"
 
 
 class Map
@@ -54,6 +56,7 @@ private:
     Sprite dirtPattern, explosion1Pattern, dirt;
     bool booleanDirt = false;
     std::vector<Sprite*> playerSprites;
+
 };
 
 #endif // MAP_H

@@ -57,7 +57,7 @@ public:
     std::vector<Ground> grounds;
     std::vector<Wall> walls;
     Map map;
-    Sprite timeCircle, background, energyPotionIcon, healthPotionIcon;
+    Sprite timeCircle, background, energyPotionIcon, healthPotionIcon, bubbleDialog, boxDialog;
 signals:
 };
 

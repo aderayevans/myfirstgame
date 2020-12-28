@@ -10,11 +10,11 @@ class Sprite
 public:
     Sprite();
     ~Sprite();
-    Sprite(const QPixmap &pixmap, int totalPicture = 1, int scale = 1);
+    Sprite(const QPixmap &pixmap, int totalFrame = 1, int scale = 1);
     void operator = (const Sprite &A);
-    Sprite(const char * xpm, int totalPicture = 1, int scale = 1);
-    void setTexture(const QPixmap &pixmap, int totalPicture = 1, int scale = 1);
-    void setTexture(const char * xpm, int totalPicture = 1, int scale = 1);
+    Sprite(const char * xpm, int totalFrame = 1, int scale = 1);
+    void setTexture(const QPixmap &pixmap, int totalFrame = 1, int scale = 1);
+    void setTexture(const char * xpm, int totalFrame = 1, int scale = 1);
     virtual void setPosition(double, double);
     void setTarget();
     void setSource();
@@ -33,7 +33,7 @@ public:
     QRectF getVisionArea();
     QRectF getHitBox();
     QRectF getAttackArea();
-    int getTotalPicture();
+    int getTotalFrame();
     double getSpeed();
     double getWidth();
     double getHeight();
@@ -50,7 +50,7 @@ public:
 private:
     QPixmap texture;
     double width, height;
-    int totalPicture;
+    int totalFrame;
     QPointF position;
     QRectF target, source;
     QRectF hitBox, limitArea, visionArea, attackArea;

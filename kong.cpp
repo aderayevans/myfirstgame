@@ -8,17 +8,24 @@ Kong::Kong()
     setFullHealth(1000);
     setHealth(getFullHealth());
     setTexture();
+    setName("Kong");
+    dialog.append("Grrr, I can smell you");
+}
+
+bool Kong::isAlly()
+{
+    return false;
 }
 
 void Kong::setTexture()
 {
-    walkSprite.setTexture("D://Games//Toshizo//implementRunningKong.png", 6, scale);
+    walkSprite.setTexture(":/images/npcs/implementRunningKong.png", 6, scale);
     walkSprite.setSpeed(speed);                                                       // for moving
-    attackSprite.setTexture("D://Games//Toshizo//implementAttackKong.png", 6, scale);
+    attackSprite.setTexture(":/images/npcs/implementAttackKong.png", 6, scale);
 
-    walkSprite2.setTexture("D://Games//Toshizo//flippedRunningKong.png", 6, scale);
+    walkSprite2.setTexture(":/images/npcs/flippedRunningKong.png", 6, scale);
     walkSprite2.setSpeed(speed);                                                       // for moving
-    attackSprite2.setTexture("D://Games//Toshizo//flippedAttackKong.png", 6, scale);
+    attackSprite2.setTexture(":/images/npcs/flippedAttackKong.png", 6, scale);
 }
 
 void Kong::setPosition(double x, double y)
@@ -110,6 +117,11 @@ void Kong::isBeingAttacked(double damage)
     caution = true;
 }
 
+bool Kong::isDisappeared()
+{
+    return true;
+}
+
 double Kong::getSpeed()
 {
     switch (getState()) {
@@ -133,7 +145,7 @@ void Kong::setClock()
         booleanNormalAttack = false;
         if (walkClock > walkSlowTime)
         {
-            if (caution && walkPicture == 2 && !seeingSus)
+            if (caution && walkFrame == 2 && !seeingSus)
             {
                 if (getDirection() == leftRight)
                 {
@@ -145,12 +157,12 @@ void Kong::setClock()
                 }
                 caution--;
             }
-            walkPicture++;
+            walkFrame++;
             walkClock = 0;
         }
-        if (walkPicture == walkSprite.getTotalPicture())
+        if (walkFrame == walkSprite.getTotalFrame())
         {
-            walkPicture = 0;
+            walkFrame = 0;
         }
         walkClock++;
         switch (getDirection()) {
@@ -164,7 +176,7 @@ void Kong::setClock()
             {
                 setPosition(getPosition().x() - getSpeed(), getPosition().y());
             }
-            walkSprite2.setFrame(walkPicture);
+            walkSprite2.setFrame(walkFrame);
             break;
         default:    //case leftRight:
             if (getPosition().x() + getWidth() > getLimitArea().topRight().x())
@@ -176,36 +188,36 @@ void Kong::setClock()
             {
                 setPosition(getPosition().x() + getSpeed(), getPosition().y());
             }
-            walkSprite.setFrame(walkPicture);
+            walkSprite.setFrame(walkFrame);
             break;
         }
         walkSprite.setSpeed(speed);
         seeingSus = false;
         break;
     case Attacking:
-        walkPicture = 0;
+        walkFrame = 0;
         caution = false;
         if (attackClock > attackSlowTime)
         {
-            attackPicture++;
+            attackFrame++;
             attackClock = 0;
         }
-        if (attackPicture == attackSprite.getTotalPicture())
+        if (attackFrame == attackSprite.getTotalFrame())
         {
-            attackPicture = 0;
+            attackFrame = 0;
             setState(Walking);
         }
         attackClock++;
         switch (getDirection())
         {
         case rightLeft:
-            attackSprite2.setFrame(attackPicture);
+            attackSprite2.setFrame(attackFrame);
             break;
         default:    //case leftRight:
-            attackSprite.setFrame(attackPicture);
+            attackSprite.setFrame(attackFrame);
             break;
         }
-        if (attackPicture > 1 && attackPicture < 5)
+        if (attackFrame > 1 && attackFrame < 5)
         {
             booleanNormalAttack = true;
         }
@@ -230,74 +242,35 @@ std::vector<QRectF> Kong::getRedCollisions()
     return temps;
 }
 
-QRectF Kong::getTarget()
+Sprite Kong::getSprite()
 {
     switch (getState()) {
     case Walking:
         switch (getDirection()) {
         case rightLeft:
-            return walkSprite2.getTarget();
+            return walkSprite2;
             break;
         default:    //case leftRight:
-            return walkSprite.getTarget();
+            return walkSprite;
             break;
         }
     case Attacking:
         switch (getDirection()) {
         case rightLeft:
-            return attackSprite2.getTarget();
+            return attackSprite2;
             break;
         default:    //case leftRight:
-            return attackSprite.getTarget();
+            return attackSprite;
             break;
         }
     }
 }
 
-QRectF Kong::getSource()
+bool Kong::isSpeaking()
 {
-    switch (getState()) {
-    case Walking:
-        switch (getDirection()) {
-        case rightLeft:
-            return walkSprite2.getSource();
-            break;
-        default:    //case leftRight:
-            return walkSprite.getSource();
-            break;
-        }
-    case Attacking:
-        switch (getDirection()) {
-        case rightLeft:
-            return attackSprite2.getSource();
-            break;
-        default:    //case leftRight:
-            return attackSprite.getSource();
-            break;
-        }
-    }
+    return caution;
 }
-
-QPixmap Kong::getTexture()
+QString Kong::getDialog()
 {
-    switch (getState()) {
-    case Walking:
-        switch (getDirection()) {
-        case rightLeft:
-            return walkSprite2.getTexture();
-            break;
-        default:    //case leftRight:
-            return walkSprite.getTexture();
-            break;
-        }
-    case Attacking:
-        switch (getDirection()) {
-        case rightLeft:
-            return attackSprite2.getTexture();
-            break;
-        default:    //case leftRight:
-            return attackSprite.getTexture();
-            break;
-        }
-    }
+    return dialog;
 }

@@ -2,7 +2,7 @@
 
 Wall::Wall()
 {
-    setTexture("D://Games//Toshizo//stoneWall.png", 1, 2);
+    setTexture(":/images/backgrounds/stoneWall.png", 1, 2);
 }
 
 void Wall::setPosition(double x, double y)

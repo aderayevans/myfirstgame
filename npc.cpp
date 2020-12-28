@@ -5,6 +5,8 @@ NPC::NPC() {}
 
 NPC::~NPC(){}
 
+bool NPC::isAlly() {}
+
 void NPC::setTexture() {}
 
 void NPC::setPosition(double x, double y)
@@ -38,19 +40,21 @@ void NPC::isSeeingSomethingSus(){}
 
 void NPC::isBeingAttacked(double damage) {}
 
+bool NPC::isDisappeared() {}
+
 std::vector<QRectF> NPC::getRedCollisions() {}
 
 double NPC::getSpeed(){}
 
 void NPC::setClock(){}
 
-QRectF NPC::getTarget() {}
-
-QRectF NPC::getSource() {}
-
-QPixmap NPC::getTexture() {}
+Sprite NPC::getSprite() {}
 
 double NPC::getDamage() {}
+
+bool NPC::isSpeaking() {}
+
+QString NPC::getDialog() {}
 
 void NPC::setDirection(Direction direct)
 {
@@ -98,4 +102,14 @@ double NPC::getFullHealth()
 double NPC::getLeftHealth()
 {
     return leftHealth;
+}
+
+QString NPC::getName()
+{
+    return name;
+}
+
+void NPC::setName(QString n)
+{
+    name = n;
 }
